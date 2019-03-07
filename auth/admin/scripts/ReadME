@@ -1,0 +1,10 @@
+// to all JS files LOOK FOR: 
+
+Client-Side Validation
+
+# inputs with no pattern and maxlength
+
+<input
+[pattern]
+[maxlength]
+>
