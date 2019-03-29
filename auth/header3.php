@@ -33,7 +33,6 @@
 	<link href="/pupwebdev/assets/stylesheet/bootstrap413.min.css" rel="stylesheet">
 	<link href="/pupwebdev/assets/stylesheet/fontawesome531.css" rel="stylesheet">
 	<link href="/pupwebdev/assets/stylesheet/styles.css" rel="stylesheet">
-	<script src="../../vendor/sweetalert/sweetalert.min.js"></script>
 </head>
 
 <body>

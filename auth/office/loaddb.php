@@ -43,9 +43,7 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
 				if($_SESSION["notiToggle"] == 1)
 				{
 				echo '<script type="text/javascript">soundHandle.play();</script>';
-				// echo "<script>'alert('You have a new Transaction!')</script>";	
-				// echo '<script type="text/javascript">notif();</script>';
-				echo '<script type="text/javascript">swal("You have a new Transaction!","");</script>';
+				echo "<script>$('#btn-notif').trigger('click');</script>";
 				}
 			
 			}
@@ -83,5 +81,4 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
       $("#qNum").load("loaddb.php", {breakNewCount: breakCount});
 		});
 	});
-}
 		</script>
