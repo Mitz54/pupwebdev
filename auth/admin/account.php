@@ -1,5 +1,6 @@
 
-<?php session_start(); ?>
+<?php session_start();
+require "logincheck.php";?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php' ?>
 <?php include_once($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php'); ?>
 

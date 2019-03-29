@@ -1,4 +1,6 @@
-<?php session_start(); include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
+<?php session_start();
+require "logincheck.php";
+include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
 <?php include 'functions/inventory_functions.php' ?>
 
 <div class="container-fluid">

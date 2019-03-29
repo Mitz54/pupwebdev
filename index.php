@@ -2,8 +2,12 @@
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
-
+  
   session_start();
+  if(isset($_SESSION['username']))
+  {
+    redirect();
+  }
   $_SESSION["notiToggle"] = 0;
   $_SESSION["prevlastqueue"] = 0;
 try
@@ -22,7 +26,7 @@ try
     }
     else
     {
-      
+
       //$query = $conn->prepare("SELECT * FROM account WHERE userName = '$username' AND password = '$pass'");
       $query = $con->prepare("CALL getAccountInfo ('$username', '$pass')");
       $query->execute();
@@ -49,68 +53,67 @@ try
         $query2->fetch();
         $query2->close();
         // set SESSION
+        $_SESSION["accountType"] = $accountType;
         $_SESSION["username"] = $username;
+        $_SESSION['accntID'] = $accountID;
+
         $_SESSION["at"] = $accountType;
         $_SESSION["office"] = $office;
         $_SESSION["room"] = $room;
         $_SESSION['firstName'] = $fName;
         $_SESSION['lastName'] = $lName;
-        $_SESSION['accntID'] = $accountID;
+       
 
         // check account type
-           
+        
+
         if($accountID == 2){
           header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
           $con=null;
-          exit;
-          session_destroy();
 
         }
         else if($accountID == 3)
         {
             header("Location: /pupwebdev/auth/acadservice/acadService_Scheduler.php");
             $con=null;
-            exit;
-            session_destroy();
         }
         else if($accountType == 'prof')
         {
             header("Location: /pupwebdev/auth/office/queuePerOffice.php");
             $con=null;
-            exit;
-            session_destroy();
         }
-      else{
-        $query2 = $con->prepare("CALL getAccountID('$username', '$pass')");
-        $query2->execute();
-        $query2->bind_result($accountID);
-        $query2->fetch();
-        $query2->close();
-        // set SESSION
-        $_SESSION["username"] = $username;
-        $_SESSION['accntID'] = $accountID;
-
-        
-        if($accountID == 1)  
-        {
-          $query2 = $con->prepare("CALL getProfName('$username')");
+        else{ //if not faculty but maybe an admin
+          $query2 = $con->prepare("CALL getAccountID('$username', '$pass')");
           $query2->execute();
-          $query2->bind_result($fName, $lName);
+          $query2->bind_result($accountID);
           $query2->fetch();
           $query2->close();
           // set SESSION
-          $_SESSION['firstName'] = $fName;
-          $_SESSION['lastName'] = $lName;
-          header("Location: /pupwebdev/auth/admin/account.php");
-          $con=null;
-          exit;
-          session_destroy();
+          $_SESSION["username"] = $username;
+          $_SESSION['accntID'] = $accountID;
+
+          
+          if($accountID == 1)  
+          {
+            $query2 = $con->prepare("CALL getProfName('$username')");
+            $query2->execute();
+            $query2->bind_result($fName, $lName);
+            $query2->fetch();
+            $query2->close();
+            // set SESSION
+            $_SESSION['firstName'] = $fName;
+            $_SESSION['lastName'] = $lName;
+            header("Location: /pupwebdev/auth/admin/account.php");
+            $con=null;
+            exit();
+          }
+          else{
+            $message = 'Wrong username or password, please try again';
+          echo "<script> alert('".$message."'); </script>"; 
+            unset($_SESSION['username']);
+            session_destroy();
+          }  
         }
-        else{
-          $message = 'Wrong username or password, please try again';
-        echo "<script> alert('".$message."'); </script>"; 
-        }  
-      }
       
       
         
@@ -144,6 +147,37 @@ catch(Exception $error)
   echo "<script> alert('".$message."'); </script>"; 
 }
 
+function redirect()
+{
+  if($_SESSION['accntID'] == 2){
+    header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
+    $con=null;
+
+  }
+  else if($_SESSION['accntID'] == 3)
+  {
+      header("Location: /pupwebdev/auth/acadservice/acadService_Scheduler.php");
+      $con=null;
+  }
+  else if($_SESSION["accountType"] == 'prof')
+  {
+      header("Location: /pupwebdev/auth/office/queuePerOffice.php");
+      $con=null;
+  }
+  else if($_SESSION['accntID'] == 1)  
+  {
+    header("Location: /pupwebdev/auth/admin/account.php");
+    $con=null;
+    exit();
+  }
+  else
+  {
+    $message = 'Wrong username or password, please try again';
+  echo "<script> alert('".$message."'); </script>"; 
+    unset($_SESSION['username']);
+    session_destroy();
+  }
+}
 ?>
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/header.php' ?>
