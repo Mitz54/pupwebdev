@@ -8,7 +8,8 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$username]);
 
 if($stmt->rowCOUNT() > 0)
-{
+{ 
+	
 	echo '1';
 }
 else
