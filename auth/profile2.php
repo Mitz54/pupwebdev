@@ -32,7 +32,7 @@
   <div class="dropdown-menu">
     <a class="dropdown-item" data-toggle="modal" data-target="#changePassword" href="#"><i class="fas fa-key icon"></i>Change Password</a>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item logout-button" href="../../index.php"><i class="fas fa-power-off icon"></i>Logout</a>
+    <a class="dropdown-item logout-button" href="../logout.php"><i class="fas fa-power-off icon"></i>Logout</a>
   </div>
 </div>
 

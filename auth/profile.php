@@ -21,21 +21,20 @@
 <div class="btn-group ml-auto">
   <button class="btn btn-sm  btn-pupcustomcolor dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="nav-text profile-name" href="#"><img class="profile-image" src="/pupwebdev/assets/images/profile.jpg"/>
-            <?php
-              $fName = $_SESSION['firstName'];
-              $lName = $_SESSION['lastName'];
+<?php
+  $fName = $_SESSION['firstName'];
+  $lName = $_SESSION['lastName'];
 
-              echo $fName.' '.$lName;
-            ?>
+  echo $fName.' '.$lName;
+?>
     </span>
   	</button>
   <div class="dropdown-menu">
     <a class="dropdown-item" data-toggle="modal" data-target="#changePassword" href="#"><i class="fas fa-key icon"></i>Change Password</a>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item logout-button" href="../../index.php"><i class="fas fa-power-off icon"></i>Logout</a>
+    <a class="dropdown-item logout-button" id="logoutButton" href="../logout.php" ><i class="fas fa-power-off icon"></i>Logout</a>
   </div>
 </div>
-
 <body>
 <div class="modal fade" id="changePassword" tabindex="-1" .modal-backdrop role="dialog" aria-labelledby="voidModalTitle" aria-hidden="true" data-backdrop="false" >
   <div class="modal-dialog modal-dialog-centered" role="document">
