@@ -13,7 +13,6 @@ function additem($itemid,$donator,$condition,$unitprice,$serialnumber,$whereabou
 
 $donatorid = "";
 $unitprice = "";
-$serialnumber = "";
 $whereabouts = "";
 
 if($_POST['selectDonatorId'] == "nodonator")
@@ -34,14 +33,14 @@ else
   $unitprice = $_POST['unitprice'];
 }
 
-if(isset($_POST['serialnumber']))
-{
-  $serialnumber = null;
-}
-else
-{
-  $serialnumber = $_POST['serialnumber'];
-}
+// if(isset($_POST['serialnumber']))
+// {
+//   $serialnumber = null;
+// }
+// else
+// {
+//   $serialnumber = $_POST['serialnumber'];
+// }
 
 if(isset($_POST['whereabouts']))
 {
@@ -56,6 +55,6 @@ $itemid = $_POST['selectItemId'];
 $condition = $_POST['condition'];
 $borrowable = $_POST['borrowable'];
 
-additem($itemid,$donatorid,$condition,$unitprice,$serialnumber,$whereabouts,$borrowable);
+additem($itemid,$donatorid,$condition,$unitprice,$_POST['serialnumber'],$whereabouts,$borrowable);
 
 ?>

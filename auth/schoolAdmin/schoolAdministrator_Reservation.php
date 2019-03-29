@@ -47,11 +47,11 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 
 
 
-
-
 </style>
 
-
+<?php
+include 'Modals/editScheduleInfo.php';
+?>
 <div class="container-fluid">
   <div class="row">
     <div class="side-navigation">
@@ -233,7 +233,7 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
                 <form action="" method="post">
                   <label for="scheduleCourse">Course</label>
                     <select class="form-control" type="text" name="scheduleCourse" id="Course" onChange="change_Course();" required>
-                      <option disabled selected hidden>Select Purpose..</option>           
+                      <option disabled selected hidden>Select Courses..</option>           
                         <?php  
                           $query = $con->query("CALL selectAllCourse()");
 
@@ -260,6 +260,15 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 
                     </select>
                 </div>
+
+                <div>
+                  <label>Professor</label>
+                    <select id='add-sel-prof' class='form-control'>
+                      <?php
+                          include'Queries/readProfessors.php';
+                      ?>
+                    </select>
+                </div>
               </form>
 
                   <script type="text/javascript">
@@ -279,15 +288,17 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
                 <label for="scheduleReservationPurpose">Reservation Purpose</label>
                <!--  <textarea class="form-control" rows="5" id="scheduleReservationPurpose" placeholder="Enter Reservation Purpose.."></textarea> -->
                <select class="form-control" type="text" name="roomPurpose" id="roomPurpose" required>
-                <option disabled selected hidden>Select Course..</option>
                   <?php  
                       include include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
                     ?>
                   </select>
-                <div id="remarks-div"></div>            
+                <div id="remarks-div">
+                  <label>Remarks</label>
+                  <textarea id="inp-remarks" class="form-control"></textarea>
+                </div>            
                 </div>               
                 </div>
-                <div class="form-group" style="display: flex; font-size: 16px;">
+                <div class="form-group ml-4 mb-5" style="display: flex; font-size: 16px;">
                   <label for="selectedRoomSched">Schedule: </label>
                   <div id="selectedRoomSched" style="margin-left: 20px;">
                     <input type="hidden" id="startTime" />

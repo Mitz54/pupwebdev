@@ -1,5 +1,5 @@
 <?php
-	php include_once($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php'); 
+	include_once($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php'); 
 	session_start();
 	//$num1 = $_POST['profNewCount'];
 	$dateToday = date("Y-m-d");

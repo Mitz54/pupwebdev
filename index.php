@@ -4,7 +4,8 @@
   error_reporting(E_ALL);
 
   session_start();
-  
+  $_SESSION["notiToggle"] = 0;
+  $_SESSION["prevlastqueue"] = 0;
 try
 {
   if(isset($_POST["submit"]))
@@ -57,14 +58,8 @@ try
         $_SESSION['accntID'] = $accountID;
 
         // check account type
-        if($accountID == 1)  
-        {
-            header("Location: /pupwebdev/auth/admin/course.php");
-            $con=null;
-            exit;
-            session_destroy();
-        }     
-        else if($accountID == 2){
+           
+        if($accountID == 2){
           header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
           $con=null;
           exit;
@@ -86,10 +81,35 @@ try
             session_destroy();
         }
       else{
-        $message = 'Wrong username or password, please try again';
-        echo "<script> alert('".$message."'); </script>"; 
-        
+        $query2 = $con->prepare("CALL getAccountID('$username', '$pass')");
+        $query2->execute();
+        $query2->bind_result($accountID);
+        $query2->fetch();
+        $query2->close();
+        // set SESSION
+        $_SESSION["username"] = $username;
+        $_SESSION['accntID'] = $accountID;
 
+        
+        if($accountID == 1)  
+        {
+          $query2 = $con->prepare("CALL getProfName('$username')");
+          $query2->execute();
+          $query2->bind_result($fName, $lName);
+          $query2->fetch();
+          $query2->close();
+          // set SESSION
+          $_SESSION['firstName'] = $fName;
+          $_SESSION['lastName'] = $lName;
+          header("Location: /pupwebdev/auth/admin/account.php");
+          $con=null;
+          exit;
+          session_destroy();
+        }
+        else{
+          $message = 'Wrong username or password, please try again';
+        echo "<script> alert('".$message."'); </script>"; 
+        }  
       }
       
       

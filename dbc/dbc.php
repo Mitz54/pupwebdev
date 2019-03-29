@@ -4,7 +4,7 @@ function pdo()
 {
 	$host = "localhost";
 	$user= "root";
-	$password= "";
+	$password= '';
 	$dbname = "pup";
 
 	//SET DSN data source name
@@ -20,10 +20,9 @@ function pdo()
 
 function conn()
 {
-
   $servername = "localhost";
   $username = "root";
-  $password = "";
+  $password = '';
   $dbname = "pup";
 
   // Create connection

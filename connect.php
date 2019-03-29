@@ -1,7 +1,7 @@
 <?php
   $host = 'localhost';
 	$user = 'root';
-	$pass = '649959948';
+	$pass = '';
 	$db = 'pup';
 	$message = "";
 
@@ -21,7 +21,7 @@ function pdo()
 {
 	$host = "localhost";
 	$user= "root";
-	$password= "649959948";
+	$password= '';
 	$dbname = "pup";
 
 	//SET DSN data source name
@@ -39,7 +39,7 @@ function conn()
 {
   $servername = "localhost";
   $username = "root";
-  $password = "649959948";
+  $password = '';
   $dbname = "pup";
 
   // Create connection

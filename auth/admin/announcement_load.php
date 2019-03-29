@@ -25,7 +25,7 @@ foreach($array as $key=>$value):
                         echo '<td>
                           <a class="add add2" title="Add" data-toggle="tooltip" ><i class="material-icons">&#xE03B;</i></a>
                           <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                          <a class="delete" onclick = "return UpdateConfirmation();" title="Delete" data-toggle="tooltip" href = "/pupwebdev/auth/admin/php/DeleteAnnouncement.php?key=<?php echo $id ?>"><i class="material-icons">&#xE872;</i></a>
+                          <a class="delete" onclick = "return UpdateConfirmation();" title="Delete" data-toggle="tooltip" href = "/pupwebdev/auth/admin/php/DeleteAnnouncement.php?key='; echo $id; echo'"><i class="material-icons">&#xE872;</i></a>
                           <!-- <a class="delete" title="Delete" data-toggle="tooltip"> <i class="material-icons">&#xE872;</i></a> -->
                       </td>  </tr>';
 endforeach; 

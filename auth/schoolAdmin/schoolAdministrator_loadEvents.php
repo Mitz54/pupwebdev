@@ -64,14 +64,16 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
 
      $roomdata[] = array(
         'id'   => $row["scheduleID"],
-        'title'   => $row["subjectID_FK"].$row["sectionID_FK"].$row["fullName"],
+        'title'   => $row["subjectID_FK"]."
+                    ".$row["sectionID_FK"]."
+                    ".$row["fullName"],
         'start'   => $selDate." ".$row["startTime"],
         'end'   => $selDate." ".$row["endTime"],
         'editable' => false,
         'selectable' => false,
         'selectHelper' => false,
-           'color' => '#aa0000',
-
+           'color' => '#BB2528',
+// aa0000
 
    
         
@@ -139,17 +141,37 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
             break;
             case "Sat": $selDate=date('Y-m-d',strtotime($date1 . "+5 days"));
             break;
-
         }
 
-     $reservedata[] = array(
+     if($row["reservationStatus"] ==="approved"){
+        $reservedata[] = array(
         'id'   => $row["scheduleID"],
-        'title'   => $row["description"].$row["remarks"]."   |   ".$row["sectionID_FK"]."   |   ".$row["reservationUser"]."   |   ".$row["reservationStatus"],
+        'title'   => $row["description"]
+                    .$row["remarks"]." 
+                    ".$row["sectionID_FK"]."   
+                    ".$row["reservationUser"]."   
+                    ".$row["ProfName"]."   
+                    ".$row["reservationStatus"],
         'start'   => $selDate." ".$row["startTime"],
         'end'   => $selDate." ".$row["endTime"],
         'editable' => true,
-            'color' => '#28a058'
-        
+        'color' => '#146B3A');
+     }
+  
+    else{
+         $reservedata[] = array(
+        'id'   => $row["scheduleID"],
+        'title'   => $row["description"]."
+                    ".$row["remarks"]."   
+                    ".$row["sectionID_FK"]."   
+                    ".$row["reservationUser"]."   
+                    ".$row["ProfName"]."   
+                    ".$row["reservationStatus"],
+        'start'   => $selDate." ".$row["startTime"],
+        'end'   => $selDate." ".$row["endTime"],
+        'editable' => true,
+        'color' => '#F8B229');
+    }
         
    
         
@@ -158,7 +180,6 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
     //   'subject'   => $row["subjectID_FK"],
     //   'section'   => $row["sectionID_FK"],
     //   'professor'   => $row["fullName"]
-     );
     }
 
 echo json_encode($reservedata);

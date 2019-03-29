@@ -1,5 +1,5 @@
 <?php
-
+//pup password '';
 
 $user = 'root';
 $pass= '';

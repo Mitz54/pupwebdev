@@ -35,10 +35,20 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
 	$curlastqueue = include 'CheckLastTransaction.php';
 	if($_SESSION['prevlastqueue'] != $curlastqueue)
 		{
-			//echo '<script type="text/javascript">alert('. $_SESSION['oldserving'] . ');</script>';
-			$_SESSION['prevlastqueue'] = $curlastqueue;
+			if($curlastqueue == "")
+			{
+
+			}
+			else {
+				if($_SESSION["notiToggle"] == 1)
+				{
 				echo '<script type="text/javascript">soundHandle.play();</script>';
 				echo "<script>$('#btn-notif').trigger('click');</script>";
+				}
+			
+			}
+			//echo '<script type="text/javascript">alert('. $_SESSION['oldserving'] . ');</script>';
+			$_SESSION['prevlastqueue'] = $curlastqueue;
 		}
 ?>
 

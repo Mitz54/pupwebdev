@@ -10,18 +10,18 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/dbc/dbc.php';
 function insertborrower()
 {
 	$pdo = pdo();
-	$sql = "insert into borrower(borrowerID,name,contact,borrowerType) values(?,?,?,?);";
+	$sql = "insert into borrower(borrowerID,name,contact,borrowerType,department) values(?,?,?,?,?);";
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute([$_POST['borrowerid'],$_POST['fullname'],$_POST['contactnumber'],$_POST['borrowertype']]);
+	$stmt->execute([$_POST['borrowerid'],$_POST['fullname'],$_POST['contactnumber'],$_POST['borrowertype'],$_POST['organization']]);
 }
 
-function insertborrowing($borrowingdetailsid,$borrowerid,$issuedate,$duedate)
+function insertborrowing($borrowingdetailsid,$borrowerid,$issuedate,$duedate,$reason,$stime,$etime)
 {
 	$pdo = pdo();
-	$sql = "INSERT INTO  borrowingdetails(borrowingDetailsID,borrowerID_FK,initialDate,issueDate,dueDate,verified)
-			values(?,?,CURDATE(),?,?,0);";
+	$sql = "INSERT INTO  borrowingdetails(borrowingDetailsID,borrowerID_FK,initialDate,issueDate,dueDate,verified,reason,startTime,endTime)
+			values(?,?,CURDATE(),?,?,0,?,?,?);";
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute([$borrowingdetailsid,$borrowerid,$issuedate,$duedate]);
+	$stmt->execute([$borrowingdetailsid,$borrowerid,$issuedate,$duedate,$reason,$stime,$etime]);
 	
 }
 
@@ -64,7 +64,7 @@ function checkborrowable($iteminfoid)
 			inner join item on iteminfo.itemID_FK = item.itemID
 			inner join borrowingdetails on borrowingdetails.borrowingDetailsID = borroweditems.borrowingDetailsID_FK
 			inner join borrower on borrowingdetails.borrowerID_FK = borrower.borrowerID 
-			where itemInfoID_FK = ? and (verified = 1 || verified = 0);";
+			where itemInfoID_FK = ? and verified = 1;";
 	$stmt = $pdo->prepare($sql);
 	$stmt->execute([$iteminfoid]);
 	$row = $stmt->rowCOUNT();
@@ -98,8 +98,10 @@ function insertborroweditems($borrowingdetailsid,$iteminfoid)
 
 $issuedate = date("Y-m-d", strtotime($_POST['issuedate']));
 $duedate = date("Y-m-d", strtotime($_POST['duedates']));
+$stime = date("H:i:s", strtotime($_POST['stime']));
+$etime =date("H:i:s", strtotime($_POST['etime']));
 insertborrower();
-insertborrowing($_POST['borrowingdetailsid'],$_POST['borrowerid'],$issuedate,$duedate);
+insertborrowing($_POST['borrowingdetailsid'],$_POST['borrowerid'],$issuedate,$duedate,$_POST['reason'],$stime,$etime);
 // insertborroweditems();
 getallitems();
 

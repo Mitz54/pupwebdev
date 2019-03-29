@@ -3,6 +3,7 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 $name = $_POST['name'];				//Juan DC
 $purpose = $_POST['purpose'];		//1,2,3,4
 $remarks = $_POST['remarks'];		//Meeting, 
+$prof = $_POST['prof'];		
 $date = $_POST['date'];				//YYYY-MM-DD
 $section = $_POST['section'];		//IT 1-1
 $start = $_POST['startTime'];		
@@ -14,7 +15,7 @@ $day = $_POST['day'];				//mon
 echo'<script>alert("ENTERED INSERT")</script>';
 
 
-$sql = "CALL insertReservationSchedule('$name','$purpose','$remarks','$date','$section','$start','$end','$room','$day');";
+$sql = "CALL insertReservationSchedule('$name','$purpose','$remarks','$date','$section','$start','$end','$room','$day','$prof');";
 
 if ($con->query($sql) === TRUE) {
 

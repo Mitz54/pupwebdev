@@ -20,7 +20,7 @@
 }
   .card {
     margin-bottom: 20px;
-    height: 450px;
+    height: 480px;
   }
 
   .card-header {

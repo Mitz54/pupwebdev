@@ -37,22 +37,7 @@
                   </div>
                 </div>
                   <div id="live_table"></div> 
-                
-           <!--      <div class="float-right">
-                  <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-double-left"></i></a>
-                      </li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div> -->
+              
               </div>
               <div class="tab-pane fade" id="borrowingmodules-approved" role="tabpanel" aria-labelledby="borrowingmodules-approved-tab">
                 <div class="search-etc">
@@ -68,21 +53,6 @@
                   </div>
                 </div>
                   <div id="live_table2"></div>
-          <!--       <div class="float-right">
-                  <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-double-left"></i></a>
-                      </li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div> -->
               </div>
               <div class="tab-pane fade" id="borrowingmodules-history" role="tabpanel" aria-labelledby="borrowingmodules-history-tab">
                 <div class="search-etc">
@@ -92,27 +62,14 @@
                         <input type="text" class="form-control" id="search_history" placeholder="Search by name.." aria-label="Search by name.." aria-describedby="button-search">
                         <div class="input-group-append">
                           <button class="btn btn-pupcustomcolor" type="button" id="button-search"><i class="fas fa-search "></i></button>
+
+                          <button class="btn btn-pupcustomcolor ml-1" type="button" id="button-clear">Clear History</button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                   <div id="live_table3"></div>
-                <!-- <div class="float-right">
-                  <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-double-left"></i></a>
-                      </li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div> -->
               </div>
             </div>
           </div>
@@ -170,7 +127,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="actionDeleteItemModalTitle">Remove</h5>
+        <h5 class="modal-title" id="actionDeleteItemModalTitle">View Item</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -351,6 +308,24 @@ $(document).ready(function()
           $('#pendingDeleteModal').modal("show");  
         }  
     });  
+  });
+
+  $(document).on('click','#button-clear',function(e)
+  {
+    e.preventDefault();
+    if(confirm("Do you really want to clear your history?"))
+    {
+      $.ajax({  
+            url:"functions/borrowing_clear_history.php",
+            success:function(data)
+            {
+              alert('History Cleared!');
+              fetch_data();  
+              fetch_data2();  
+              fetch_data3();  
+            }  
+       });
+    }
   });
 
   $(document).on('click', '.approve_pending_item_return', function(){

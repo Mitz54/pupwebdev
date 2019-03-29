@@ -7,7 +7,7 @@
                     {
                       while($row=$query->fetch_assoc())
                       {
-                        echo '<option value='.$row['description'].'>'.$row['description'].'</option>';
+                       echo '<option value='.$row['purposeID'].'>'.$row['description'].'</option>';
                       }
                     }
                   else

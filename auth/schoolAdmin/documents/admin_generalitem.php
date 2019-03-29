@@ -1,21 +1,5 @@
 <?php
-function pdo()
-{
-	$host = "localhost";
-	$user= "root";
-	$password= "";
-	$dbname = "pup";
-
-	//SET DSN data source name
-	$dsn = 'mysql::host='.$host.';dbname='.$dbname;
-
-	//Create a PDO instance
-	$pdo = new PDO($dsn,$user,$password);
-	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);//set default fetch object 
-	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);//to use limits
-
-	return $pdo;
-}
+include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/dbc/dbc.php';
 require('../fpdf/fpdf.php');
 
 class PDF extends FPDF {

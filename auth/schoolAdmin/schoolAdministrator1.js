@@ -18,7 +18,7 @@ $(document).ready(function()
   var roomIsSelected=false;
   var remarks="";
 
-
+  var sel_sched_ID = null;
  
  function refreshData()
  {
@@ -175,22 +175,41 @@ else
             {
               if(event.editable)
               {
-                if(confirm("Are you sure you want to remove it?"))
-                 {
+                
                     var id = event.id;
+                    sel_sched_ID = event.id;
+                    $('#edit-sched-modal').modal('show');
+                    $.ajax({
+                      url:'Queries/readSelectedReservation.php',
+                      type:"POST",
+                      dataType: 'json',
+                      async:false,
+                      data:{ID:id},
+                      success:function(data){
+                        $('#lbl-sched-id').val(id);
+                        $('#inp-edit-name').val(data[0]);
+                        $('#sel-edit-course').val(data[1]).trigger("change");
+                        $('#sel-edit-sect').val(data[2]);
+                        $('#sel-edit-prof').val(data[3]);
+                        $('#sel-edit-purp').val(data[4]);
+                        $('#inp-edit-rem').val(data[5]);
+                      }
+                    });
+                    //    if(confirm("Are you sure you want to remove?"))
+                    // { }
                     //alert(id);
-                     $.ajax({
-                     url:"schoolAdministrator_deleteEvent.php",
-                     type:"POST",
-                     data:{id:id},
-                     success:function()
-                     {
-                      calendar.fullCalendar('refetchEvents');
-                      alert("Event Removed");
-                     }
-                    })
+                    //  $.ajax({
+                    //  url:"schoolAdministrator_deleteEvent.php",
+                    //  type:"POST",
+                    //  data:{id:id},
+                    //  success:function()
+                    //  {
+                    //   calendar.fullCalendar('refetchEvents');
+                    //   alert("Event Removed");
+                    //  }
+                    // })
                          //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_deleteEvent.php?id="+ id;
-                 }
+                
               }
             }
             else
@@ -284,23 +303,23 @@ $('.fc-next-button').click(function(){
      else
      {
 
-          $("#create-roomSchedule").modal('hide');
+    $("#create-roomSchedule").modal('hide');
     //var section= document.getElementById('scheduleSection').value;
     var section= document.getElementById('Section').value;
     var purpose = document.getElementById('roomPurpose').selectedIndex;
     var name = document.getElementById('scheduleReservationUser').value;
-    
-    //var room = document.getElementById('scheduleRoom').value;
+    var remarks = $('#inp-remarks').val();
+    var prof = $('#add-sel-prof').val(); ;
     var room=document.getElementById('Room').value;
 
     //alert(name + "&purpose=" + purpose + "&section="+ section +"&startTssime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
-
+    // alert(prof);
     $.ajax({
        url:"schoolAdministrator_insertEvent.php",
        type:"POST",
        data:{name:name, purpose:purpose, remarks:remarks, section:section,
              room:room, date:selDate,day:selDay, startTime:startTime,
-              endTime:endTime},
+              endTime:endTime,prof:prof},
        success:function()
        {
         calendar.fullCalendar('refetchEvents');
@@ -310,7 +329,7 @@ $('.fc-next-button').click(function(){
 
       })
 
-       $("#addSchedModal")[0].reset();
+    $("#addSchedModal")[0].reset();
     $('#Section').empty();
     $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
     $("#remarks-txtArea").remove();
@@ -340,8 +359,65 @@ $('.fc-next-button').click(function(){
     }
 });
 
- 
+ //DELETE RESERVATION
+$("#delete-schedule-btn").click(function(){
+  if(confirm("Are you sur you want to delete this reservation?"))
+  {
+    var id = $('#lbl-sched-id').val();
+
+      $.ajax({
+                     url:"schoolAdministrator_deleteEvent.php",
+                     type:"POST",
+                     data:{id:id},
+                     success:function()
+                     {
+                      calendar.fullCalendar('refetchEvents');
+                      alert("Event Removed");
+                     }
+                    })
+  }
+});
+
+$("#update-schedule-btn").click(function(){
+  if(confirm("Are you sur you want to update this reservation?"))
+  {
+    var id = $('#lbl-sched-id').val();
+    var name = $('#inp-edit-name').val();
+    var section = $('#sel-edit-sect').val();
+    var prof = $('#sel-edit-prof').val();
+    var purpose = $('#sel-edit-purp').val();
+    var remarks = $('#inp-edit-rem').val();
+
+    alert(id+ name + section + prof+ purpose + remarks);
+      $.ajax({
+                     url:"schoolAdministrator_UpdateEventsInfo.php",
+                     type:"POST",
+                     data:{id:id,name:name,section:section,prof:prof,purpose:purpose,remarks:remarks},
+                     success:function()
+                     {
+                      calendar.fullCalendar('refetchEvents');
+                      alert("Updated Succesfully");
+                     }
+                    })
+  }
+});
+
 
 
 });
+
+//UPDATE RESERVATION INFO
+
+function getSection(val){
+  $.ajax({
+    url:'Queries/readSections.php',
+    type:'POST',
+    data:{course:val},
+    success:function(response){
+      $("#sel-edit-sect").html(response);
+      $("#sel-edit-sect").prop('disabled',false);
+    }
+  });
+}
+
 

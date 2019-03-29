@@ -34,11 +34,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header2.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/footer.php';
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script  src="/pupwebdev/auth/student/studentReservationCalendar-1.js"></script> 
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <link  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" >
 <link href="/pupwebdev/assets/stylesheet/fullcalendar390.min.css" rel="stylesheet">
 <script src="/pupwebdev/assets/javascript/moment.min.js"></script>
+
 <script src="/pupwebdev/assets/javascript/fullcalendar390.min.js"></script>
-
-
+<!-- <script src="/tooltip.js"></script> -->
+<script  src="/pupwebdev/auth/student/studentReservationCalendar.js"></script> 

@@ -31,7 +31,7 @@ function checkborrowable($iteminfoid)
       inner join item on iteminfo.itemID_FK = item.itemID
       inner join borrowingdetails on borrowingdetails.borrowingDetailsID = borroweditems.borrowingDetailsID_FK
       inner join borrower on borrowingdetails.borrowerID_FK = borrower.borrowerID 
-      where itemInfoID_FK = ? and verified_items = 1 group by itemInfoID_FK;";
+      where itemInfoID_FK = ? and verified_items = 1 and verified = 1 group by itemInfoID_FK;";
 	$stmt = $pdo->prepare($sql);
 	$stmt->execute([$iteminfoid]);
 	$row = $stmt->rowCOUNT();
@@ -52,7 +52,7 @@ function getquantity($itemid)
 function createtable()
 {
   $conn = conn();
-  $sql = "SELECT * FROM item join iteminfo on iteminfo.itemID_FK = item.itemID group by itemID_FK";
+  $sql = "SELECT * FROM item left join iteminfo on iteminfo.itemID_FK = item.itemID group by itemID,name,description;";
   $result = $conn->query($sql);
 
   echo "<table class='table table-bordered table-hover'>";
@@ -67,7 +67,9 @@ function createtable()
           </tr>
         </thead>';
   echo "<tbody>";
-  if ($result->num_rows > 0) 
+
+  $rows = $result->num_rows;
+  if ($rows > 0) 
   {
       // output data of each row
       while($row = $result->fetch_assoc()) 
@@ -107,6 +109,7 @@ function createtable()
 
   $conn->close();
 }
+
   
 createtable();
   

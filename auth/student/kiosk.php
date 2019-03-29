@@ -1,3 +1,54 @@
+ <!-- vm machine virtual box 2003 muna tapos 2012
+1db
+1 folder
+
+
+COLOR
+
+
+STUDENY id VALIDATION 
+RESERVATION
+CALASSROOM ACTIVITY
+ORG ACTIVITY
+seminar
+thesis def
+
+Dropdown (Purpose) 
+
+
+
+
+
+
+CONTROL NUM PER LETTER (All)
+
+
+
+
+NOtification for conflicts
+
+Room Utilization for maam iya
+
+Activity should be official 
+Activity  or Thesis Def
+should be known by maam chat first
+
+Then sir nucum
+
+
+monthly , weekyly , yearly and custom  report
+
+
+
+
+kapag gagawa ng connection  -->
+
+
+
+
+
+
+
 <?php  include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header3.php';
 
 
@@ -78,8 +129,9 @@
 			z-index: 1050;
 		}
 
-
-
+		.fc-content {
+			color: white;
+		}
 }
 
 
@@ -271,7 +323,7 @@
 					  <div class="card bg-white">
 						<div class="card-body text-center">
 							<h1 class="card-text" id="offcode">N/A</h1>
-							<h1 class="card-text">-'. $increase . $queueNum . '</h1>
+							<h1 class="card-text" id="offnum">-'. $increase . $queueNum . '</h1>
 							<h5 class="card-text">Transaction Number</h5>
 							<form method="post">
 								<button class="btn btn-block text-white pupcolor" type="submit" name="printModal" id="printButton" value=" " onclick="window.print()">PRINT</button>
@@ -296,7 +348,7 @@
 <!---------------------------------------------------- RESERVATION CALENDAR COLUMN START---------------------------------------------------->
 <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <div id="student-cal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg" style="max-height: 80%">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -395,7 +447,7 @@
 
                  <div id="section">
                   <label for="scheduleSection">Section</label>
-                  <select class="form-control" type="text" name="scheduleSection" id="Section" required>
+                  <select column="10" class="form-control" type="text" name="scheduleSection" id="Section" required>
 
                   <option disabled selected hidden>Select Section..</option>
                   <!-- <include 'ajax.php';> -->
@@ -418,8 +470,17 @@
 
                   </script>
                   
-                <label for="scheduleReservationPurpose">Reservation Purpose</label>
-                <textarea class="form-control" rows="5" id="scheduleReservationPurpose" placeholder="Enter Reservation Purpose.."></textarea>
+                <label for="scheduleReservationPurpose">Resersvation Purpose</label>
+
+                <select  class="form-control" type="text" name="roomPurpose" id="roomPurpose" required>
+                	
+                  <option disabled selected hidden>Select Purpose..</option>
+                	<?php  
+                			include include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
+                    ?>
+                  </select>
+                <div id="remarks-div"></div>
+                <!-- <textarea class="form-control" rows="5" id="scheduleReservationPurpose" placeholder="Enter Reservation Purpose.."></textarea> -->
                 
                 </div>
 
@@ -460,7 +521,7 @@
   
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script  src="/pupwebdev/auth/student/studentReservationCalendar1.js"></script> 
+<script  src="/pupwebdev/auth/student/studentReservationCalendar.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <link  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" >
 <link href="/pupwebdev/assets/stylesheet/fullcalendar390.min.css" rel="stylesheet">

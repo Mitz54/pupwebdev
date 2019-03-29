@@ -37,13 +37,12 @@ $(document).ready(function()
   //alert(holdstart  + "|" + holdend + "|" + holdroom );
   //alert(room_ + "  | " + startdate + "  | "  + endDate);
  
-    $('#student-calendar').fullCalendar( 'removeEventSource', url ="../schoolAdmin/schoolAdministrator_loadEvents.php?room=" +
+    $('#student-calendar').fullCalendar( 'removeEventSource', url ="php/readRoomSchedule.php?room=" +
     holdroom + "&startdate=" +holdstart + "&enddate=" +holdend);
 
-    $('#student-calendar').fullCalendar( 'addEventSource', url ="../schoolAdmin/schoolAdministrator_loadEvents.php?room=" + room_
+    $('#student-calendar').fullCalendar( 'addEventSource', url ="php/readRoomSchedule.php?room=" + room_
     + "&startdate=" +startdate + "&enddate=" +endDate);
 
-    $('#student-calendar').fullCalendar({ eventResourceEditable: false});
 
     holdroom=room_;
     holdstart=startdate;
@@ -116,10 +115,6 @@ var calendar= $("#student-calendar").fullCalendar({
       start: '00:00', 
       end: '24:00', 
     },
-         events: url ="../schoolAdmin/schoolAdministrator_loadEvents.php?room=" + room_ +
-         "&startdate=" + startdate + "&enddate=" +  endDate,
-       
-        eventColor: '#8f0400',
 
 
         select: function(start, end, day, date, jsEvent) 
@@ -191,9 +186,21 @@ $('#submitButton').click (function()
    
   });
 
-$('#printButton').click (function()
+$('#printButton').click (function(e)
   {
-     
+     e.preventDefault();
+     var offcode = $("#offcode").text();
+     var offnum = $("#offnum").text();
+     var code = offcode+offnum;
+     // alert(offcode+offnum);
+     $.ajax({
+      url:'../../escpos/example/interface/windows-usb.php',
+      type:'POST',
+      data:{code:code},
+      success:function(data){
+        // alert(data);
+      }
+     });
     $("#create-roomSchedule").modal('hide');
     $("#myModal").modal('hide');
     var section= document.getElementById('Section').value;
@@ -217,10 +224,10 @@ $('#printButton').click (function()
         $('#Section').empty();
         $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
         $("#remarks-txtArea").remove();
-  alert("name="+name + "&purpose=" + purpose +"remarks:"+remarks+ "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
-    // window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
-    //"&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay;
-    //window.open("kiosk.php?");
+  // alert("name="+name + "&purpose=" + purpose +"remarks:"+remarks+ "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
+  //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
+  //   "&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay;
+    window.open("kiosk.php?");
 
   });
 

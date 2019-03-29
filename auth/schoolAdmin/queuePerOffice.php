@@ -71,7 +71,7 @@ h5{
       <br>
           <form class="row">
           <label class="switch">
-          <input type="checkbox">
+          <input type="checkbox" id="notitoggle" value="notif" <?php if($_SESSION["notiToggle"] == 1){echo "checked";}?>>
           <span class="slider round"></span>
           </label>
           <h5>&nbsp; Notification</h5>
@@ -177,6 +177,15 @@ if(isset($_GET['pendbt'])){
     $("#breakBtn").click(function(){
 			$.ajax({
 				url:"breakButton.php",
+				method:"POST",
+				data:{breakNewCount: breakCount},
+			});
+      $("#transactionNum").load("loaddb.php", {breakNewCount: breakCount});
+		});
+    
+    $("#notitoggle").click(function(){
+			$.ajax({
+				url:"notiftoggle.php",
 				method:"POST",
 				data:{breakNewCount: breakCount},
 			});

@@ -40,8 +40,12 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
 
 			}
 			else {
-				echo "<script>$('#btn-notif').trigger('click');</script>";
+				if($_SESSION["notiToggle"] == 1)
+				{
 				echo '<script type="text/javascript">soundHandle.play();</script>';
+				echo "<script>$('#btn-notif').trigger('click');</script>";
+				}
+			
 			}
 			//echo '<script type="text/javascript">alert('. $_SESSION['oldserving'] . ');</script>';
 			$_SESSION['prevlastqueue'] = $curlastqueue;

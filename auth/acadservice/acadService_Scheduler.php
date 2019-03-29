@@ -30,6 +30,9 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
     margin-bottom: 20px;
     margin-top: 20px;
   }
+  .modal-backdrop {
+			z-index: 1050;
+		}
 </style>
 
 <!-- ------------------------------------------ROOM DROPDOWN------------------------------------------------------------ -->

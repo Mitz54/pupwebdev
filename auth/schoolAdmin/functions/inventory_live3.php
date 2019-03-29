@@ -28,7 +28,7 @@ function createtable()
   echo '<thead class="thead-light">
           <tr>
             <th scope="col" >ID</th>
-            <th scope="col" >Donator Name</th>
+            <th scope="col" >Donator</th>
             <th scope="col" >Item</th>
             <th scope="col" >Date</th>
           </tr>
