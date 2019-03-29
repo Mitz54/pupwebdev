@@ -1,0 +1,12 @@
+{
+    "name": "vendor/chi",
+    "authors": [
+        {
+            "name": "Mitzie Magdadaro",
+            "email": "mitzmagdadaro@gmail.com"
+        }
+    ],
+    "require": {
+        "uxweb/sweet-alert": "^2.0"
+    }
+}
