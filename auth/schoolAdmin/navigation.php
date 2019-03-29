@@ -77,42 +77,22 @@
   <!-- </div> -->
 
   <?php
-  //mitzie nag eeror to kaya kinomment namin
-	//$prevlastqueue = include 'CheckLastTransaction.php';
+		 $prevlastqueue = include 'CheckLastTransaction.php';
     $directoryURI = $_SERVER['REQUEST_URI'];
     $path = parse_url($directoryURI, PHP_URL_PATH);
     $pageOn = explode('/pupwebdev/auth/schoolAdmin/', $path);
     $activenav = isset($pageOn[1]) ? $pageOn[1] : null;
   ?>
-<div class="dashboard-menu" style=" height: 250px; overflow-y:scroll;" >
-    <h6>Dashboard</h6>
+<h6><br>Dashboard</h6>
+  <div class="dashboard-menu">
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='index.php' || $activenav=='') {echo 'active';} ?>" href="index.php"><i class="fas fa-home icon"></i>Overview</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='inventory.php') {echo 'active';} ?>" href="inventory.php"><i class="fas fa-window-restore icon"></i>Items</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='inventory_2.php') {echo 'active';} ?>" href="inventory_2.php"><i class="fas fa-window-restore icon"></i>Inventory</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='borrowing.php') {echo 'active';} ?>" href="borrowing.php"><i class="fas fa-dolly-flatbed icon"></i>Borrowing</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='schoolAdministrator_Reservation.php') {echo 'active';} ?>" href="schoolAdministrator_Reservation.php"><i class="fas fa-calendar-alt icon"></i>Schedule</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='pending.php') {echo 'active';} ?>" href="pending.php"><i class="fas fa-clock icon"></i>Pending</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='staff.php') {echo 'active';} ?>" href="staff.php"><i class="fas fa-user-friends icon"></i>Staff</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <?php if($activenav=='queuePerOffice.php') {echo 'active';} ?>" href="queuePerOffice.php"><i class="fas fa-user-friends icon"></i>Queue Per Office</a>
+        <a class="nav-link <?php echo 'active'; ?>" href="queuePerOffice.php"><i class="fas fa-user-friends icon"></i>Queue Per Office</a>
       </li>
     </ul>
   </div>
+</nav>
+
 </nav>
 
 <script type="text/javascript">
@@ -148,6 +128,7 @@
 		}, 1000);
 		
 	});
+}
 </script>
 <audio id="soundHandle" style="display: none;"></audio>
 <script>

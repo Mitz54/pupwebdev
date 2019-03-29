@@ -128,6 +128,7 @@
 		}, 1000);
 		
 	});
+}
 </script>
 <audio id="soundHandle" style="display: none;"></audio>
 <script>
