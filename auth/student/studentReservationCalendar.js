@@ -170,8 +170,12 @@ $("#reservationButton").click(function(){
 
 $('#submitButton').click (function()
   {
-    if($("#scheduleReservationUser").val()=="" || $("#Course").val()==null
-      || $("#Section").val()==null || $("#scheduleReservationPurpose").val()=="")
+    if($("#scheduleReservationUser").val()=="" 
+      || $("#Course").val()==null
+      || $("#Section").val()==null 
+      || $("#Professor").val() ==null
+      || $("#scheduleReservationPurpose").val()==""
+      )
      {
       alert("Please complete all fields!");
      }
@@ -180,8 +184,6 @@ $('#submitButton').click (function()
        $('#myModal').modal('toggle');
        $('#create-roomSchedule').modal('hide');
        $('#student-cal').modal('hide');
-
-      
       }
    
   });
@@ -192,44 +194,63 @@ $('#printButton').click (function(e)
      var offcode = $("#offcode").text();
      var offnum = $("#offnum").text();
      var code = offcode+offnum;
-     // alert(offcode+offnum);
+
+     //PRINT FUNCTION
      $.ajax({
       url:'../../escpos/example/interface/windows-usb.php',
       type:'POST',
-      data:{code:code},
-      success:function(data){
-        // alert(data);
-      }
-     });
+      data:{code:code}
+      });
+
     $("#create-roomSchedule").modal('hide');
     $("#myModal").modal('hide');
+    
+    
     var section= document.getElementById('Section').value;
     var purpose = document.getElementById('roomPurpose').selectedIndex;
     var name = document.getElementById('scheduleReservationUser').value;
     var room=document.getElementById('Room').value;
+    var prof =document.getElementById('Professor').value;
+    var remarks = document.getElementById('Remarks').value;
     // remarks = document.getElementById('remarks-txtArea').value;
+
+    // INSERT SCHEDULE
     $.ajax({
        url:"../schoolAdmin/schoolAdministrator_insertEvent.php",
        type:"POST",
-       data:{name:name, purpose:purpose, remarks:remarks, section:section,
-             room:room, date:selDate, day:selDay, startTime:startTime,
-              endTime:endTime},
+       data:{name:name, 
+             purpose:purpose,
+             prof:prof, 
+             remarks:remarks, 
+             section:section,
+             room:room, 
+             date:selDate, 
+             day:selDay, 
+             startTime:startTime,
+             endTime:endTime},
        success:function()
-       {
+        {
         calendar.fullCalendar('refetchEvents');
-        alert("Added Successfully");
-       }
-      })
+        //alert("Added Successfully");
+        }
+      });
+
+
       $("#addSchedModal")[0].reset();
-        $('#Section').empty();
-        $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
-        $("#remarks-txtArea").remove();
+      $('#Section').empty();
+      $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
+      // $("#remarks-txtArea").remove();
   // alert("name="+name + "&purpose=" + purpose +"remarks:"+remarks+ "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
   //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
   //   "&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay;
     window.open("kiosk.php?");
 
   });
+
+ $('#create-roomSchedule').bind('hide', function () {
+        // $("#Room").val("").trigger("Change");
+        alert("Hello");
+    });
 
  $("#roomPurpose").change(function(){
     var roomPurpose = document.getElementById("roomPurpose");

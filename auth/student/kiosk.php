@@ -413,14 +413,15 @@ kapag gagawa ng connection  -->
               </div>
               <div class="modal-body">
                 <div class="form-group">
+                  <!-- NAME -->
                   <label for="scheduleReservationUser">Name</label>
-                  <textarea class="form-control" rows="1" id="scheduleReservationUser" placeholder="Enter Name.."></textarea>
+                  <input class="form-control mb-1" rows="1" id="scheduleReservationUser" placeholder="Enter Name.."></input>
 
-
+                  <!-- COURSE -->
                   <form action="" method="post">
 
                   <label for="scheduleCourse">Course</label>
-                  <select class="form-control" type="text" name="scheduleCourse" id="Course" onChange="change_Course();" required>
+                  <select class="form-control mb-1" type="text" name="scheduleCourse" id="Course" onChange="change_Course();" required>
                   <option disabled selected hidden>Select Course..</option>          
                   
                   <?php  
@@ -443,11 +444,11 @@ kapag gagawa ng connection  -->
                   </select>
                 
 
-              
-
+             
+                  <!-- SECTION -->
                  <div id="section">
                   <label for="scheduleSection">Section</label>
-                  <select column="10" class="form-control" type="text" name="scheduleSection" id="Section" required>
+                  <select disabled column="10" class="form-control mb-1" type="text" name="scheduleSection" id="Section" required>
 
                   <option disabled selected hidden>Select Section..</option>
                   <!-- <include 'ajax.php';> -->
@@ -456,23 +457,19 @@ kapag gagawa ng connection  -->
                   </div>
                    </form>
 
-                  <script type="text/javascript">
+                 <!-- PROFESSOR -->
+              	<label>Professor</label>
+              	<select id = "Professor" class="form-control mb-1">
+              		<?php
+              		include '../schoolAdmin/Queries/readProfessors.php';
+              		?>
+              	</select>    
 
-                    function change_Course()
-                    {
-                    
-                    var xmlhttp= new XMLHttpRequest();
-                    xmlhttp.open("GET","ajax.php?course="+document.getElementById("Course").value,false);
-                    xmlhttp.send(null);
-                    // alert(xmlhttp.responseText);
-                    document.getElementById("section").innerHTML=xmlhttp.responseText;
-                  } 
 
-                  </script>
-                  
+              	<!-- PURPOSE -->
                 <label for="scheduleReservationPurpose">Resersvation Purpose</label>
 
-                <select  class="form-control" type="text" name="roomPurpose" id="roomPurpose" required>
+                <select  class="form-control mb-1" type="text" name="roomPurpose" id="roomPurpose" required>
                 	
                   <option disabled selected hidden>Select Purpose..</option>
                 	<?php  
@@ -480,7 +477,8 @@ kapag gagawa ng connection  -->
                     ?>
                   </select>
                 <div id="remarks-div"></div>
-                <!-- <textarea class="form-control" rows="5" id="scheduleReservationPurpose" placeholder="Enter Reservation Purpose.."></textarea> -->
+                <label>Remarks (Optional)</label>
+                <textarea class="form-control mb-1" rows="5" id="Remarks" placeholder="Enter Reservation Remarks.."></textarea>
                 
                 </div>
 
@@ -536,4 +534,19 @@ function getTransaction(objButton){
 function getOfficeCode(code){
 	document.getElementById("offcode").innerHTML=code;
 }
+
+
+       
+
+function change_Course()
+{    
+	$("#Section").prop('disabled',false);
+   	var xmlhttp= new XMLHttpRequest();
+    xmlhttp.open("GET","ajax.php?course="+document.getElementById("Course").value,false);
+    xmlhttp.send(null);
+    // alert(xmlhttp.responseText);
+    document.getElementById("section").innerHTML=xmlhttp.responseText;
+} 
+
+
 </script>

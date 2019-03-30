@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	$controlID = $_GET['controlID'];
+	$controlID = str_pad($controlID, 6, '0', STR_PAD_LEFT);
 	$name = $_GET['name'];
 	$room = $_GET['room'];
 	$date = $_GET['date'];
@@ -15,7 +17,7 @@
 	$pdf->AddPage('P','Letter',0);
 	#HEADER
 	$pdf->setfont('Arial', 'B', 16);
-	$pdf->Cell(0,5,"POLYTECHNIC UNIVERSITY OF THE PHILIPPINES",0,1,'C');
+	$pdf->Cell(0,5,"POLYTECHNIC UNIVERSITY OF THE PHILIPPINES". $controlID,0,1,'C');
 	$pdf->setfont('Arial', '', 14);
 	$pdf->Cell(0,5,"OFFICE OF ADMINISTRATION",0,5,'C');
 	#LETTER TITLE

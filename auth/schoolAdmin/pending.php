@@ -48,13 +48,45 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           var starttime = tabledata[5];
                           var endtime = tabledata[6];
                           var sched = tabledata[7];
+                          var reserveID = tabledata[8];
 
                           var con = confirm("Proceed for printing?" + "\n" + "\n" + name +" "+ purpose +" "+ room + "\n" + date +" "+ starttime +" - "+ endtime +" "+ sched);
                              
+                          var controlID = null;
                             if (con == true) {
-                                window.location.href = "requestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose;
+                              alert(reserveID);
+                                $.ajax({
+                                      url:"updateReservationStatus.php",
+                                      type:"GET",
+                                      data:{stat:'ongoing',
+                                            name:name,
+                                            purpose:purpose,
+                                            date:date,
+                                            room:room,
+                                            starttime:starttime,
+                                            endtime:endtime,
+                                            sched:sched},
+                                      success:function(data){
+                                        alert(data)
+                                      }
+                                });
+
+                                $.ajax({
+                                  url:"getControlID.php",
+                                  dataType:'json',
+                                  type:"POST",
+                                  async:false,
+                                  data:{reserveID:reserveID},
+                                  success:function(data){
+                                    controlID = data;
+                                    // alert(data);
+                                  }
+                                })
+
+                          
+                                window.location.href = "requestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID;
                             }
-                        });
+                          });
                       });
                   </script>
 
@@ -69,7 +101,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                     FROM schedule S
                     INNER JOIN reservation R ON R.scheduleID_FK = S.scheduleID
                     INNER JOIN purpose P on P.purposeID=R.purposeID_FK
-                    WHERE reservationStatus = 'pending'
+                    WHERE reservationStatus = 'pending' AND  reservationDate <= now()
                     ORDER BY 
                          CASE
                             WHEN scheduleDay = 'SUN' THEN 1
@@ -93,6 +125,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                       <th scope='col'>Start Time</th>
                       <th scope='col'>End Time</th>
                       <th scope='col'>Schedule</th>
+                      <th hidden scope='col'>reserveID</th>
                     </tr>
                     </thead>
                     <tbody>";
@@ -111,7 +144,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   <td>{$row['roomID_FK']}</td> 
                   <td>{$row['startTime']}</td>
                   <td>{$row['endTime']}</td>
-                  <td>{$row['scheduleDay']}</td>                           
+                  <td>{$row['scheduleDay']}</td>      
+                  <td hidden >{$row['reservationID']}</td>                     
                   </tr>
                   </tbody>\n";
                  $num++; 
@@ -129,7 +163,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                 <table id ="table2" class="table table-bordered table-hover">
 
                <script>
-
+              //APPROVE SCHEDULE
                $(document).ready(function () 
                       {
 
@@ -149,6 +183,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           var starttime = tabledata[5];
                           var endtime = tabledata[6];
                           var schedule = tabledata[7];
+                          var reservationID = tabledata[8];
 
                           $('#actionApproveModal').modal('show');
 
@@ -157,7 +192,15 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           var conf = confirm("Are you sure you want to approve?")
                           if(conf == true)
                           {
-                              document.location.href = "updateReservationStatus.php?name=" +name1+"&room=" +rm+ "&date=" +dt+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +schedule+ "&purpose=" +pur + "&stat=approved" ;
+                            // alert("ETO YON");
+
+                            $.ajax({
+                                  url:"Queries/updateReservationLetter.php",
+                                  type:"POST",
+                                  data:{reservationID:reservationID}
+                            })
+
+                              // document.location.href = "updateReservationStatus.php?name=" +name1+"&room=" +rm+ "&date=" +dt+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +schedule+ "&purpose=" +pur + "&stat=approved" ;
                             alert("Request has been approved!");
                           }
 
@@ -186,7 +229,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                  
                   //pending
       
-                  $select = "CALL selectPendingReservationSchedule();";
+                  $select = "CALL selectOngoingReservationSchedule();";
 
                   $result=$con->query($select);
 
@@ -200,6 +243,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                       <th scope='col'>Start Time</th>
                       <th scope='col'>End Time</th>
                       <th scope='col'>Schedule</th>
+                      <th hidden scope='col'>ReservationID</th>
                       </tr>
                     </thead>
                     <tbody>";
@@ -220,7 +264,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   <td>{$row['roomID_FK']}</td> 
                   <td>{$row['startTime']}</td>
                   <td>{$row['endTime']}</td>
-                  <td>{$row['scheduleDay']}</td> 
+                  <td>{$row['scheduleDay']}</td>
+                  <td hidden>{$row['reservationID']}</td> 
                   </tr>
                   </tbody>\n";
                  $num++; 
