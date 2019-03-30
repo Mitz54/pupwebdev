@@ -1,4 +1,3 @@
-
 <style>
   .modal-backdrop {
   z-index: 0;

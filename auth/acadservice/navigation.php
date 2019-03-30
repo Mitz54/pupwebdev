@@ -1,4 +1,4 @@
-<button id="btn-notif" class="btn-hide" data-toggle="modal" data-target="#NotifModal" 	>Select</button>
+<button id="btn-notif" class="btn-hide" data-toggle="modal" data-target="#NotifModal">Select</button>
 	
 <style type="text/css">
 	.btn-hide{
@@ -72,7 +72,7 @@
     $directoryURI = $_SERVER['REQUEST_URI'];
     $path = parse_url($directoryURI, PHP_URL_PATH);
     $pageOn = explode('/pupwebdev/auth/acadservice/', $path);
-    $activenav = isset($pageOn[1]) ? $pageOn[1] : null;
+		$activenav = isset($pageOn[1]) ? $pageOn[1] : null;
   ?>
  <div class="dashboard-menu">
     <h6>Dashboard</h6>
