@@ -188,7 +188,7 @@ $('#submitButton').click (function()
 
 $('#printButton').click (function(e)
   {
-     e.preventDefault();
+    //  e.preventDefault();
      var offcode = $("#offcode").text();
      var offnum = $("#offnum").text();
      var code = offcode+offnum;
@@ -214,12 +214,13 @@ $('#printButton').click (function(e)
        data:{name:name, purpose:purpose, remarks:remarks, section:section,
              room:room, date:selDate, day:selDay, startTime:startTime,
               endTime:endTime},
-       success:function()
+       success:function(data)
        {
+         //alert(data);
         calendar.fullCalendar('refetchEvents');
         alert("Added Successfully");
        }
-      })
+      });
       $("#addSchedModal")[0].reset();
         $('#Section').empty();
         $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
@@ -227,7 +228,8 @@ $('#printButton').click (function(e)
   // alert("name="+name + "&purpose=" + purpose +"remarks:"+remarks+ "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
   //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
   //   "&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay;
-    window.open("kiosk.php?");
+    // window.open("kiosk.php?");
+    location.reload();
 
   });
 
