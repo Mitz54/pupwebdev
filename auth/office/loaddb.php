@@ -43,7 +43,7 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
 				if($_SESSION["notiToggle"] == 1)
 				{
 				echo '<script type="text/javascript">soundHandle.play();</script>';
-				echo "<script>$('#btn-notif').trigger('click');</script>";
+				echo '<script type="text/javascript">swal("You have a new Transaction!","");</script>';
 				}
 			
 			}
