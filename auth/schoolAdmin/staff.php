@@ -1,4 +1,6 @@
-<?php session_start(); include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
+<?php session_start();
+require "logincheck.php";
+include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
 
 <?php include 'functions/stafffunction.php' ?>
 
@@ -154,7 +156,7 @@
   </div>
 </div>
 
- <small>This action is irreversible.</small>
+ z<small>This action is irreversible.</small>
 
 <div class="modal fade" id="actionRestoreModal" tabindex="-1" role="dialog" aria-labelledby="actionDeleteModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -363,7 +365,7 @@ $(document).ready(function()
 
   $(document).on('click','#add_confirm',function(e)
   {
-  	e.preventDefault();
+    e.preventDefault();
     checklast();
     checkfirst();
     checkmiddle();
@@ -372,35 +374,35 @@ $(document).ready(function()
     checkpassword2();
     if(checklast() != false && checkfirst() != false && checkmiddle() != false && checkusername() != false && checkpassword1() != false && checkpassword2() != false)
     {
-    	checkpassword();
-    	if(checkpassword() != false)
-    	{
-    		var myform = document.getElementById("add_form");
-			var fd = new FormData(myform);
-			$.ajax({  
-			     url:"functions/staff_createstaff.php",  
-			     type:"POST",
-			     data:fd,
-			     cache: false,
-			     processData: false,
-			     contentType: false,
-			     beforeSend:function()
-			     {
-			      
-			     },
-			     success:function(data)
-			     {  
-			      fetch_data();
-			      alert("Staff Created!!");
-			      $('#add_form')[0].reset();  
-			      $('#addStaffModal').modal('hide');  
-			     }  
-			});
-    	}
-    	else
-    	{
-    		alert("Password do not match");
-    	}
+      checkpassword();
+      if(checkpassword() != false)
+      {
+        var myform = document.getElementById("add_form");
+      var fd = new FormData(myform);
+      $.ajax({  
+           url:"functions/staff_createstaff.php",  
+           type:"POST",
+           data:fd,
+           cache: false,
+           processData: false,
+           contentType: false,
+           beforeSend:function()
+           {
+            
+           },
+           success:function(data)
+           {  
+            fetch_data();
+            alert("Staff Created!!");
+            $('#add_form')[0].reset();  
+            $('#addStaffModal').modal('hide');  
+           }  
+      });
+      }
+      else
+      {
+        alert("Password do not match");
+      }
     }
     
   });
@@ -465,7 +467,37 @@ $(document).ready(function()
     }
     else
     {
-      $('#staffUsername').removeClass(" is-invalid");
+      var return_first = function () {
+         var tmp = null;
+         var username = last;  
+             $.ajax({
+                async:false,  
+                  url:"functions/check_username.php",  
+                  method:"POST",  
+                  data:{username:username},  
+                  dataType:"text",  
+                  success:function(data)
+                  {  
+                    
+                     tmp = data;
+                  }  
+             }); 
+           return tmp;
+      }();
+      alert(return_first);
+
+      if(return_first == 1)
+      {
+        alert(return_first);
+
+        $("#staffUsername").popover({title: 'Twitter Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});  
+      }
+      else
+      {
+        $('#staffUsername').removeClass(" is-invalid");
+      }
+
+      
     }
   }
 
@@ -503,7 +535,7 @@ $(document).ready(function()
 
   function checkpassword()
   {
-  	var last_length = $('#staffPassword_first').val().length;
+    var last_length = $('#staffPassword_first').val().length;
     var last_length2 = $('#staffPassword_second').val().length;
     if(last_length != last_length2)
     {
@@ -515,8 +547,8 @@ $(document).ready(function()
     }
     else
     {
-		$('#staffPassword_second').removeClass(" is-invalid");
-    	$('#staffPassword_first').removeClass(" is-invalid");
+    $('#staffPassword_second').removeClass(" is-invalid");
+      $('#staffPassword_first').removeClass(" is-invalid");
     }
   }
 

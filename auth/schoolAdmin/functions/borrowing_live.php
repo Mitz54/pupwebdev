@@ -84,7 +84,7 @@ function checkborrowable($iteminfoid)
       inner join item on iteminfo.itemID_FK = item.itemID
       inner join borrowingdetails on borrowingdetails.borrowingDetailsID = borroweditems.borrowingDetailsID_FK
       inner join borrower on borrowingdetails.borrowerID_FK = borrower.borrowerID 
-      where itemInfoID_FK = ? and verified_items = 1 and verified = 1 group by itemInfoID_FK;";
+      where itemInfoID_FK = ? and verified_items = 1 and verified = 1;";
   $stmt = $pdo->prepare($sql);
   $stmt->execute([$iteminfoid]);
   $row = $stmt->rowCOUNT();

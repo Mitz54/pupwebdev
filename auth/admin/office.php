@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php session_start();
+require "logincheck.php"; ?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php' ?>
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/CSS/bootstrap.min.css" rel="stylesheet" >
