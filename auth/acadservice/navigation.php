@@ -75,24 +75,24 @@
       </div>
     </div>
   <!-- </div> -->
-
-  <?php
-		 $prevlastqueue = include 'CheckLastTransaction.php';
+ <?php
+	//  $prevlastqueue = include 'CheckLastTransaction.php';
     $directoryURI = $_SERVER['REQUEST_URI'];
     $path = parse_url($directoryURI, PHP_URL_PATH);
-    $pageOn = explode('/pupwebdev/auth/schoolAdmin/', $path);
+    $pageOn = explode('/pupwebdev/auth/acadservice/', $path);
     $activenav = isset($pageOn[1]) ? $pageOn[1] : null;
   ?>
-<h6><br>Dashboard</h6>
-  <div class="dashboard-menu">
+ <div class="dashboard-menu">
+    <h6>Dashboard</h6>
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-        <a class="nav-link <?php echo 'active'; ?>" href="queuePerOffice.php"><i class="fas fa-user-friends icon"></i>Queue Per Office</a>
+        <a class="nav-link <?php if($activenav=='acadService_Scheduler.php') {echo 'active';} ?>" href="acadService_Scheduler.php"><i class="fas fa-calendar-alt icon"></i>Schedule</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <?php if($activenav=='queuePerOffice.php') {echo 'active';} ?>" href="queuePerOffice.php"><i class="fas fa-user-friends icon"></i>Queue Per Office</a>
       </li>
     </ul>
   </div>
-</nav>
-
 </nav>
 
 <script type="text/javascript">
@@ -128,7 +128,6 @@
 		}, 1000);
 		
 	});
-}
 </script>
 <audio id="soundHandle" style="display: none;"></audio>
 <script>
