@@ -1,10 +1,8 @@
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/hideheader.php' ?>
-<?php session_start(); ?>
 <?php 
-
-    $oldServing = "" ;
-    $_SESSION['oldserving'] = "";
+    session_start();
+    $_SESSION['oldserving'] = " ";
 ?>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/CSS/bootstrap.min.css" rel="stylesheet" >
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
@@ -81,11 +79,12 @@ font-family:'Comic Sans MS';
 font-size:2em;
 line-height:1.3em;
 color:#FFFFFF;
-padding-bottom: 5px;
+padding-bottom: 0px;
 
 }
-
-
+.col{
+  margin: 0px;
+}
 </style>
 
 <script src="\pupwebdev\assets\javascript\jquery-3.3.1.min.js" type='text/javascript'>
@@ -108,8 +107,6 @@ padding-bottom: 5px;
 		
 		<!-- ANNOUNCEMENT HERE! -->
           <marquee class="GeneratedMarquee" direction="left" scrollamount="8" behavior="scroll" id = "announcement">
-		
-            
           </marquee>
 		 <div id="display_info">
 		 </div> 

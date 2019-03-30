@@ -1,5 +1,5 @@
-<?php session_start(); ?>
 <?php
+	session_start();
 		$allserving = "";
 		$officeinfos = require 'GetOfficeInfo.php';
 		$x=0;
@@ -79,14 +79,15 @@
 			  }
 			echo '</div>';
 		}
+		//echo '<script type="text/javascript">alert('. $_SESSION['oldserving'] . $allserving . ');</script>';
 		if($_SESSION['oldserving'] != $allserving)
 		{
-			//echo '<script type="text/javascript">alert('. $_SESSION['oldserving'] . ');</script>';
+			// echo '<script type="text/javascript">alert('. $_SESSION['oldserving'] . ');</script>';
 			$_SESSION['oldserving'] = $allserving;
-				echo '<script type="text/javascript">soundHandle.play();</script>';
+			echo '<script type="text/javascript">soundHandle.play();</script>';
 		}
 		else
 		{
-			//	echo '<script type="text/javascript">alert("asiodjasodjosan");</script>';
+			// echo '<script type="text/javascript">alert(" ' . $_SESSION['oldserving'] . $allserving . '");</script>';
 		}
 ?>

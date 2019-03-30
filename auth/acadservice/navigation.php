@@ -50,16 +50,8 @@
 }
 </style>
 <script src="\pupwebdev\assets\javascript\jquery-3.2.0.min.js" type='text/javascript'></script>
-<div class="modal fade modaladjust" id="NotifModal"> 
-			<div class="modal-dialog">
-				<div class="modal-content">
-				  <!-- Modal Header -->
-				  <div class="modal-header">
-					<h4 class="col-12 modal-title text-center" id="sample">You have a new Transaction!</h4>
-				  </div>
-				</div>
-			</div>
-</div>
+<!-- transaction modal here -->
+
 <!-- data-toggle="modal" data-target="#NotifModal" -->
 <!-- onclick="openModal()"				 -->
 						
@@ -134,3 +126,13 @@
   soundHandle = document.getElementById('soundHandle');
   soundHandle.src = '/pupwebdev/auth/student/sound/dingdong.mp3';
 </script>
+<div class="modal fade modaladjust" id="NotifModal"> 
+			<div class="modal-dialog">
+				<div class="modal-content">
+				  <!-- Modal Header -->
+				  <div class="modal-header">
+					<h4 class="col-12 modal-title text-center" id="sample">You have a new Transaction!</h4>
+				  </div>
+				</div>
+			</div>
+</div>

@@ -1,10 +1,8 @@
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev-student/auth/hideheader.php' ?>
-<?php session_start(); ?>
-<?php 
-
+<?php session_start();
     $oldServing = "" ;
-    $_SESSION['oldserving'] = "";
+    $_SESSION['oldserving'] = " ";
 ?>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/CSS/bootstrap.min.css" rel="stylesheet" >
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
