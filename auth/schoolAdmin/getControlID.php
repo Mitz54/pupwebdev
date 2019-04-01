@@ -6,6 +6,11 @@
 
     $con->query($insert);
 
+   	$update = "CALL updateReservationControlNumber('$reservationID');";
+
+    $con->query($update);
+
+
 
     // $select = "CALL selectMaxReservationLetterID();";
 
@@ -25,7 +30,7 @@
     //                   }
     //                 }
 
-    $query = "CALL selectMaxReservationLetterID()";
+    $query = "CALL selectMaxReservationLetterID('$reservationID')";
 
 
 $result = mysqli_query($con,$query);
@@ -37,7 +42,7 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
     foreach($rows as $row)
     {
 
-    echo json_encode($row['reservationLetterID']);
+    echo json_encode($row['reservationControlNumber']);
 }
     
 ?>
