@@ -145,7 +145,7 @@ require "logincheck.php";?>
               $userName = $_POST['username'];
               $password = $_POST['password'];
               $profID = $_POST['professorID'];
-              $accountType = "admin";
+              $accountType = "prof";
 
               $sqlins = 'INSERT INTO account (professorID_FK, userName, password, accountType) VALUES ('.$profID.', "'.$userName.'", "'.$password.'", "'.$accountType.'");';
 
