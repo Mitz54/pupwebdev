@@ -198,7 +198,7 @@ $('#printButton').click (function(e)
       type:'POST',
       data:{code:code},
       success:function(data){
-        // alert(data);
+        alert(data);
       }
      });
     $("#create-roomSchedule").modal('hide');
