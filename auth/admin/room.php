@@ -62,10 +62,14 @@ require "logincheck.php";?>
                           "</td>";
                           echo "<td class = 'editableColumns roomType'>".
                           "<div class='old-value' >". $roomType ."</div>".
-                          "<select class='form-control hidden new-value'>
-                                    <option selected>". $roomType. "</option>
-                                    <option>office</option>
-                                    <option>class</option>                                   
+                          "<select class='form-control hidden new-value' style=padding:0;>
+
+                                    <option"; if ($roomType=="office") {
+                                      echo " selected"; }
+                                    echo ">office</option>";
+                                    echo "<option"; if ($roomType=="class"){
+                                      echo " selected";
+                                    } echo ">class</option>                                   
                                 '</select>".
                           "</td>";
 
