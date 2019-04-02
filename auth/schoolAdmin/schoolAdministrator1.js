@@ -421,3 +421,60 @@ function getSection(val){
 }
 
 
+function selectReportType(val){
+              // alert("Hello" + val);
+              $.ajax({
+                url:"reportTypeModals.php",
+                type:"POST",
+                data:{Type:val},
+                success:function(data){
+                  $("#modal-report-type").html(data);
+                }
+              })
+}
+
+ $(function(){
+              $(document).on("click", "#printbtn", function(event){
+
+                var typereport = $("#sel-report-type").val();
+                
+                alert(typereport);
+
+                //MONTHLY
+                if(typereport == 1){
+                  var month = $("#sel-monthly").val();
+                  var year = $("#sel-monthly-year").val();
+
+                  // alert(month+ year);
+                  confirm("Do you want to proceed?");
+                  window.open("reservationReportMonthly.php?year=" +year+"&month=" +month);
+                }
+
+                //YEARLY
+                if(typereport == 2){
+                   var year = $("#sel-yearly").val();
+                   // alert(year);
+                  confirm("Do you want to proceed?");
+                  window.open("reservationReportYearly.php?year=" +year);
+                }
+
+                //CUSTOMIZED
+                if(typereport == 3){
+                  var startdate = document.getElementById("start-date").value;
+                  var enddate = document.getElementById("end-date").value;
+                  //var year = document.getElementById("year").value;
+
+                
+                  
+                  //alert(mon1+mon2+year);
+                  confirm("Do you want to proceed?");
+                  window.open("reservationReport.php?start=" +startdate+"&end=" +enddate);
+                }
+                 
+                   $('#reportModal').modal('hide');
+
+                   //alert(startdate + "-" + enddate );
+                
+              }); 
+
+          });

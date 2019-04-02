@@ -170,14 +170,15 @@ $("#reservationButton").click(function(){
 
 $('#submitButton').click (function()
   {
-    if($("#scheduleReservationUser").val()=="" 
+    if($("#inpt-fname").val()==""
+      || $("#inpt-lname").val()==""
       || $("#Course").val()==null
       || $("#Section").val()==null 
       || $("#Professor").val() ==null
       || $("#scheduleReservationPurpose").val()==""
       )
      {
-      alert("Please complete all fields!");
+      alert("Please complete all necessary fields!");
      }
      else
      {
@@ -208,7 +209,7 @@ $('#printButton').click (function(e)
     
     var section= document.getElementById('Section').value;
     var purpose = document.getElementById('roomPurpose').selectedIndex;
-    var name = document.getElementById('scheduleReservationUser').value;
+    var name =document.getElementById('inpt-fname').value+' '+document.getElementById('inpt-lname').value;
     var room=document.getElementById('Room').value;
     var prof =document.getElementById('Professor').value;
     var remarks = document.getElementById('Remarks').value;

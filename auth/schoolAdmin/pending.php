@@ -43,15 +43,16 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
 
                           var number = tabledata[0];
                           var name = tabledata[1];
-                          var purpose = tabledata[2];
-                          var date = tabledata[3];
-                          var room = tabledata[4];
-                          var starttime = tabledata[5];
-                          var endtime = tabledata[6];
-                          var sched = tabledata[7];
-                          var reserveID = tabledata[8];
+                          var sect = tabledata[2];
+                          var purpose = tabledata[3];
+                          var date = tabledata[4];
+                          var room = tabledata[5];
+                          var starttime = tabledata[6];
+                          var endtime = tabledata[7];
+                          var sched = tabledata[8];
+                          var reserveID = tabledata[9];
 
-                          var con = confirm("Proceed for printing?" + "\n" + "\n" + name +" "+ purpose +" "+ room + "\n" + date +" "+ starttime +" - "+ endtime +" "+ sched);
+                          var con = confirm("Proceed for printing?");
                              
                           var controlID = null;
                             if (con == true) {
@@ -61,6 +62,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                       type:"GET",
                                       data:{stat:'ongoing',
                                             name:name,
+                                            sect:sect,
                                             purpose:purpose,
                                             date:date,
                                             room:room,
@@ -85,7 +87,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                 })
 
                           
-                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID;
+                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect;
                             }
                           });
                       });
@@ -98,11 +100,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   $sel = "SELECT reservationID, reservationUser,description, reservationDate,
                     roomID_FK,
                     TIME_FORMAT(startTime,'%h:%i %p') as startTime,
-                    TIME_FORMAT(endTime,'%h:%i %p') as endTime, scheduleDay
+                    TIME_FORMAT(endTime,'%h:%i %p') as endTime, scheduleDay,sectionID_FK
                     FROM schedule S
                     INNER JOIN reservation R ON R.scheduleID_FK = S.scheduleID
                     INNER JOIN purpose P on P.purposeID=R.purposeID_FK
-                    WHERE reservationStatus = 'pending' AND  reservationDate <= now()
+                    WHERE reservationStatus = 'pending' AND reservationDate >=now()
                     ORDER BY 
                          CASE
                             WHEN scheduleDay = 'SUN' THEN 1
@@ -118,8 +120,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
 
                   echo "<thead class='thead-light'>
                         <tr>
-                      <th scope='col'>Queue Number</th>
+                      <th scope='col'>Pending Number</th>
                       <th scope='col'>Name</th>
+                      <th scope='col'>Section</th>
                       <th scope='col'>Purpose</th>
                       <th scope='col'>Date</th>
                       <th scope='col'>Room</th>
@@ -140,6 +143,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   "<tr>
                   <td>{$num}</td>
                   <td>{$row['reservationUser']}</td>
+                  <td>{$row['sectionID_FK']}</td>
                   <td>{$row['description']}</td>
                   <td>{$row['reservationDate']}</td>
                   <td>{$row['roomID_FK']}</td> 
@@ -236,8 +240,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
 
                   echo "<thead class='thead-light'>
                       <tr>
-                      <th scope='col'>Queue Number</th>
+                      <th scope='col'>Pending Number</th>
                       <th scope='col'>Name</th>
+                      <th scope='col'>Section</th>
                       <th scope='col'>Purpose</th>
                       <th scope='col'>Date</th>
                       <th scope='col'>Room</th>
@@ -260,6 +265,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   "<tr >
                   <td>{$num}</td>
                   <td>{$row['reservationUser']}</td>
+                  <td>{$row['sectionID_FK']}</td>
                   <td>{$row['description']}</td>
                   <td>{$row['reservationDate']}</td>
                   <td>{$row['roomID_FK']}</td> 

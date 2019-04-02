@@ -414,9 +414,17 @@ kapag gagawa ng connection  -->
               <div class="modal-body">
                 <div class="form-group">
                   <!-- NAME -->
-                  <label for="scheduleReservationUser">Name</label>
-                  <input class="form-control mb-1" rows="1" id="scheduleReservationUser" placeholder="Enter Name.."></input>
-
+                  
+                 <div class="form-row">
+    				<div class="form-group col-md-6">
+      					<label >First Name</label>
+      					<input type="text" class="form-control" id="inpt-fname" placeholder="First Name">
+    				</div>
+    				<div class="form-group col-md-6">
+      					<label>Last Name</label>
+      					<input type="text" class="form-control" id="inpt-lname" placeholder="Last Name">
+    				</div>
+  				</div>
                   <!-- COURSE -->
                   <form action="" method="post">
 
