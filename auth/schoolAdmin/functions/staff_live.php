@@ -14,16 +14,17 @@ function checkifaccount($professorid)
 function getaccount()
 {
 	$pdo = pdo();
-	$sql ="select * from professor inner join account on account.professorID_FK = professor.professorID where status = 1";
+	$sql ="select * from professor inner join account on account.professorID_FK = professor.professorID where status = 1;";
 	$stmt = $pdo->prepare($sql);
 	$stmt->execute();
 
 	if($stmt->rowCOUNT() > 0)
 	{
 	  $i = 0;
-	  echo '<table class="table table-bordered table-hover">
+	  echo '<table id="table_1" class="table table-bordered table-hover" width="100%"s>
               <thead class="thead-light">
                 <tr>
+                  <th scope="col" >✔</th>
                   <th scope="col">ID</th>
                   <th scope="col">Staff Name</th>
                   <th scope="col">Position</th>
@@ -47,6 +48,7 @@ function getaccount()
 					
 				}
 				echo "<tr>";
+					echo "<td><input type='checkbox' name='prof_checkbox' id='prof_checkbox' value='". $row['professorID'] ."'></td>";
 					echo "<th scope='row'>".$i."</th>";
 					echo "<td>".$row['firstName'].' '.$row['lastName']."</td>";
 					echo "<td>".$pos."</td>";

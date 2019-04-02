@@ -23,9 +23,10 @@ function createtable()
  
   if ($result->num_rows > 0) 
   {
-    echo "<table class='table table-bordered table-hover'>";
+    echo "<table id='table_2' class='table table-bordered table-hover checkbox_table' width='100%' >";
     echo '<thead class="thead-light">
             <tr>
+              <th scope="col" >✔</th>
               <th scope="col" >ID</th>
               <th scope="col" >Item Name</th>
               <th scope="col" >Serial Number</th>
@@ -49,6 +50,7 @@ function createtable()
         }
 
         echo "<tr>
+          <td><input type='checkbox' name='item_specific_checkbox' id='item_specific_checkbox' value='". $row['itemInfoID'] ."'></td>
           <td>" . $row['itemInfoID'] . "</td>
           <td>" . $row['name'] . "</td>
           <td>" . $row['serialNumber'] . "</td>

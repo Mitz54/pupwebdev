@@ -35,6 +35,12 @@ function getdonatoroption()
   $conn->close();
 }
 
+echo '<label class="radio-inline"><input type="radio" name="radioitem" id="radioitem" value="singleItem" checked> Single Item</label>
+<label class="radio-inline"><input type="radio" name="radioitem" id="radioitem" value="multipleItem"> Multiple Item</label> <br>';
+
+echo  '<label for="itemNumber" id="numberItemLabel" class="d-none">Number of Item</label>
+        <input class="form-control d-none" type="text" name="itemNumber" id="itemNumber" maxlength="6" value=""  placeholder="300,150 etc." required>';
+
 echo '<label for="selectItemId">Item Name</label>
         <select class="custom-select" name="selectItemId" id="selectItemId">
           <option disabled selected value="none">Select Item</option>';
@@ -53,6 +59,7 @@ echo '<label for="condition">Condition</label>
 
         <label for="serialnumber">Serial Number</label>
         <input class="form-control" type="text" name="serialnumber" id="serialnumber" maxlength="20"  placeholder="bsit345, etc." required>
+        <div class="invalid-feedback" id="serialnumber-feedback"></div>
 
         <label for="whereabouts">Whereabouts</label>
         <input class="form-control" type="text" name="whereabouts" id="whereabouts" maxlength="30"  placeholder="Storage Room, etc." required>

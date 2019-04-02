@@ -11,23 +11,23 @@
   }
   function redirect()
   {
-    if($_SESSION["accountType"] == 'prof' && $_SESSION['accntID'] != 2 && $_SESSION['accntID'] != 3 && $_SESSION['accntID'] != 1)
+    if($_SESSION["accountType"] == 'prof' && $_SESSION["office"] != "Administrative Services and Property" && $_SESSION["office"] != "Academic Services Office" && $_SESSION['accntID'] != 1)
     {
 
     }
     else
     {
-      if($_SESSION['accntID'] == 2){
+      if($_SESSION["office"] == "Administrative Services and Property"){
         header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
         $con=null;
   
       }
-      else if($_SESSION['accntID'] == 3)
+      else if($_SESSION["office"] == "Academic Services Office")
       {
           header("Location: /pupwebdev/auth/acadservice/acadService_Scheduler.php");
           $con=null;
       }
-      else if($_SESSION['accntID'] == 1)  
+      else if($_SESSION["accountType"] == "admin")  
       {
         header("Location: /pupwebdev/auth/admin/account.php");
         $con=null;

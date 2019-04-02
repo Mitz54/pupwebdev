@@ -250,10 +250,6 @@ $('#printButton').click (function(e)
 
   });
 
- $('#create-roomSchedule').bind('hide', function () {
-        // $("#Room").val("").trigger("Change");
-        alert("Hello");
-    });
 
  $("#roomPurpose").change(function(){
     var roomPurpose = document.getElementById("roomPurpose");

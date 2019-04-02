@@ -80,12 +80,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                   data:{reserveID:reserveID},
                                   success:function(data){
                                     controlID = data;
-                                    // alert(data);
+                                    // alert(data);   
                                   }
                                 })
 
                           
-                                window.location.href = "requestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID;
+                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID;
                             }
                           });
                       });

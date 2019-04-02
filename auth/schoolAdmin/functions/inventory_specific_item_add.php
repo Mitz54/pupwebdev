@@ -55,6 +55,17 @@ $itemid = $_POST['selectItemId'];
 $condition = $_POST['condition'];
 $borrowable = $_POST['borrowable'];
 
-additem($itemid,$donatorid,$condition,$unitprice,$_POST['serialnumber'],$whereabouts,$borrowable);
 
+
+if($_POST['itemNumber'] == "")
+{
+  additem($itemid,$donatorid,$condition,$unitprice,$_POST['serialnumber'],$whereabouts,$borrowable);
+}
+else
+{
+  for($i = 0;$i < $_POST['itemNumber'];$i++)
+  {
+    additem($itemid,$donatorid,$condition,$unitprice,$_POST['serialnumber'],$whereabouts,$borrowable);
+  }
+}
 ?>
