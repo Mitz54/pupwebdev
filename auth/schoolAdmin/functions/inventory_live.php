@@ -21,9 +21,11 @@ function createtable()
  
   if ($result->num_rows > 0) 
   {
-    echo "<table class='table table-bordered table-hover'>";
+
+    echo "<table id='table_1' class='table table-bordered table-hover checkbox_table' width='100%'>";
     echo '<thead class="thead-light">
             <tr>
+              <th scope="col" >✔</th>
               <th scope="col" width="3%">ID</th>
               <th scope="col" width="15%">Item Name</th>
               <th scope="col" width="60%">Description</th>
@@ -45,6 +47,7 @@ function createtable()
         $disable = "";
       }
       echo "<tr>
+        <td><input type='checkbox' name='item_general_checkbox' id='item_general_checkbox' ".$disable." value='". $row['itemID'] ."'></td>
         <td>" . $row['itemID'] . "</td>
         <td>" . $row['name'] . "</td>
         <td>" . $row['description'] . "</td>

@@ -1,6 +1,4 @@
-<?php session_start(); 
-require "logincheck.php";
-include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
+<?php session_start(); include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
 
 <div class="container-fluid">
   <div class="row">
@@ -129,7 +127,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="actionDeleteItemModalTitle">View Item</h5>
+        <h5 class="modal-title" id="actionDeleteItemModalTitle">Remove</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -18,7 +18,10 @@
 	<link href="/pupwebdev/assets/stylesheet/bootstrap413.min.css" rel="stylesheet">
 	<link href="/pupwebdev/assets/stylesheet/fontawesome531.css" rel="stylesheet">
 	<link href="/pupwebdev/assets/stylesheet/styles.css" rel="stylesheet">
-	<script src="../../vendor/sweetalert/sweetalert.min.js"></script>
+
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/> -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
+
 </head>
 
 <body>
