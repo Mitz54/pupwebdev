@@ -11,18 +11,18 @@
   }
   function redirect()
   {
-    if($_SESSION['accntID'] == 1)
+    if($_SESSION["accountType"] == "admin")
     {
 
     }
     else
     {
-      if($_SESSION['accntID'] == 2){
+      if($_SESSION["office"] == "Administrative Services and Property"){
         header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
         $con=null;
   
       }
-      else if($_SESSION['accntID'] == 3)
+      else if($_SESSION["office"] == "Academic Services Office")
       {
       header("Location: /pupwebdev/auth/acadservice/acadService_Scheduler.php");
       $con=null;

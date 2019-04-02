@@ -1,15 +1,14 @@
-
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev-student/auth/hideheader.php' ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/hideheader.php' ?>
 <?php session_start(); ?>
 <?php 
 
     $oldServing = "" ;
     $_SESSION['oldserving'] = "";
 ?>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/CSS/bootstrap.min.css" rel="stylesheet" >
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/CSS/bootstrap.min.css" rel="stylesheet" >
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="/pupwebdev-student/assets/stylesheet/admin.css" >
+<link rel="stylesheet" href="/pupwebdev-student/assets/stylesheet/admin.css" > -->
 
 <style type="text/css" scoped>
   *{

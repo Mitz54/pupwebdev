@@ -81,8 +81,10 @@
 		}
 		if($_SESSION['oldserving'] != $allserving)
 		{
+
 			//echo '<script type="text/javascript">alert('. $_SESSION['oldserving'] . ');</script>';
 			$_SESSION['oldserving'] = $allserving;
+			// echo "<script>alert('" .	$_SESSION['oldserving'] . " " . $allserving . "');</script>";
 				echo '<script type="text/javascript">soundHandle.play();</script>';
 		}
 		else
