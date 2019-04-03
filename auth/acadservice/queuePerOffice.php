@@ -126,7 +126,7 @@ h5{
       <br>
       <form class="row" action = "PendNumber.php" method = "post">
         <input class="btn btn-info pend" type="submit" id="pendBut" name ="pendbt" value = "Pend"/>
-        <input class="txt-selected" type="text" name="pendRemark" id="pendRemark" placeholder="Pend" autocomplete="off"required/>
+        <input class="txt-selected" type="text" name="pendRemark" id="pendRemark" placeholder="Remark/s" autocomplete="off"required/>
       </form>
     </div>
     
