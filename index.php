@@ -229,14 +229,14 @@ function redirect()
                           <form class="sign-in" method="POST">
                             <div class="loginbox-input">
                               <section>
-                                <input class="textbox-selected" type="text" name="profileUsername" placeholder="Username" autocomplete="off"required autofocus/>
+                                <input class="textbox-selected" type="text" id="username" name="profileUsername" placeholder="Username" autocomplete="off"required autofocus/>
                               </section>
                               <section>
-                                <input class="textbox-selected" type="password" name="profilePassword" placeholder="***********" autocomplete="off" required/>
+                                <input class="textbox-selected" type="password" id="password" name="profilePassword" placeholder="***********" autocomplete="off" required/>
                               </section>
                               <section>
                                 <span class="loginbox-options">
-                                  <button class="btn btn-sm btn-pupcustomcolor" name="submit" type="submit">Login</button>
+                                  <button class="btn btn-sm btn-pupcustomcolor" name="submit" type="submit" onclick="return checkCredentials()">Login</button>
                                 </span>
                               </section>
                             </div>
@@ -249,5 +249,39 @@ function redirect()
                 </div>
               </div>
             </div>
+            <script>
+            function checkCredentials() {
+              var un, pw;
+
+              // Get the value of the input field with id="numb"
+              un = document.getElementById("username").value;
+              pw = document.getElementById("password").value;
+              if(un.indexOf("^") > -1)
+              {
+                alert('Wrong username or password, please try again');
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";
+                return false;
+              }
+              if(un.indexOf("'") > -1)
+              {
+                alert('Wrong username or password, please try again');
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";
+                return false;
+              }
+              if(un.indexOf("\\") > -1)
+              {
+                alert('Wrong username or password, please try again');
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";
+                return false;
+              }
+              else
+              {
+                return true;
+              }
+            }
+            </script>
 
             <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/footer.php' ?>
