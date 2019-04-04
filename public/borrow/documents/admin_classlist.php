@@ -1,62 +1,50 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/dbc/dbc.php';
 require('../fpdf/fpdf.php');
+//$this->AddPage('P','Letter',0);
 
 class PDF extends FPDF {
 	function Header(){
-		
-		
 		//dummy cell to put logo
 		//$this->Cell(12,0,'',0,0);
 		//is equivalent to:
-		$this->Cell(12);
-		
-		//put logo
-		$this->Image('../images/puplogo.jpg',20,10,25);
-		
-		$this->SetFont('Arial','',10);
-		$this->Cell(0,3,'',0,1);
-		$this->Cell(36,10,'',0,0);
-		$this->Cell(50,5,'Republic of the Philippines',0,1);
-		$this->SetFont('Arial','',12);
-		$this->Cell(36,10,'',0,0);
-		$this->Cell(50,5,'POLYTECHNIC UNIVERSITY OF THE PHILIPPINES',0,1);
-		$this->Cell(36,10,'',0,0);
-		$this->Cell(50,5,'SANTA ROSA CAMPUS',0,1);
-		$this->SetFont('Arial','',10);
-		$this->Cell(36,10,'',0,0);
-		$this->Cell(50,5,'City of Santa Rosa, Laguna',0,1);
+		//$this->Cell(12);
+		$this->SetMargins(25,25,25);
+		$this->SetFont('Arial','B',14);
+		// $this->Cell(55,5,'',0,1);
+		// $this->Cell(55,5,'',0,1);
 
+		// $this->Cell(85,5,'',0,0);
+		// $this->Cell(55,5,'',0,1);
+		#LETTER TITLE
+		$this->setfont('Arial', 'B', 16);
+		$this->ln(10);
+		#DATE
+		$this->setfont('Arial', 'B', 14);
+		$this->Cell(0,5,$GLOBALS['controlNumber'],0,1,'R');
+		$this->ln(10);
+		$this->Cell(0,5,"Borrowing",0,1,'C');
 		$this->SetFont('Arial','B',14);
 		$this->Cell(55,5,'',0,1);
-		$this->Cell(55,5,'',0,1);
-
-		$this->Cell(85,5,'',0,0);
-		$this->Cell(55,5,'',0,1);
-
-		$this->SetFont('Arial','B',14);
-		$this->Cell(55,5,'',0,1);
-		
 		$this->SetFont('Arial','',12);
-		$this->Cell(10,10,'',0,0);
-		$this->Cell(50,5,date("F j, Y"),0,1);
+		$this->Cell(10,10,'',0,1);
+		$this->Cell(50,5,date("F j, Y"),0,0);
+		$this->ln(5);
 		$this->SetFont('Arial','B',12);
-		$this->Cell(10,10,'',0,0);
-		$this->Cell(50,5,'Professor Arwin Nucum',0,1);
+		$this->Cell(10,5,'',0,1);
+		$this->Cell(50,5,'Professor Arwin Nucum',0,0);
 		$this->SetFont('Arial','',12);
-		$this->Cell(10,10,'',0,0);
-		$this->Cell(50,5,'Head, Administrative Services',0,1);
+		$this->Cell(10,5,'',0,1);
+		$this->Cell(50,5,'Head, Administrative Services',0,0);
 		$this->SetFont('Arial','I',12);
-		$this->Cell(10,10,'',0,0);
-		$this->Cell(50,5,'PUP Santa Rosa Campus',0,1);
-
-		$this->Cell(55,5,'',0,1);
-		$this->Cell(55,5,'',0,1);
+		$this->Cell(10,5,'',0,1);
+		$this->Cell(50,5,'PUP Santa Rosa Campus',0,0);
+		$this->ln(15);
 		$this->SetFont('Arial','',12);
-		$this->Cell(10,10,'',0,0);
-		$this->Cell(50,5,'Dear Sir,',0,1);
-		$this->Cell(55,5,'',0,1);
-		$this->Cell(20,0,'',0,0);
+		$this->Cell(10,5,'',0,1);
+		$this->Cell(50,5,'Dear Sir:',0,1);
+
+		$this->Cell(10,10,'',0,1);
 		$this->Cell(50,5,'Good Day!',0,1);
 
 		
@@ -70,52 +58,54 @@ class PDF extends FPDF {
 
 	function createLetter($reason,$initialDate,$dueDate,$department,$stime,$etime)
 	{
-		$this->Cell(55,5,'',0,1);
+		$this->SetMargins(25,25,25);
+		//$this->Cell(55,5,'',0,1);
 
-		$this->SetX(20);    
-		$this->MultiCell(165, 10, '        ' . 'We, the '.$department.' Organization will be conducting '.$reason.' on '.$initialDate.' to '.$dueDate.', from '.$stime.' to '.$etime.'. ', 70 );
+		//$this->SetX(20);    
+		$this->MultiCell(172, 10, 'We, the '. $department.' Organization will be conducting a/an '.$reason.' on '. $initialDate.' to '.$dueDate.', from '. $stime.' to '. $etime.'. ', 70 );
 
-		$this->Cell(55,5,'',0,1);
+		//FOR CLASS
+		//We, the $section will be conducting a/an
+
+		//$this->ln(5);
 
 
-		$this->SetX(22); 
-		$this->MultiCell(165, 10, '        ' . 'In view of this, we would like to request permission to use the following:', 70 );
+		///$this->SetX(22); 
+		$this->MultiCell(172, 10, 'In view of this, we would like to request for your approval to borrow the following materials:' , 70 );
+		$this->MultiCell(172, 10, 'Thank you very much and we re hoping for your very kind consideration regarding this matter.' , 70 );
 	}
 
 	function Footer(){
 		
 		//Go to 2.0 cm from bottom
-		$this->SetY(-55);
+		$this->SetMargins(25,25,25);
+		$this->SetY(-75);
 				
 		$this->SetFont('Arial','',12);
-		$this->Cell(10,5,'',0,0);
-		$this->Cell(58,5,"Respectfully yours,",0,1);
-		$this->Cell(10,15,'',0,1);
+		$this->ln(15);
+		$this->Cell(50,5,"Respectfully yours,",0,1);
+		
 
-		$this->SetFont('Arial','B',12);
+		$this->SetFont('Arial','B',12); 
 
-		$this->Cell(10,5,'',0,0);
+		$this->ln(10);
 		$this->Cell(58,5,$GLOBALS["borrowerName"],0,1,'C');
 		$this->SetFont('Arial','I',12);
 		$this->Cell(10,10,'',0,0);
 		$this->Cell(58,5,$GLOBALS["borrowerType"],0,1,'C');
 
-		// $this->SetFont('Arial','B',12);
-		// $this->Cell(10,10,'',0,1);
-		// $this->Cell(10,5,'',0,0);
-		// $this->Cell(58,5,"Recommending Approval:",0,1,'C');
-		// $this->Cell(10,10,'',0,1);
-
-		// $this->Cell(10,5,'',0,0);
-		// $this->Cell(58,5,"Prof. Eva D. Villanueva",0,1,'C');
-		// $this->SetFont('Arial','I',12);
-		// $this->Cell(10,10,'',0,0);
-		// $this->Cell(58,5,"Adviser, ELITE",0,1,'C');
-		
-		$this->SetFont('Arial','',8);
-		//width = 0 means the cell is extended up to the right margin
+		$this->SetFont('Arial','B',12);
+		$this->SetMargins(25,25,25);
+		$this->ln(10);
+		$this->Cell(0,0,"Noted by:",0,1);
 		$this->Cell(10,10,'',0,1);
-		$this->Cell(0,10,'Page '.$this->PageNo()." / {pages}",0,0,'C'); // for page number
+
+		//$this->Cell(10,5,'',0,0);
+		//$this->Cell(0,0,"Prof. Eva D. Villanueva",0,1);
+		$this->SetFont('Arial','I',12);
+		$this->Cell(10,10,'',0,0);
+		$this->Cell(58,5,"Professor",0,1, 'C');
+		
 	}
 
 	function myCell($w,$h,$x,$t)
@@ -178,7 +168,7 @@ $pdf->SetFont('Arial','',12);
 
 //normal row height=5.
 
-$pdf->AddPage(); //for another page
+ //for another page
 
 // function getquantity($itemid)
 // {
@@ -225,9 +215,11 @@ $results = $stmt->fetch();
 $startTime =  date("g:i a", strtotime($results['startTime']));
 $endTime =  date("g:i a", strtotime($results['endTime']));
 
-$pdf->createLetter($results['reason'],date('F j, Y',strtotime($results['initialDate'])),date('F j, Y',strtotime($results['dueDate'])),$results['department'],$startTime,$endTime);
+
 
 $GLOBALS["borrowerName"] = $results['name'];
+$GLOBALS['controlNumber'] = $results['controlNumber'];
+
 $type = $results['borrowerType'];
 if($type = "Class Rep")
 {
@@ -245,6 +237,9 @@ else if($type = "PUP Staff")
 
 $GLOBALS["borrowertype"] = $results['borrowerType'];
 $GLOBALS["department"] = $results['department'];
+
+$pdf->AddPage();
+$pdf->createLetter($results['reason'],date('F j, Y',strtotime($results['initialDate'])),date('F j, Y',strtotime($results['dueDate'])),$results['department'],$startTime,$endTime);
 
 $pdo = pdo();
 $sql = "select *,borrower.name as borrowname,item.name as itemname from borroweditems 

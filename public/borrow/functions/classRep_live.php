@@ -52,7 +52,7 @@ function getquantity($itemid)
 function createtable()
 {
   $conn = conn();
-  $sql = "SELECT * FROM item left join iteminfo on iteminfo.itemID_FK = item.itemID group by itemID,name,description;";
+  $sql = "SELECT * FROM item join iteminfo on iteminfo.itemID_FK = item.itemID group by itemID_FK";
   $result = $conn->query($sql);
 
   echo "<table class='table table-bordered table-hover'>";
@@ -67,9 +67,7 @@ function createtable()
           </tr>
         </thead>';
   echo "<tbody>";
-
-  $rows = $result->num_rows;
-  if ($rows > 0) 
+  if ($result->num_rows > 0) 
   {
       // output data of each row
       while($row = $result->fetch_assoc()) 
@@ -109,7 +107,6 @@ function createtable()
 
   $conn->close();
 }
-
   
 createtable();
   

@@ -15,13 +15,13 @@ function insertborrower()
 	$stmt->execute([$_POST['borrowerid'],$_POST['fullname'],$_POST['contactnumber'],$_POST['borrowertype'],$_POST['organization']]);
 }
 
-function insertborrowing($borrowingdetailsid,$borrowerid,$issuedate,$duedate,$reason,$stime,$etime)
+function insertborrowing($borrowingdetailsid,$borrowerid,$issuedate,$duedate,$reason,$stime,$etime,$controlnumber)
 {
 	$pdo = pdo();
-	$sql = "INSERT INTO  borrowingdetails(borrowingDetailsID,borrowerID_FK,initialDate,issueDate,dueDate,verified,reason,startTime,endTime)
-			values(?,?,CURDATE(),?,?,0,?,?,?);";
+	$sql = "INSERT INTO  borrowingdetails(borrowingDetailsID,borrowerID_FK,initialDate,issueDate,dueDate,verified,reason,startTime,endTime,controlNumber)
+			values(?,?,CURDATE(),?,?,0,?,?,?,?);";
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute([$borrowingdetailsid,$borrowerid,$issuedate,$duedate,$reason,$stime,$etime]);
+	$stmt->execute([$borrowingdetailsid,$borrowerid,$issuedate,$duedate,$reason,$stime,$etime,$controlnumber]);
 	
 }
 
@@ -96,12 +96,28 @@ function insertborroweditems($borrowingdetailsid,$iteminfoid)
 	$stmt->execute([$_POST['borrowingdetailsid'],$iteminfoid]);
 }
 
+function controlnumber()
+{
+	$pdo = pdo();
+	//$issuedate = date("Y", strtotime($_POST['issuedate']));
+	$controlnum = "BO-".date("Y");
+	$sql = "select * from borrowingdetails where controlNumber like concat('%', ? ,'%');";
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute([$controlnum]);
+	$number = $stmt->rowCOUNT();
+	$number =$number + 255;
+	$controlnumber = "BO-".date("Y")."-".str_pad($number, 6, '0', STR_PAD_LEFT);;
+	return $controlnumber;
+}
+
+// controlnumber();
+
 $issuedate = date("Y-m-d", strtotime($_POST['issuedate']));
 $duedate = date("Y-m-d", strtotime($_POST['duedates']));
 $stime = date("H:i:s", strtotime($_POST['stime']));
 $etime =date("H:i:s", strtotime($_POST['etime']));
 insertborrower();
-insertborrowing($_POST['borrowingdetailsid'],$_POST['borrowerid'],$issuedate,$duedate,$_POST['reason'],$stime,$etime);
+insertborrowing($_POST['borrowingdetailsid'],$_POST['borrowerid'],$issuedate,$duedate,$_POST['reason'],$stime,$etime,controlnumber());
 // insertborroweditems();
 getallitems();
 

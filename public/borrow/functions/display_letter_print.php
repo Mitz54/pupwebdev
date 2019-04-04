@@ -24,7 +24,7 @@ function createtable()
       inner join iteminfo on iteminfo.itemInfoID = borroweditems.itemInfoID_FK
       inner join item on iteminfo.itemID_FK = item.itemID
       inner join borrowingdetails on borrowingdetails.borrowingDetailsID = borroweditems.borrowingDetailsID_FK
-      inner join borrower on borrowingdetails.borrowerID_FK = borrower.borrowerID  where verified = 0 group by borroweditems.borrowingDetailsID_FK;";
+      inner join borrower on borrowingdetails.borrowerID_FK = borrower.borrowerID  where verified = 0 group by borrowingDetailsID_FK;";
   $result = $conn->query($sql);
 
   echo mysqli_error($conn);

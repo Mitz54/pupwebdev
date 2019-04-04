@@ -1,5 +1,7 @@
 <?php session_start(); include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
 
+<link href="/pupwebdev/assets/stylesheet/fullcalendar390.min.css" rel="stylesheet">
+
 <div class="container-fluid">
   <div class="row">
     <div class="side-navigation">
@@ -18,6 +20,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="borrowingmodules-history-tab" data-toggle="pill" href="#borrowingmodules-history" role="tab" aria-controls="borrowingmodules-history" aria-selected="false">History</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="borrowingmodules-calendar-tab" data-toggle="pill" href="#borrowingmodules-calendar" role="tab" aria-controls="borrowingmodules-calendar" aria-selected="false">Calendar</a>
               </li>
             </ul>
           </div>
@@ -71,9 +76,30 @@
                 </div>
                   <div id="live_table3"></div>
               </div>
+              <div class="tab-pane fade" id="borrowingmodules-calendar" role="tabpanel" aria-labelledby="borrowingmodules-calendar-tab">
+                  <div id="room_calendarview"></div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="viewCalendar" tabindex="-1" role="dialog" aria-labelledby="actionDeleteItemModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actionDeleteItemModalTitle">Disapprove</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <!-- <div id="room_calendarview"></div> -->
+      </div>
+      <div class="modal-footer">
       </div>
     </div>
   </div>
@@ -188,10 +214,10 @@
 </div> -->
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/footer.php' ?>
+
 <script>  
 $(document).ready(function()
 {  
-
   $('#search_pending').keyup(function()
   {
     var text = $(this).val();
@@ -442,3 +468,129 @@ $(document).ready(function()
 });
 
 </script>
+
+
+
+<script>
+
+$(document).ready(function() 
+{
+
+ function refreshData()
+ {
+
+  // alert(
+
+    $('#room_calendarview').fullCalendar( 'removeEventSource', url ="functions/borrowing_load_calendar.php");
+
+    $('#room_calendarview').fullCalendar( 'addEventSource', url ="functions/borrowing_load_calendar.php");
+
+ }
+
+
+ var calendar = $('#room_calendarview').fullCalendar(
+ {
+  header: {
+    left: 'prev next',
+    right: ' agendaWeek, listMonth'
+  },
+    events: url ="functions/borrowing_load_calendar.php",
+  viewRender: function(currentView){
+    var myDate = new Date();
+    var minDate = moment();
+
+    if((myDate.getDay() ==0))
+    {
+      minDate = moment().add(1,'days');
+    }
+
+    if (minDate >= currentView.start && minDate <= currentView.end) {
+      $(".fc-prev-button").prop('disabled', true); 
+      $(".fc-prev-button").addClass('fc-state-disabled'); 
+    }
+    else {
+      $(".fc-prev-button").removeClass('fc-state-disabled'); 
+      $(".fc-prev-button").prop('disabled', false); 
+    }
+  },
+  contentHeight: 'auto',
+  defaultView: 'agendaWeek',
+  hiddenDays: [ 0 ],
+  columnHeaderFormat: ' MM-DD ddd',
+  minTime: '07:00:00',
+  maxTime: '22:00:00',
+  selectHelper: true,
+  allDaySlot: false,
+  views: {
+    week: {
+      titleFormat: 'YYYY-MM-DD-MM-YYYY'
+
+    }
+  },
+
+  selectConstraint:
+  {
+    start: '00:01', 
+    end: '23:59', 
+  },
+  eventConstraint:
+  {
+    start: '00:00', 
+    end: '24:00', 
+  },
+         // eventClick: function(event) {
+
+         //    if(roomIsSelected)
+         //    {
+         //      if(event.editable)
+         //      {
+         //        if(confirm("Are you sure you want to remove it?"))
+         //         {
+         //            var id = event.id;
+         //            //alert(id);
+         //             $.ajax({
+         //             url:"schoolAdministrator_deleteEvent.php",
+         //             type:"POST",
+         //             data:{id:id},
+         //             success:function()
+         //             {
+         //              calendar.fullCalendar('refetchEvents');
+         //              alert("Event Removed");
+         //             }
+         //            })
+         //                 //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_deleteEvent.php?id="+ id;
+         //         }
+         //      }
+         //    }
+         //    else
+         //    {
+         //       alert("Please select a room.");
+         //    }
+         // }
+       });
+
+//  $('.fc-prev-button').click(function(){
+// // refreshData();
+//    //alert('prev is clicked, do something');
+// });
+
+// $('.fc-next-button').click(function(){
+//    //alert('nextis clicked, do something');
+// });
+
+// $(".fc-next-button")[0].click();
+// $(".fc-prev-button")[0].click();
+ $(document).on('shown.bs.tab', 'a[data-toggle="pill"]', function (e) {
+        calendar.fullCalendar( 'rerenderEvents' );
+      });
+
+});
+
+
+</script>
+
+
+<script src="/pupwebdev/assets/javascript/moment.min.js " type="text/javascript"></script>
+<script src="/pupwebdev/assets/javascript/fullcalendar390.min.js" type="text/javascript"></script>
+
+<link href='https://fullcalendar.io/js/fullcalendar-3.1.0/fullcalendar.css' rel='stylesheet' />
