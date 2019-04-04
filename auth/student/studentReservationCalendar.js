@@ -254,17 +254,19 @@ $('#printButton').click (function(e)
     var selected = roomPurpose.options[roomPurpose.selectedIndex].text;
     // alert(selected);
 
-    if(selected == "Others (Please Specify)")
+    if(selected == "Others")
       {
-        var txtpurpose = "<textarea id='remarks-txtArea'></textarea>";       
-        $("#remarks-div").append(txtpurpose);
-        remarks =document.getElementById('remarks-txtArea').value
-        //alert("hi");
+        $("#remarks-div").prop('hidden',false);
+        // var txtpurpose = "<textarea id='remarks-txtArea'></textarea>";       
+        // $("#remarks-div").append(txtpurpose);
+        // remarks =document.getElementById('remarks-txtArea').value
+        // alert("hi");
       }
 
     else
     {
-       $("#remarks-txtArea").remove();
+       $("#remarks-div").prop('hidden',true);
+       $("#Remarks").val("");
     }
 
 
@@ -284,3 +286,11 @@ $('.fc-next-button').click(function(){
 });
 
 });
+
+$('#myModal').on('hidden.bs.modal', function () {
+   $("#inpt-fname").val("");
+   $("#inpt-lname").val("");
+   $("#Course").val("").trigger("change");
+   $("#Professor").val("").trigger("change");
+   $("roomPurpose").val("").trigger("change");
+})

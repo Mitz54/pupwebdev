@@ -418,11 +418,11 @@ kapag gagawa ng connection  -->
                  <div class="form-row">
     				<div class="form-group col-md-6">
       					<label >First Name</label>
-      					<input type="text" class="form-control" id="inpt-fname" placeholder="First Name">
+      					<input autocomplete="off" type="text" class="form-control" id="inpt-fname" placeholder="First Name">
     				</div>
     				<div class="form-group col-md-6">
       					<label>Last Name</label>
-      					<input type="text" class="form-control" id="inpt-lname" placeholder="Last Name">
+      					<input autocomplete="off" type="text" class="form-control" id="inpt-lname" placeholder="Last Name">
     				</div>
   				</div>
                   <!-- COURSE -->
@@ -430,7 +430,7 @@ kapag gagawa ng connection  -->
 
                   <label for="scheduleCourse">Course</label>
                   <select class="form-control mb-1" type="text" name="scheduleCourse" id="Course" onChange="change_Course();" required>
-                  <option disabled selected hidden>Select Course..</option>          
+                  <option disabled selected hidden value="">Select Course..</option>          
                   
                   <?php  
                    $query = $con->query("CALL selectAllCourse()");
@@ -458,7 +458,7 @@ kapag gagawa ng connection  -->
                   <label for="scheduleSection">Section</label>
                   <select disabled column="10" class="form-control mb-1" type="text" name="scheduleSection" id="Section" required>
 
-                  <option disabled selected hidden>Select Section..</option>
+                  <option disabled selected hidden value="">Select Section..</option>
                   <!-- <include 'ajax.php';> -->
 
                   </select>
@@ -468,6 +468,7 @@ kapag gagawa ng connection  -->
                  <!-- PROFESSOR -->
               	<label>Professor</label>
               	<select id = "Professor" class="form-control mb-1">
+              		<option disabled selected hidden>Select Professor...</option>
               		<?php
               		include '../schoolAdmin/Queries/readProfessors.php';
               		?>
@@ -484,9 +485,11 @@ kapag gagawa ng connection  -->
                 			include include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
                     ?>
                   </select>
-                <div id="remarks-div"></div>
-                <label>Remarks (Optional)</label>
-                <textarea class="form-control mb-1" rows="5" id="Remarks" placeholder="Enter Reservation Remarks.."></textarea>
+                <div hidden id="remarks-div">
+                	<label>Please be specific</label>
+                	<textarea class="form-control mb-1" rows="1" id="Remarks" placeholder="for our..."></textarea>
+                </div>
+                
                 
                 </div>
 

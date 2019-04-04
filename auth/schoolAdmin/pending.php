@@ -51,7 +51,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           var endtime = tabledata[7];
                           var sched = tabledata[8];
                           var reserveID = tabledata[9];
+                          var remarks = tabledata[10];
 
+                          alert(remarks);
                           var con = confirm("Proceed for printing?");
                              
                           var controlID = null;
@@ -87,7 +89,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                 })
 
                           
-                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect;
+                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect+ "&remarks="+remarks;
                             }
                           });
                       });
@@ -97,14 +99,15 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   
                   //letter table
 
-                  $sel = "SELECT reservationID, reservationUser,description, reservationDate,
+                  $sel = "SELECT remarks,reservationID, reservationUser,description, reservationDate,
                     roomID_FK,
                     TIME_FORMAT(startTime,'%h:%i %p') as startTime,
                     TIME_FORMAT(endTime,'%h:%i %p') as endTime, scheduleDay,sectionID_FK
                     FROM schedule S
                     INNER JOIN reservation R ON R.scheduleID_FK = S.scheduleID
                     INNER JOIN purpose P on P.purposeID=R.purposeID_FK
-                    WHERE reservationStatus = 'pending' AND reservationDate >=now()
+                    WHERE 
+                     reservationStatus = 'pending' AND reservationDate >=(SELECT DATE_ADD(now(), INTERVAL -1 DAY))
                     ORDER BY 
                          CASE
                             WHEN scheduleDay = 'SUN' THEN 1
@@ -130,6 +133,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                       <th scope='col'>End Time</th>
                       <th scope='col'>Schedule</th>
                       <th hidden scope='col'>reserveID</th>
+                      <th hidden scope='col'>Remarks</th>
                     </tr>
                     </thead>
                     <tbody>";
@@ -150,7 +154,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   <td>{$row['startTime']}</td>
                   <td>{$row['endTime']}</td>
                   <td>{$row['scheduleDay']}</td>      
-                  <td hidden >{$row['reservationID']}</td>                     
+                  <td hidden >{$row['reservationID']}</td>
+                  <td hidden >{$row['remarks']}</td>                       
                   </tr>
                   </tbody>\n";
                  $num++; 
@@ -182,13 +187,14 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           
                           var num = tabledata[0];
                           var name1 = tabledata[1];
-                          var pur = tabledata[2];
-                          var dt = tabledata[3];
-                          var rm = tabledata[4];
-                          var starttime = tabledata[5];
-                          var endtime = tabledata[6];
-                          var schedule = tabledata[7];
-                          var reservationID = tabledata[8];
+                          var pur = tabledata[3];
+                          var dt = tabledata[4];
+                          var rm = tabledata[5];
+                          var starttime = tabledata[6];
+                          var endtime = tabledata[7];
+                          var schedule = tabledata[8];
+                          var reservationID = tabledata[9];
+
 
                           $('#actionApproveModal').modal('show');
 
@@ -205,8 +211,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                   data:{reservationID:reservationID}
                             })
 
-                              // document.location.href = "updateReservationStatus.php?name=" +name1+"&room=" +rm+ "&date=" +dt+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +schedule+ "&purpose=" +pur + "&stat=approved" ;
-                            alert("Request has been approved!");
+                              document.location.href = "updateReservationStatus.php?name=" +name1+"&room=" +rm+ "&date=" +dt+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +schedule+ "&purpose=" +pur + "&stat=approved" ;
+                            alert(reservationID);
                           }
 
                           $('#actionApproveModal').modal('hide');

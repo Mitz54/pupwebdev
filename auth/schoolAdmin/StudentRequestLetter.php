@@ -13,6 +13,10 @@
 	$controlID = $_GET['controlID'];
 	$controlID = str_pad($controlID, 6, '0', STR_PAD_LEFT);
 
+	if($purpose =="Others"){
+		$purpose = $_GET['remarks'];
+	}
+
 	require ("fpdf/fpdf.php");
 	$pdf = new FPDF();
 	$pdf->SetMargins(25,25,25);
