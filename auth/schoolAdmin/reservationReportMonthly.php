@@ -3,20 +3,15 @@
 	$con = mysqli_connect('localhost','root','','pup');
 
 	session_start();
-	$start = $_GET['start'];
-	$end = $_GET['end'];
+	$month = $_GET['month'];
+	$year = $_GET['year'];
 	
-	if($start == $end){
-		$headertime = "Reservation Report From " . date('F d, Y',strtotime($start));
-	}
-	else{
-		$headertime = "Reservation Report From " . date('M d, Y',strtotime($start)).' - '.date('M d, Y',strtotime($end));
-	}
+
 
 
 class ReservationReport extends FPDF
 	{
-		function headerTitle($headertime)
+		function headerTitle($month,$year)
 		{	$this->setfont('Arial', 'B', 16);
 			$this->Cell(0,5,"POLYTECHNIC UNIVERSITY OF THE PHILIPPINES",0,1,'C');
 			$this->setfont('Arial', '', 14);
@@ -24,7 +19,7 @@ class ReservationReport extends FPDF
             $this->Ln();
             $this->ln(15);
             $this->setfont('Arial', 'B', 14);
-            $this->Cell(0,5,$headertime,0,5,'C');
+            $this->Cell(0,5,"Monthly Reservation Report of ".date('F',strtotime($month))." ".$year,0,5,'C');
 			$this->Ln(10);
 		}
 
@@ -53,13 +48,11 @@ class ReservationReport extends FPDF
 			$this->Ln();
 		}
 
-		function viewTable($con,$start,$end)
+		function viewTable($con,$month,$year)
 		{
 			
 
-			$select = "
-
-			select reservationUser, reservationDate, startTime, endTime, description,remarks,		   sectionID_FK, roomID_FK,approvedDate,reservationletter.reservationControlNumber as 	       ControlNumber, reservation.reservationStatus AS 'Status'
+			$select = "select reservationUser, reservationDate, startTime, endTime, description,remarks,		   sectionID_FK, roomID_FK,approvedDate,reservationletter.reservationControlNumber as 	       ControlNumber, reservation.reservationStatus AS 'Status'
 from reservation
 join reservationletter on reservationletter.reservationID_FK = reservation.reservationID
 join purpose on reservation.purposeID_FK = purpose.purposeID
@@ -67,19 +60,17 @@ join schedule on reservation.scheduleID_FK= schedule.scheduleID
 join section on section.sectionID= reservation.sectionID_FK join
  room on room.roomID= schedule.roomID_FK
 
-where approvedDate  BETWEEN '".$start."' AND '".$end."'
+where year(approvedDate) = '".$year."' && month(approvedDate) = '".$month."'
 && reservation.reservationStatus  = 'approved' ||
 
- approvedDate BETWEEN '".$start."' AND '".$end."'
-&& reservation.reservationStatus  = 'reject'
-			";
+ year(approvedDate) = '".$year."' && month(approvedDate) = '".$month."'
+&& reservation.reservationStatus = 'reject';";
 
             $result=mysqli_query($con,$select);
 			//230 max size
 					while($row = mysqli_fetch_array($result)) 
-    				{		
-
-    					$name = $row['reservationUser'];
+    				{			
+		    			$name = $row['reservationUser'];
     					$dateattend = date('F d, Y',strtotime($row['approvedDate']));
 						$reserve = date('F d, Y',strtotime($row['reservationDate']));
 						$time = date('h:i a',strtotime($row['startTime'])). " - " .date('h:i a',strtotime($row['endTime']));
@@ -116,8 +107,8 @@ where approvedDate  BETWEEN '".$start."' AND '".$end."'
 	$pdf->SetMargins(25,25,25);
 	$pdf -> AliasNbPages();
 	$pdf -> AddPage('L','Legal',0);
-	$pdf -> headerTitle($headertime);
+	$pdf-> headerTitle($month,$year);
 	$pdf -> headerTable();
-	$pdf -> viewTable($con,$start,$end);
+	$pdf -> viewTable($con,$month,$year);
 	$pdf -> Output();	
 ?>

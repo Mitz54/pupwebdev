@@ -100,25 +100,7 @@ include 'Modals/editScheduleInfo.php';
 
    <script>
 
-             $(function(){
-              $(document).on("click", "#printbtn", function(event){
 
-                  var startdate = document.getElementById("start-date").value;
-                  var enddate = document.getElementById("end-date").value;
-                  //var year = document.getElementById("year").value;
-
-                
-                  
-                  //alert(mon1+mon2+year);
-                  confirm("Do you want to proceed?");
-                  window.open("reservationReport.php?start=" +startdate+"&end=" +enddate);
-
-                  
-                   $('#reportModal').modal('hide');
-
-                   //alert(startdate + "-" + enddate );
-              }); 
-          });
             
             </script> 
 
@@ -132,10 +114,17 @@ include 'Modals/editScheduleInfo.php';
               </button>
             </div>
             <div class="modal-body">
-            <label for="month">Start Date</label>
-             <input type="date" class = "form-control" id = "start-date">
-             <label for="month">End Date</label>
-              <input type="date" class = "form-control" id = "end-date">
+            <div>
+              <label>Report Type</label>
+              <Select onChange ="selectReportType(this.value)" id ="sel-report-type" class="form-control">
+                <option disabled selected hidden value="">Choose a Report Type</option>
+                <option value ="1">Monthly</option>
+                <option value ="2">Yearly</option>
+                <option value ="3">Customized</option>              
+              </Select>
+            </div>
+            <div id="modal-report-type"></div>
+          
               <!-- <div class="form-group">
                   <label for="month">Month</label>
                   <br>

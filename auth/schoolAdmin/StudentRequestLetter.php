@@ -3,6 +3,7 @@
 	$name = $_GET['name'];
 	$room = $_GET['room'];
 	$date = $_GET['date'];
+	$sect = $_GET['sect'];
 	$starttime = $_GET['starttime'];
 	$endtime = $_GET['endtime'];
 	$sched = $_GET['sched'];
@@ -11,6 +12,10 @@
 	$year = date('Y');
 	$controlID = $_GET['controlID'];
 	$controlID = str_pad($controlID, 6, '0', STR_PAD_LEFT);
+
+	if($purpose =="Others"){
+		$purpose = $_GET['remarks'];
+	}
 
 	require ("fpdf/fpdf.php");
 	$pdf = new FPDF();
@@ -39,7 +44,7 @@
 	$pdf->Cell(0,10,"Good Day!",0,1,'L');
 	#PARAGRAPH	
 	$pdf->ln(5);
-	$pdf->MultiCell(172,10,"I, "  .$name.    " from ________________  would like to reserve " . $room . " on " . $date ." ". $sched ." at ".  $starttime. " - " . $endtime. " for our " . $purpose .".",0,'L');
+	$pdf->MultiCell(172,10,"I "  .$name.    ", from ".$sect."  would like to reserve " . $room . " on " . $date ." ". $sched ." at ".  $starttime. " - " . $endtime. " for our " . $purpose .".",0,'L');
     //We the $organization would like to
     $pdf->MultiCell(172,10,"Thank you very much and we are hoping for your very kind consideration rearding this matter.",0,'L');
     #CLOSE
@@ -53,8 +58,10 @@
     $pdf->setfont('Arial', 'I', 12);
     $pdf->Cell(0,0,"Representative",0,0,'L');
     $pdf->ln(20);
+    $pdf->setfont('Arial', 'B', 12);
     $pdf->Cell(0,0,"Recommending Approval:",0,0,'L');
     $pdf->ln(15);
+    $pdf->setfont('Arial', '', 12);
     $pdf->Cell(0,0,"Professor",0,0,'L');
 
 
