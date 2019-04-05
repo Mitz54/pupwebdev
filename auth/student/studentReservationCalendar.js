@@ -1,3 +1,4 @@
+var roomIsSelected=false;
 $(document).ready(function() 
 {
 
@@ -12,7 +13,7 @@ $(document).ready(function()
   var selectedval=false;
   var holdstart="";
   var holdend="";
-  var roomIsSelected=false;
+
   var remarks="";
 
  function refreshData()
@@ -49,12 +50,17 @@ $(document).ready(function()
     holdend=endDate;
  }
 
-    $('#Room').change (function() 
+  $('#Room').change (function() 
     {
-      roomIsSelected=true;
+      if($("#Room").val != "")
+      {
+        roomIsSelected=true;
+      }
+      else{
+        roomIsSelected=false;
+      }
       refreshData(); 
-    });
-
+  });
 
 var calendar= $("#student-calendar").fullCalendar({
   header:{
@@ -62,6 +68,7 @@ var calendar= $("#student-calendar").fullCalendar({
     
     right:'agendaWeek listMonth'
   },
+   height: 510,
     viewRender: function(currentView){
       var myDate = new Date();
       var minDate = moment();
@@ -246,7 +253,7 @@ $('#printButton').click (function(e)
   // alert("name="+name + "&purpose=" + purpose +"remarks:"+remarks+ "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
   //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
   //   "&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay;
-    // window.open("kiosk.php?");
+
     location.reload();
 
   });
@@ -297,3 +304,8 @@ $('#myModal').on('hidden.bs.modal', function () {
    $("#Professor").val("").trigger("change");
    $("roomPurpose").val("").trigger("change");
 })
+
+$("#stud-cal-close").click(function(){
+  $("#Room").val("").trigger("change");
+  roomIsSelected = false;
+});

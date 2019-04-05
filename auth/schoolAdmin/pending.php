@@ -53,12 +53,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           var reserveID = tabledata[9];
                           var remarks = tabledata[10];
 
-                          alert(remarks);
+                          // alert(remarks);
                           var con = confirm("Proceed for printing?");
                              
                           var controlID = null;
                             if (con == true) {
-                              alert(reserveID);
+                              // alert(reserveID);
                                 $.ajax({
                                       url:"updateReservationStatus.php",
                                       type:"GET",
@@ -72,7 +72,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                             endtime:endtime,
                                             sched:sched},
                                       success:function(data){
-                                        alert(data)
+                                        // alert(data)
                                       }
                                 });
 
@@ -212,7 +212,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                             })
 
                               document.location.href = "updateReservationStatus.php?name=" +name1+"&room=" +rm+ "&date=" +dt+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +schedule+ "&purpose=" +pur + "&stat=approved" ;
-                            alert(reservationID);
+                            // alert(reservationID);
                           }
 
                           $('#actionApproveModal').modal('hide');

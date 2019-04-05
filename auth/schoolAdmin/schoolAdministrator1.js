@@ -234,12 +234,13 @@ else
         var start = $.fullCalendar.formatDate(event.start, "HH:mm:ss");
         var end = $.fullCalendar.formatDate(event.end, "HH:mm:ss");
         var day = $.fullCalendar.formatDate(event.start, "ddd");
+        var date = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD");
         var id = event.id;
 
         $.ajax({
           url:"schoolAdministrator_updateEvent.php",
           type:"POST",
-          data:{scheduleDay:day, startTime:start, endTime:end, scheduleID:id},
+          data:{scheduleDay:day, startTime:start, endTime:end, scheduleID:id,scheduledate:date},
           success:function()
           {
             calendar.fullCalendar('refetchEvents');
@@ -438,7 +439,7 @@ function selectReportType(val){
 
                 var typereport = $("#sel-report-type").val();
                 
-                alert(typereport);
+                // alert(typereport);
 
                 //MONTHLY
                 if(typereport == 1){
