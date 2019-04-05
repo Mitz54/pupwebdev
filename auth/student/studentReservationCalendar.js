@@ -1,4 +1,3 @@
-var roomIsSelected=false;
 $(document).ready(function() 
 {
 
@@ -13,7 +12,7 @@ $(document).ready(function()
   var selectedval=false;
   var holdstart="";
   var holdend="";
-
+  var roomIsSelected=false;
   var remarks="";
 
  function refreshData()
@@ -159,7 +158,9 @@ var calendar= $("#student-calendar").fullCalendar({
 
 });
 
-
+$('#student-cal').on('shown.bs.modal', function () {
+  $("#student-calendar").fullCalendar('render');
+});
 
 $("#reservationButton").click(function(){
 
@@ -293,12 +294,3 @@ $('#myModal').on('hidden.bs.modal', function () {
    $("#Professor").val("").trigger("change");
    $("roomPurpose").val("").trigger("change");
 })
-
-$('#student-cal').on('shown.bs.modal', function () {
-  $("#student-calendar").fullCalendar('render');
-});
-
-$("#stud-cal-close").click(function(){
-  $("#Room").val("").trigger("change");
-  roomIsSelected = false;
-});
