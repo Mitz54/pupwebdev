@@ -234,21 +234,20 @@ else
         var start = $.fullCalendar.formatDate(event.start, "HH:mm:ss");
         var end = $.fullCalendar.formatDate(event.end, "HH:mm:ss");
         var day = $.fullCalendar.formatDate(event.start, "ddd");
+        var date = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD");
         var id = event.id;
 
         $.ajax({
           url:"schoolAdministrator_updateEvent.php",
           type:"POST",
-          data:{scheduleDay:day, startTime:start, endTime:end, scheduleID:id},
+          data:{scheduleDay:day, startTime:start, endTime:end, scheduleID:id, scheduleDate:date},
           success:function()
           {
             calendar.fullCalendar('refetchEvents');
             alert("Event Updated");
           }
         });
-        //  alert(start+ "\n "+ end + "\n "+ id  + "\n "+ day );
-        //window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_updateEvent.php?startTime="+ start +"&endTime=" + end + "&scheduleID="+ id + 
-        //"&scheduleDay=" + day; 
+        // alert(date); 
         },
 
         eventResize: function(event) {

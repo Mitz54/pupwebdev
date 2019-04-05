@@ -347,7 +347,7 @@ kapag gagawa ng connection  -->
 <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!---------------------------------------------------- RESERVATION CALENDAR COLUMN START---------------------------------------------------->
 <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<div id="student-cal" class="modal fade" role="dialog">
+<div id="student-cal" class="modal fade" role="dialog" style="top:-30px;" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" style="max-height: 80%">
 
     <!-- Modal content-->
@@ -355,7 +355,7 @@ kapag gagawa ng connection  -->
       <div class="modal-header">
       		<h4 class="modal-title">Room Reservation</h4>
       		<select class="form-control" id="Room">
-             <option disabled selected hidden >Select Room..</option>
+             <option disabled selected hidden value="" >Select Room..</option>
                    
                   <?php  
                   require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
@@ -382,7 +382,7 @@ kapag gagawa ng connection  -->
       </div>
       <div class="modal-body">
         
-        <div class="student-detail-wrap">
+        <div class="student-detail-wrap container-fluid">
           <div id="student-calendar"></div>
         </div>
 
@@ -390,7 +390,7 @@ kapag gagawa ng connection  -->
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id ="stud-cal-close"class="btn btn-danger" data-dismiss="modal">Close</button>
 
       </div>
       

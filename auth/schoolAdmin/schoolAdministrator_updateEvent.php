@@ -4,9 +4,10 @@
 $scheduleDay = $_POST['scheduleDay'];		
 $startTime = $_POST['startTime'];	
 $endTime = $_POST['endTime'];	
-$scheduleID = $_POST['scheduleID'];			
+$scheduleID = $_POST['scheduleID'];		
+$scheduleDate = $_POST['scheduleDate'];	
 
-$sql = "CALL updateSchedule('$scheduleDay', '$startTime','$endTime', '$scheduleID')";
+$sql = "CALL updateSchedule('$scheduleDay', '$startTime','$endTime', '$scheduleID','$scheduleDate')";
 
 if ($con->query($sql) === TRUE) {
 echo "nupdate dapat";
@@ -15,8 +16,8 @@ echo "nupdate dapat";
 }
 
 
-header('Location:http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_Reservation.php?');
-   exit;
+// header('Location:http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_Reservation.php');
+//    exit;
 
 $con->close();
 
