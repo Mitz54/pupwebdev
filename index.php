@@ -110,7 +110,9 @@ try
             $message = 'Wrong username or password, please try again';
           echo "<script> alert('".$message."'); </script>"; 
             unset($_SESSION['username']);
-            session_destroy();
+            unset($_SESSION['office']);
+            unset($_SESSION['accntID']);
+            unset($_SESSION['accountType']);
           }  
         }
       
@@ -148,12 +150,12 @@ catch(Exception $error)
 
 function redirect()
 {
-  if($_SESSION['accntID'] == 2){
+  if($_SESSION["office"] == "Administrative Services and Property"){
     header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
     $con=null;
 
   }
-  else if($_SESSION['accntID'] == 3)
+  else if($_SESSION["office"] == "Academic Services Office")
   {
       header("Location: /pupwebdev/auth/acadservice/acadService_Scheduler.php");
       $con=null;
@@ -163,7 +165,7 @@ function redirect()
       header("Location: /pupwebdev/auth/office/queuePerOffice.php");
       $con=null;
   }
-  else if($_SESSION['accntID'] == 1)  
+  else if($_SESSION["accountType"] == "admin")
   {
     header("Location: /pupwebdev/auth/admin/account.php");
     $con=null;
@@ -174,9 +176,9 @@ function redirect()
     $message = 'Wrong username or password, please try again';
   echo "<script> alert('".$message."'); </script>"; 
     unset($_SESSION['username']);
+    unset($_SESSION['office']);
     unset($_SESSION['accntID']);
     unset($_SESSION['accountType']);
-    // session_destroy();
   }
 }
 ?>
