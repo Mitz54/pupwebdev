@@ -202,7 +202,7 @@ $('#printButton').click (function(e)
       type:'POST',
       data:{code:code},
       success:function(data){
-        alert(data);
+        // alert(data);
       }
      });
     $("#create-roomSchedule").modal('hide');
@@ -234,8 +234,8 @@ $('#printButton').click (function(e)
        success:function()
         {
         calendar.fullCalendar('refetchEvents');
-        //alert("Added Successfully");
-        }
+        // alert("Added Successfully");
+       }
       });
 
 
