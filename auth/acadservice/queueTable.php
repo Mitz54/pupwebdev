@@ -11,7 +11,7 @@
 			$profNewCount = $_SESSION['PendingNum'];
 	}
 	//$sql2 = "UPDATE `queueingtransaction` INNER JOIN queue ON queue.queueNumber = queueingtransaction.queueID_FK SET `queueingTransactionStatus` = 'Done' WHERE `queue`.`queueNumber` = $profNewCount;";
-	$result2 = mysqli_query($con,"Call updateQueueTable('$profNewCount','$staffID')");
+	$result2 = mysqli_query($con,"Call updateQueueTable('$profNewCount','$staffID','$dateToday')");
 	include ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 	$result3 = mysqli_query($con,"Call selectNext('$staffID')");
 	include ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');

@@ -2,12 +2,12 @@
 session_start();
  include_once($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php'); 
   $staffID = $_SESSION['accntID'];
-  $dateToday = date("Y-m-d");
+  $date = $_GET['date'];
   $thisID = $_GET['qtID'];
 
   $sql = "DELETE FROM queueingtransaction WHERE queueingTransactionID=".$thisID;
 
-  $query = mysqli_query($con,"Call updateQueueTable('$thisID','$staffID')");
+  $query = mysqli_query($con,"Call updateQueueTable('$thisID','$staffID','$date')");
 
   if($query){
 	
