@@ -355,7 +355,7 @@ kapag gagawa ng connection  -->
       <div class="modal-header">
       		<h4 class="modal-title">Room Reservation</h4>
       		<select class="form-control" id="Room">
-             <option disabled selected hidden value="" >Select Room..</option>
+             <option disabled selected hidden value="">Select Room..</option>
                    
                   <?php  
                   require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
@@ -382,7 +382,7 @@ kapag gagawa ng connection  -->
       </div>
       <div class="modal-body">
         
-        <div class="student-detail-wrap container-fluid">
+        <div class="student-detail-wrap">
           <div id="student-calendar"></div>
         </div>
 
@@ -390,7 +390,7 @@ kapag gagawa ng connection  -->
       </div>
       
       <div class="modal-footer">
-        <button type="button" id ="stud-cal-close"class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button"  id ="stud-cal-close" class="btn btn-default" data-dismiss="modal">Close</button>
 
       </div>
       

@@ -240,14 +240,16 @@ else
         $.ajax({
           url:"schoolAdministrator_updateEvent.php",
           type:"POST",
-          data:{scheduleDay:day, startTime:start, endTime:end, scheduleID:id, scheduleDate:date},
+          data:{scheduleDay:day, startTime:start, endTime:end, scheduleID:id,scheduledate:date},
           success:function()
           {
             calendar.fullCalendar('refetchEvents');
             alert("Event Updated");
           }
         });
-        // alert(date); 
+        //  alert(start+ "\n "+ end + "\n "+ id  + "\n "+ day );
+        //window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_updateEvent.php?startTime="+ start +"&endTime=" + end + "&scheduleID="+ id + 
+        //"&scheduleDay=" + day; 
         },
 
         eventResize: function(event) {
