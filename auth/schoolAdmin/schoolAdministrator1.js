@@ -439,7 +439,7 @@ function selectReportType(val){
 
                 var typereport = $("#sel-report-type").val();
                 
-                alert(typereport);
+                // alert(typereport);
 
                 //MONTHLY
                 if(typereport == 1){
