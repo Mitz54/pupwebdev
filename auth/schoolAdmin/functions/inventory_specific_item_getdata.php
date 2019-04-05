@@ -98,6 +98,7 @@ if(isset($_POST['iteminfoid']))
 
             <label for="serialnumberEdit">Serial Number</label>
             <input class="form-control" type="text" name="serialnumberEdit" id="serialnumberEdit" maxlength="20" value="'.$followingdata['serialNumber'].'"  placeholder="bsit345, etc." required>
+            <div class="invalid-feedback" id="serialnumberEdit-feedback"></div>
 
             <label for="acquisitionEdit">Acquisition Date</label>
             <input class="form-control" type="date" name="acquisitionEdit" id="acquisitionEdit" maxlength="30" value="'.$followingdata['acquisitionDate'].'" placeholder="Storage Room, etc." required>

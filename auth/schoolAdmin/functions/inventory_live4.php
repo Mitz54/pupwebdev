@@ -24,7 +24,7 @@ function createtable()
   
   if ($result->num_rows > 0) 
   {
-    echo "<table class='table table-bordered table-hover'>";
+    echo "<table id='table_4' class='table table-bordered table-hover'>";
     echo '<thead class="thead-light">
             <tr>
               <th scope="col" >ID</th>

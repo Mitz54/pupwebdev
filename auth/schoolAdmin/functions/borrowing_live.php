@@ -84,7 +84,7 @@ function checkborrowable($iteminfoid)
       inner join item on iteminfo.itemID_FK = item.itemID
       inner join borrowingdetails on borrowingdetails.borrowingDetailsID = borroweditems.borrowingDetailsID_FK
       inner join borrower on borrowingdetails.borrowerID_FK = borrower.borrowerID 
-      where itemInfoID_FK = ? and verified_items = 1 and verified = 1;";
+      where itemInfoID_FK = ? and verified_items = 1 and verified = 1 group by itemInfoID_FK;";
   $stmt = $pdo->prepare($sql);
   $stmt->execute([$iteminfoid]);
   $row = $stmt->rowCOUNT();
@@ -120,10 +120,12 @@ function createtable()
       // output data of each row
       while($row = $result->fetch_assoc()) 
       {
+        $osDate = new DateTime($row['dueDate']);
+        $sDate = $osDate->format("F j, Y");
         echo "<tr>
           <td>" . $row['borrowingDetailsID'] . "</td>
           <td>" . $row['borrowname'] . "</td>
-          <td>" . $row['dueDate']. "</td>".
+          <td>" .  $sDate . "</td>".
           "<td>" . getquantity($row['borrowingDetailsID_FK']). "</td>";
         echo '<td>
                 <center>';

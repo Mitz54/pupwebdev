@@ -198,7 +198,7 @@ $('#submitButton').click (function()
 
 $('#printButton').click (function(e)
   {
-     e.preventDefault();
+    //  e.preventDefault();
      var offcode = $("#offcode").text();
      var offnum = $("#offnum").text();
      var code = offcode+offnum;
@@ -207,9 +207,11 @@ $('#printButton').click (function(e)
      $.ajax({
       url:'../../escpos/example/interface/windows-usb.php',
       type:'POST',
-      data:{code:code}
-      });
-
+      data:{code:code},
+      success:function(data){
+        // alert(data);
+      }
+     });
     $("#create-roomSchedule").modal('hide');
     $("#myModal").modal('hide');
     
@@ -239,8 +241,8 @@ $('#printButton').click (function(e)
        success:function()
         {
         calendar.fullCalendar('refetchEvents');
-        //alert("Added Successfully");
-        }
+        // alert("Added Successfully");
+       }
       });
 
 
@@ -251,6 +253,7 @@ $('#printButton').click (function(e)
   // alert("name="+name + "&purpose=" + purpose +"remarks:"+remarks+ "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
   //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
   //   "&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay;
+
     location.reload();
 
   });

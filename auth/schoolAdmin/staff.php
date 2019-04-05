@@ -1,6 +1,4 @@
-<?php session_start();
-require "logincheck.php";
-include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
+<?php session_start(); include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
 
 <?php include 'functions/stafffunction.php' ?>
 
@@ -26,35 +24,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
             <div class="tab-content" id="pills-tabContent">
               <div class="tab-pane fade show active" id="staffmodules-list" role="tabpanel" aria-labelledby="staffmodules-list-tab">
                 <div class="search-etc">
-                  <div class="row">
-                    <div class="col">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="search_name" placeholder="Search by name.." aria-label="Search by name.." aria-describedby="button-search">
-                        <div class="input-group-append">
-                          <button class="btn btn-pupcustomcolor" type="button" id="button-search"><i class="fas fa-search "></i></button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <button type="button" class="btn btn-pupcustomcolor" data-toggle="modal"  data-target="#addStaffModal">Add staff</button>
-                    </div>
-                  </div>
+
                 </div>
                 <div id="live_table"></div>
               </div>
 
               <div class="tab-pane fade show" id="deletedstaffmodules-list" role="tabpanel" aria-labelledby="deletedstaffmodules-list-tab">
                 <div class="search-etc">
-                  <div class="row">
-                    <div class="col">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="search_deleted_name" placeholder="Search by name.." aria-label="Search by name.." aria-describedby="button-search">
-                        <div class="input-group-append">
-                          <button class="btn btn-pupcustomcolor" type="button" id="button-search"><i class="fas fa-search "></i></button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <div id="live_table_2"></div>
               </div>
@@ -93,10 +69,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
 
             <label for="staffUsername">Username</label>
             <input class="form-control" type="text" name="staffUsername" id="staffUsername" maxlength='30' placeholder="admin3, etc." required >
+            <div class="invalid-feedback" id="username-feedback"></div>
             <label for="staffPassword">Password</label>
-            <input class="form-control" type="text" name="staffPassword" id="staffPassword_first" maxlength='30' placeholder="********" required>
+            <input class="form-control" type="password" name="staffPassword" id="staffPassword_first" maxlength='30' placeholder="********" required>
             <label for="staffConfirmPassword">Confirm Password</label>
-            <input class="form-control" type="text" name="staffConfirmPassword" id="staffPassword_second" maxlength='30' placeholder="********" required>
+            <input class="form-control" type="password" name="staffConfirmPassword" id="staffPassword_second" maxlength='30' placeholder="********" required>
 
             <label for="staffAccounType">Account Type</label>
             <select class="custom-select" name="accountType" id="accountType">
@@ -200,6 +177,59 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
   </div>
 </div>
 
+<div class="modal fade" id="deleteMultipleStaffGeneral" tabindex="-1" role="dialog" aria-labelledby="actionAddConfirmModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actionAddConfirmModalTitle">Notice</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="deleteItemIDSpecific" id="deleteItemIDSpecific">
+        <h3>Are you sure?</h3><small>This action is irreversible.</small>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-pupcustomcolor" id="delete_confirm_multiple_staff">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteMultipleStaffGeneralDeleted" tabindex="-1" role="dialog" aria-labelledby="actionAddConfirmModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actionAddConfirmModalTitle">Notice</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="deleteItemIDSpecific" id="deleteItemIDSpecific">
+        <h3>Are you sure?</h3><small>This action is irreversible.</small>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-pupcustomcolor" id="delete_confirm_multiple_staff_deleted">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.toolbar1 {
+    float:left;
+}
+.toolbar2 {
+    float:left;
+}
+</style>
+
 <script>  
 $(document).ready(function()
 {  
@@ -261,6 +291,16 @@ $(document).ready(function()
             success:function(data)
             {  
               $('#live_table').html(data);    
+              var table = $('#table_1').DataTable({
+               pageLength: 5,
+               "bLengthChange": false,
+               dom: 'l<"toolbar1">frtip',
+               initComplete: function(){
+                $("div.toolbar1").html(' <button type="button" class="btn btn-pupcustomcolor" data-toggle="modal"  data-target="#addStaffModal">Add staff</button> <input type="submit" class="btn btn-pupcustomcolor delete_multiple_staff_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor confirm_delete_multiple_staff_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_multiple_staff_button d-none" value="Cancel">');           
+              }       
+              });    
+              var column = table.column(0);
+              column.visible(!column.visible());
             }  
        });  
   }
@@ -273,6 +313,16 @@ $(document).ready(function()
             success:function(data)
             {  
               $('#live_table_2').html(data);    
+              var table = $('#table_2').DataTable({
+               pageLength: 5,
+               "bLengthChange": false,
+               dom: 'l<"toolbar2">frtip',
+               initComplete: function(){
+                $("div.toolbar2").html(' <input type="submit" class="btn btn-pupcustomcolor delete_multiple_staff_deleted_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor confirm_delete_multiple_staff_deleted_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_multiple_staff_deleted_button d-none" value="Cancel">');           
+              }       
+              });    
+              var column = table.column(0);
+              column.visible(!column.visible());
             }  
        });  
   }
@@ -310,7 +360,8 @@ $(document).ready(function()
       success:function(data)
       {
         alert('Staff Deleted');
-        $('#actionPermanentDeleteModal').modal('hide');
+        $('#actionPermanentDeleteModal').trigger('click');
+
         fetch_data2();
       }
     });
@@ -334,7 +385,7 @@ $(document).ready(function()
       success:function(data)
       {
         alert('Staff Deleted');
-        $('#actionDeleteModal').modal('hide');
+        $('#actionDeleteModal').trigger('click');;
         fetch_data();
       }
     });
@@ -365,7 +416,7 @@ $(document).ready(function()
 
   $(document).on('click','#add_confirm',function(e)
   {
-    e.preventDefault();
+  	e.preventDefault();
     checklast();
     checkfirst();
     checkmiddle();
@@ -374,37 +425,165 @@ $(document).ready(function()
     checkpassword2();
     if(checklast() != false && checkfirst() != false && checkmiddle() != false && checkusername() != false && checkpassword1() != false && checkpassword2() != false)
     {
-      checkpassword();
-      if(checkpassword() != false)
-      {
-        var myform = document.getElementById("add_form");
-      var fd = new FormData(myform);
-      $.ajax({  
-           url:"functions/staff_createstaff.php",  
-           type:"POST",
-           data:fd,
-           cache: false,
-           processData: false,
-           contentType: false,
-           beforeSend:function()
-           {
-            
-           },
-           success:function(data)
-           {  
-            fetch_data();
-            alert("Staff Created!!");
-            $('#add_form')[0].reset();  
-            $('#addStaffModal').modal('hide');  
-           }  
-      });
-      }
-      else
-      {
-        alert("Password do not match");
-      }
+    	checkpassword();
+    	if(checkpassword() != false)
+    	{
+    		var myform = document.getElementById("add_form");
+			var fd = new FormData(myform);
+			$.ajax({  
+			     url:"functions/staff_createstaff.php",  
+			     type:"POST",
+			     data:fd,
+			     cache: false,
+			     processData: false,
+			     contentType: false,
+			     beforeSend:function()
+			     {
+			      
+			     },
+			     success:function(data)
+			     {  
+			      fetch_data();
+			      alert("Staff Created!!");
+			      $('#add_form')[0].reset();  
+			      $('#addStaffModal').trigger('click');
+			     }  
+			});
+    	}
+    	else
+    	{
+    		alert("Password do not match");
+    	}
     }
     
+  });
+
+  $(document).on('click','.delete_multiple_staff_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_multiple_staff_button').removeClass(' d-none');
+    $('.cancel_delete_multiple_staff_button').removeClass(' d-none');
+    $('.delete_multiple_staff_button').addClass(' d-none');
+
+    var userTable = $('#table_1').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
+
+  });
+
+  $(document).on('click','.cancel_delete_multiple_staff_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_multiple_staff_button').addClass(' d-none');
+    $('.cancel_delete_multiple_staff_button').addClass(' d-none');
+    $('.delete_multiple_staff_button').removeClass(' d-none');
+
+    var userTable = $('#table_1').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
+  });
+
+  $(document).on('click','.confirm_delete_multiple_staff_button',function(e)
+   {
+    e.preventDefault();
+
+    if ($('input[id=prof_checkbox]').is(":checked")) 
+    {
+      $('#deleteMultipleStaffGeneral').modal('show');
+
+      $("#delete_confirm_multiple_staff").click(function()
+      {
+        $('input[id=prof_checkbox]').each(function () {
+        {
+          if(this.checked)
+          {
+            var profid = $(this).val();
+            $.ajax({  
+                url:'functions/staff_delete.php',
+                data:{profid:profid},
+                method:'post',
+                success:function(data)
+                {  
+                  $('#deleteMultipleStaffGeneral').trigger('click');
+                  fetch_data();
+                  fetch_data2();
+                }  
+            }); 
+          }
+        }
+        });
+      });
+    }
+    else 
+    {
+      alert('Please select a Staff to delete');
+    }
+  });
+
+
+  $(document).on('click','.delete_multiple_staff_deleted_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_multiple_staff_deleted_button').removeClass(' d-none');
+    $('.cancel_delete_multiple_staff_deleted_button').removeClass(' d-none');
+    $('.delete_multiple_staff_deleted_button').addClass(' d-none');
+
+    var userTable = $('#table_2').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
+  });
+
+  $(document).on('click','.cancel_delete_multiple_staff_deleted_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_multiple_staff_deleted_button').addClass(' d-none');
+    $('.cancel_delete_multiple_staff_deleted_button').addClass(' d-none');
+    $('.delete_multiple_staff_deleted_button').removeClass(' d-none');
+
+    var userTable = $('#table_2').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
+  });
+
+  $(document).on('click','.confirm_delete_multiple_staff_deleted_button',function(e)
+   {
+    e.preventDefault();
+
+    if ($('input[id=prof_checkbox_deleted]').is(":checked")) 
+    {
+      $('#deleteMultipleStaffGeneralDeleted').modal('show');
+
+      $("#delete_confirm_multiple_staff_deleted").click(function()
+      {
+        $('input[id=prof_checkbox_deleted]').each(function () {
+        {
+          if(this.checked)
+          {
+            var profid = $(this).val();
+            $.ajax({  
+                url:'functions/staff_permanent.php',
+                data:{profid:profid},
+                method:'post',
+                success:function(data)
+                {  
+                  $('#deleteMultipleStaffGeneralDeleted').trigger('click');
+                  fetch_data();
+                  fetch_data2();
+                }  
+            }); 
+          }
+        }
+        });
+      });
+    }
+    else 
+    {
+      alert('Please select a Staff to permanently delete');
+    }
   });
 
   function checklast()
@@ -461,6 +640,7 @@ $(document).ready(function()
     var last = $('#staffUsername').val();
     if(last.trim().length == 0)
     {
+      $('#username-feedback').html(''); 
       $('#staffUsername').removeClass(" is-valid");
       $('#staffUsername').addClass(" is-invalid");
       return false;
@@ -484,16 +664,16 @@ $(document).ready(function()
              }); 
            return tmp;
       }();
-      alert(return_first);
+      //alert(return_first);
 
       if(return_first == 1)
       {
-        alert(return_first);
-
-        $("#staffUsername").popover({title: 'Twitter Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});  
+        $('#username-feedback').html('Username already Exists'); 
+        $('#staffUsername').addClass(" is-invalid");
       }
       else
       {
+        $('#username-feedback').html(''); 
         $('#staffUsername').removeClass(" is-invalid");
       }
 
@@ -535,7 +715,7 @@ $(document).ready(function()
 
   function checkpassword()
   {
-    var last_length = $('#staffPassword_first').val().length;
+  	var last_length = $('#staffPassword_first').val().length;
     var last_length2 = $('#staffPassword_second').val().length;
     if(last_length != last_length2)
     {
@@ -547,8 +727,8 @@ $(document).ready(function()
     }
     else
     {
-    $('#staffPassword_second').removeClass(" is-invalid");
-      $('#staffPassword_first').removeClass(" is-invalid");
+		$('#staffPassword_second').removeClass(" is-invalid");
+    	$('#staffPassword_first').removeClass(" is-invalid");
     }
   }
 

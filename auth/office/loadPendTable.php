@@ -9,11 +9,12 @@
 		while ($row = mysqli_fetch_assoc($result)) {
 			$array[] = $row;
 			$qtID = $row['queueNumber'];
+			$date = $row['queueingTransactionDate'];
 			echo '<tr>
 							<td>'. $row['queueNumber'].'</td>
 							<td>'.$row['queueingTransactionDate'].'</td>
 							<td>'.$row['Remarks'].'</td>'.
-							'<td><a href="deletePending.php?qtID='.$qtID.'" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td>
+							'<td><a href="deletePending.php?qtID='.$qtID.'&date='.$date.'" class="delete" title="Delete" data-toggle="tooltip"><i class="fas fa-check fa-lg"></i></a></td>
 						</tr>';
 		}
 	

@@ -65,14 +65,12 @@ try
        
 
         // check account type
-        
-
-        if($accountID == 2){
+        if($_SESSION["office"] == "Administrative Services and Property"){
           header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
           $con=null;
 
         }
-        else if($accountID == 3)
+        else if($_SESSION["office"] == "Academic Services Office")
         {
             header("Location: /pupwebdev/auth/acadservice/acadService_Scheduler.php");
             $con=null;
@@ -82,18 +80,19 @@ try
             header("Location: /pupwebdev/auth/office/queuePerOffice.php");
             $con=null;
         }
-        else{ //if not faculty but maybe an admin
+        else //if not faculty but maybe an admin
+        {
           $query2 = $con->prepare("CALL getAccountID('$username', '$pass')");
           $query2->execute();
-          $query2->bind_result($accountID);
+          $query2->bind_result($accountID, $accountType);
           $query2->fetch();
           $query2->close();
           // set SESSION
           $_SESSION["username"] = $username;
           $_SESSION['accntID'] = $accountID;
-
+          $_SESSION["accountType"] = $accountType;
           
-          if($accountID == 1)  
+          if($_SESSION["accountType"] == "admin")  
           {
             $query2 = $con->prepare("CALL getProfName('$username')");
             $query2->execute();
@@ -111,7 +110,9 @@ try
             $message = 'Wrong username or password, please try again';
           echo "<script> alert('".$message."'); </script>"; 
             unset($_SESSION['username']);
-            session_destroy();
+            unset($_SESSION['office']);
+            unset($_SESSION['accntID']);
+            unset($_SESSION['accountType']);
           }  
         }
       
@@ -149,12 +150,12 @@ catch(Exception $error)
 
 function redirect()
 {
-  if($_SESSION['accntID'] == 2){
+  if($_SESSION["office"] == "Administrative Services and Property"){
     header ("Location: /pupwebdev/auth/schoolAdmin/index.php");
     $con=null;
 
   }
-  else if($_SESSION['accntID'] == 3)
+  else if($_SESSION["office"] == "Academic Services Office")
   {
       header("Location: /pupwebdev/auth/acadservice/acadService_Scheduler.php");
       $con=null;
@@ -164,7 +165,7 @@ function redirect()
       header("Location: /pupwebdev/auth/office/queuePerOffice.php");
       $con=null;
   }
-  else if($_SESSION['accntID'] == 1)  
+  else if($_SESSION["accountType"] == "admin")
   {
     header("Location: /pupwebdev/auth/admin/account.php");
     $con=null;
@@ -175,7 +176,9 @@ function redirect()
     $message = 'Wrong username or password, please try again';
   echo "<script> alert('".$message."'); </script>"; 
     unset($_SESSION['username']);
-    session_destroy();
+    unset($_SESSION['office']);
+    unset($_SESSION['accntID']);
+    unset($_SESSION['accountType']);
   }
 }
 ?>
@@ -230,14 +233,14 @@ function redirect()
                           <form class="sign-in" method="POST">
                             <div class="loginbox-input">
                               <section>
-                                <input class="textbox-selected" type="text" name="profileUsername" placeholder="Username" autocomplete="off"required autofocus/>
+                                <input class="textbox-selected" type="text" id="username" name="profileUsername" placeholder="Username" autocomplete="off"required autofocus/>
                               </section>
                               <section>
-                                <input class="textbox-selected" type="password" name="profilePassword" placeholder="***********" autocomplete="off" required/>
+                                <input class="textbox-selected" type="password" id="password" name="profilePassword" placeholder="***********" autocomplete="off" required/>
                               </section>
                               <section>
                                 <span class="loginbox-options">
-                                  <button class="btn btn-sm btn-pupcustomcolor" name="submit" type="submit">Login</button>
+                                  <button class="btn btn-sm btn-pupcustomcolor" name="submit" type="submit" onclick="return checkCredentials()">Login</button>
                                 </span>
                               </section>
                             </div>
@@ -250,5 +253,39 @@ function redirect()
                 </div>
               </div>
             </div>
+            <script>
+            function checkCredentials() {
+              var un, pw;
+
+              // Get the value of the input field with id="numb"
+              un = document.getElementById("username").value;
+              pw = document.getElementById("password").value;
+              if(un.indexOf("^") > -1)
+              {
+                alert('Wrong username or password, please try again');
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";
+                return false;
+              }
+              if(un.indexOf("'") > -1)
+              {
+                alert('Wrong username or password, please try again');
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";
+                return false;
+              }
+              if(un.indexOf("\\") > -1)
+              {
+                alert('Wrong username or password, please try again');
+                document.getElementById("username").value="";
+                document.getElementById("password").value="";
+                return false;
+              }
+              else
+              {
+                return true;
+              }
+            }
+            </script>
 
             <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/footer.php' ?>

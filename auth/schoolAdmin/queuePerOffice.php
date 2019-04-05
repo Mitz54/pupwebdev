@@ -111,7 +111,7 @@ h5{
                           <td>'.$row['queueNumber'].'</td>
                           <td>'.$row['queueingTransactionDate'].'</td>
                           <td>'.$row['Remarks'].'</td>'.
-                          '<td><a href="deletePending.php?qtID='.$qtID.'" class="delete" title="Done" data-toggle="tooltip"><i class="material-icons"></i></a></td>
+                          '<td><a href="deletePending.php?qtID='.$qtID.'" class="delete" title="Done" data-toggle="tooltip"><i class="fas fa-check fa-lg"></i></a></td>
                         </tr>';
                   }
               ?>
@@ -126,7 +126,7 @@ h5{
       <br>
       <form class="row" action = "PendNumber.php" method = "post">
         <input class="btn btn-info pend" type="submit" id="pendBut" name ="pendbt" value = "Pend"/>
-        <input class="txt-selected" type="text" name="pendRemark" id="pendRemark" placeholder="Pend" autocomplete="off"required/>
+        <input class="txt-selected" type="text" name="pendRemark" id="pendRemark" placeholder="Remark/s" autocomplete="off"required/>
       </form>
     </div>
     

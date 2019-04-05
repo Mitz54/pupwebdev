@@ -1,6 +1,4 @@
-<?php session_start(); 
-require "logincheck.php";
-include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
+<?php session_start(); include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
 <?php include 'functions/inventory_functions.php' ?>
 
 <div class="container-fluid">
@@ -31,22 +29,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
             <div class="tab-content" id="pills-tabContent">
               <div class="tab-pane fade show active" id="inventorymodules-stock" role="tabpanel" aria-labelledby="inventorymodules-stock-tab">
                 <div class="search-etc">
-                  <div class="row">
-                    <div class="col">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="search_general" placeholder="Search by name.." aria-label="Search by name.." aria-describedby="button-search">
-                        <div class="input-group-append">
-                          <button class="btn btn-pupcustomcolor" type="button" id="button-search"><i class="fas fa-search "></i></button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <button type="button" class="btn btn-pupcustomcolor" data-toggle="modal"  data-target="#addItemModal">Add Item</button>
-                      <form method="POST" enctype="multipart/form-data" id="docuform_2" action="documents/admin_generalitem.php" target="_blank">
-                        <input type="submit" class="btn btn-pupcustomcolor" name="print_pending" value ="Print list" style="margin-left: 20%; margin-top: -12%;">
-                      </form>
-                    </div>
-                  </div>
                 </div>
                   <!-- For Live Table Data -->
                   <div id="live_table"></div> 
@@ -55,22 +37,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
               </div>
               <div class="tab-pane fade" id="inventorymodules-allitem" role="tabpanel" aria-labelledby="inventorymodules-allitem-tab">
                 <div class="search-etc">
-                  <div class="row">
-                    <div class="col">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="search_specific" placeholder="Search by name.." aria-label="Search by name.." aria-describedby="button-search">
-                        <div class="input-group-append">
-                          <button class="btn btn-pupcustomcolor" type="button" id="button-search"><i class="fas fa-search "></i></button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <button type="button" class="btn btn-pupcustomcolor add_item_specfic_button" data-toggle="modal"  data-target="#addItemSpecificModal">Add Item</button>
-                      <form method="POST" enctype="multipart/form-data" id="docuform" action="documents/admin_allitem.php" target="_blank">
-                        <input type="submit" class="btn btn-pupcustomcolor" name="print_specific" value ="Print list" style="margin-left: 20%; margin-top: -12%;">
-                      </form>
-                    </div>
-                  </div>
                 </div>
                   <!-- For Live Table Data -->
                   <div id="live_table2"></div> 
@@ -164,7 +130,29 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
   </div>
 </div>
 
-<div class="modal fade" id="editItemGeneral" tabindex="-1" role="dialog" aria-labelledby="addStaffModalTitle" aria-hidden="true">
+<!-- <div class="modal fade" id="addItemSpecificModal"00000000>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addStaffModalTitle">Add Specific Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" id="edit_general_form" enctype="multipart/form-data">
+          <div id="edit_item_general"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-pupcustomcolor" id="save_confirm_general">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ --><div class="modal fade" id="editItemGeneral" tabindex="-1" role="dialog" aria-labelledby="addStaffModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -252,6 +240,58 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php'; ?>
   </div>
 </div>
 
+<div class="modal fade" id="deleteMultipleItemSpecific" tabindex="-1" role="dialog" aria-labelledby="actionAddConfirmModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actionAddConfirmModalTitle">Notice</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="deleteItemIDSpecific" id="deleteItemIDSpecific">
+        <h3>Are you sure?</h3><small>This action is irreversible.</small>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-pupcustomcolor" id="delete_confirm_multiple_specific">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteMultipleItemGeneral" tabindex="-1" role="dialog" aria-labelledby="actionAddConfirmModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actionAddConfirmModalTitle">Notice</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="deleteItemIDSpecific" id="deleteItemIDSpecific">
+        <h3>Are you sure?</h3><small>This action is irreversible.</small>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-pupcustomcolor" id="delete_confirm_multiple_general">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.toolbar1 {
+    float:left;
+}
+.toolbar2 {
+    float:left;
+}
+</style>
+
 <script>  
 $(document).ready(function()
 {  
@@ -313,7 +353,20 @@ $(document).ready(function()
             method:"post",   
             success:function(data)
             {  
-              $('#live_table').html(data);    
+              $('#live_table').html(data);
+              var table = $('#table_1').DataTable({
+               pageLength: 5,
+               "bLengthChange": false,
+               dom: 'l<"toolbar1">frtip',
+               initComplete: function(){
+                $("div.toolbar1").html(' <button type="button" class="btn btn-pupcustomcolor ml-2" data-toggle="modal"  data-target="#addItemModal">Add Item</button> <input type="submit" class="btn btn-pupcustomcolor delete_item_general_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor" name="print_pending" id="print_pending" value ="Print list" > <input type="submit" class="btn btn-pupcustomcolor confirm_delete_item_general_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_item_general_button d-none" value="Cancel">');           
+              }       
+              });    
+              var column = table.column(0);
+              column.visible(!column.visible());
+              //$('table#table_1 td:nth-child(1),th:nth-child(1)').hide();
+
+
             }  
        });  
   }
@@ -325,7 +378,20 @@ $(document).ready(function()
             method:"post",   
             success:function(data)
             {  
-              $('#live_table2').html(data);    
+              $('#live_table2').html(data);  
+              var table = $('#table_2').DataTable({
+               pageLength: 5,
+               "bLengthChange": false,
+
+               dom: 'r<"toolbar2">frtip',
+               initComplete: function(){
+                $("div.toolbar2").html(' <input type="submit" class="btn btn-pupcustomcolor ml-2 add_item_specfic_button" data-toggle="modal"  data-target="#addItemSpecificModal" value="Add Item"> <input type="submit" class="btn btn-pupcustomcolor delete_item_specfic_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor" name="print_specific" id="print_specific" value ="Print list"> <input type="submit" class="btn btn-pupcustomcolor confirm_delete_item_specfic_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_item_specfic_button d-none" value="Cancel">');           
+              }       
+              });   
+              var column = table.column(0);
+              column.visible(!column.visible());
+              // $('table#table_2 td:nth-child(1),th:nth-child(1)').hide();
+              
             }  
        });  
   }
@@ -371,6 +437,8 @@ $(document).ready(function()
   fetch_data3();
   fetch_data4();
 
+   //document.getElementById("itemNumber").style.display="none";
+   //$('#itemNumber').style.display = "none";
   //in-stock items commands ------------------------------------------------------>
   $(document).on('click','#add_confirm_general',function(e)
   {
@@ -395,12 +463,12 @@ $(document).ready(function()
           $('#add_form')[0].reset();  
           $('#itemname').removeClass(" is-invalid");
           $('#description').removeClass(" is-invalid");
-          alert("Item Added!");
-          $('#addItemModal').modal('hide');  
+          alert("Item Added!"); 
+          $('#addItemModal').trigger('click');
           fetch_data();
           fetch_data2();
           fetch_data3();
-           fetch_data4();
+          fetch_data4();
          }  
       });
       }
@@ -443,7 +511,7 @@ $(document).ready(function()
           $('#editgeneralitemname').removeClass(" is-invalid");
           $('#editgeneraldescription').removeClass(" is-invalid");
           alert("Item Details Updated!");
-          $('#editItemGeneral').modal('hide');  
+          $('#editItemGeneral').trigger('click');
           fetch_data();
           fetch_data2();
           fetch_data3();
@@ -474,7 +542,7 @@ $(document).ready(function()
         success:function(data)
         {  
           alert("Item Deleted!");
-          $('#deleteItemGeneral').modal("hide");  
+          $('#deleteItemGeneral').trigger('click');
           fetch_data();
           fetch_data2();
           fetch_data3();
@@ -491,6 +559,7 @@ $(document).ready(function()
     checkitem();
     checkcondition();
     checkunitprice();
+    //alert($('#itemNumber').val());
     if(checkitem() != false && checkcondition() != false && checkunitprice() != false)
     {
       if(confirm("Are you sure you want to add item?"))
@@ -506,15 +575,16 @@ $(document).ready(function()
          contentType: false,  
          success:function(data)
          {  
+          // alert(data);
           $('#add_form_specific')[0].reset();  
           $('#selectItemId').removeClass(" is-invalid");
           $('#condition').removeClass(" is-invalid");
           alert("Item Added!");
-          $('#addItemSpecificModal').modal('hide');  
+          $('#addItemSpecificModal').trigger('click');
           fetch_data();
           fetch_data2();
           fetch_data3();
-           fetch_data4();
+          fetch_data4();
          }  
       });
       }
@@ -538,8 +608,12 @@ $(document).ready(function()
   $(document).on('click','#save_confirm_specific',function(e)
   {
     e.preventDefault();
+    alert();
     checkconditionEdit();
-    if(checkconditionEdit() != false && checkacquisitionedit() != false)
+    checkacquisitionedit();
+    checkserialnumberedit();
+
+    if(checkconditionEdit() != false && checkacquisitionedit() != false && checkserialnumberedit() != false)
     {
       if(confirm("Are you sure you want to save changes?"))
       {
@@ -554,19 +628,17 @@ $(document).ready(function()
          contentType: false,  
          success:function(data)
          {   
-          // alert(data);
-          // $('#editgeneralitemname').removeClass(" is-invalid");
-          // $('#editgeneraldescription').removeClass(" is-invalid");
-          alert("Item Details Updated!");
-          $('#editItemSpecific').modal('hide');  
-          fetch_data();
-          fetch_data2();
-          fetch_data3();
-           fetch_data4();
+            alert("Item Details Updated!");
+            $('#editItemSpecific').trigger('click');
+            fetch_data();
+            fetch_data2();
+            fetch_data3();
+            fetch_data4();
          }  
       });
       }
     }
+  
   });
 
   $(document).on('click', '.delete_data_specific', function(){
@@ -589,13 +661,173 @@ $(document).ready(function()
         success:function(data)
         {  
           alert("Item Deleted!");
-          $('#deleteItemSpecific').modal("hide");  
+          $('#deleteItemSpecific').trigger('click');
           fetch_data();
           fetch_data2();
           fetch_data3();
            fetch_data4();
         }  
     });  
+  });
+
+  $(document).on('change','#radioitem',function(e)
+  {
+    if($('input[id="radioitem"]:checked').val() == "multipleItem")
+    {
+      $('#itemNumber').removeClass(' d-none');
+      $('#numberItemLabel').removeClass(' d-none');
+    }
+    else
+    {
+      $('#itemNumber').val('');
+      $('#itemNumber').addClass(' d-none');
+      $('#numberItemLabel').addClass(' d-none');
+    }
+  });
+
+
+
+  $(document).on('click','#print_pending',function(e)
+  {
+    e.preventDefault();
+    window.open('documents/admin_generalitem.php', '_blank');
+  });
+
+  $(document).on('click','#print_specific',function(e)
+  {
+    e.preventDefault();
+    window.open('documents/admin_allitem.php', '_blank');
+  });
+
+  $(document).on('click','.delete_item_specfic_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_item_specfic_button').removeClass(' d-none');
+    $('.cancel_delete_item_specfic_button').removeClass(' d-none');
+    $('.delete_item_specfic_button').addClass(' d-none');
+
+    var userTable = $('#table_2').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
+
+  });
+
+  $(document).on('click','.cancel_delete_item_specfic_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_item_specfic_button').addClass(' d-none');
+    $('.cancel_delete_item_specfic_button').addClass(' d-none');
+    $('.delete_item_specfic_button').removeClass(' d-none');
+
+    var userTable = $('#table_2').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
+  });
+
+  $(document).on('click','.confirm_delete_item_specfic_button',function(e)
+   {
+    e.preventDefault();
+
+    if ($('input[id=item_specific_checkbox]').is(":checked")) 
+    {
+      $('#deleteMultipleItemSpecific').modal('show');
+
+      $("#delete_confirm_multiple_specific").click(function()
+      {
+        $('input[id=item_specific_checkbox]').each(function () {
+        var sThisVal = (this.checked ? "1" : "0");
+        if(this.checked)
+        {
+          var iteminfoid = $(this).val();
+          $.ajax({  
+            url:'functions/inventory_specific_item_delete.php',
+            data:{iteminfoid:iteminfoid},
+            method:'post',
+            success:function(data)
+            {  
+              $('#deleteMultipleItemSpecific').trigger('click');
+              fetch_data();
+              fetch_data2();
+              fetch_data3();
+              fetch_data4();
+            }  
+          });  
+        }
+        });
+      });
+    }
+    else 
+    {
+      alert('Please select a Specific Item to delete');
+    }
+  
+  });
+
+  $(document).on('click','.confirm_delete_item_general_button',function(e)
+   {
+    e.preventDefault();
+
+    if ($('input[id=item_general_checkbox]').is(":checked")) 
+    {
+      $('#deleteMultipleItemGeneral').modal('show');
+
+      $("#delete_confirm_multiple_general").click(function()
+      {
+        $('input[id=item_general_checkbox]').each(function () {
+        var sThisVal = (this.checked ? "1" : "0");
+        if(this.checked)
+        {
+          var itemid = $(this).val();
+          $.ajax({  
+              url:'functions/inventory_general_item_delete.php',
+              data:{itemid:itemid},
+              method:'post',
+              success:function(data)
+              {  
+                $('#deleteMultipleItemGeneral').trigger('click');
+                fetch_data();
+                fetch_data2();
+                fetch_data3();
+                fetch_data4();
+              }  
+          }); 
+        }
+        });
+      });
+    }
+    else 
+    {
+      alert('Please select a General Item to delete');
+    }
+  
+  });
+
+  $(document).on('click','.delete_item_general_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_item_general_button').removeClass(' d-none');
+    $('.cancel_delete_item_general_button').removeClass(' d-none');
+    $('.delete_item_general_button').addClass(' d-none');
+
+    var userTable = $('#table_1').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
+  });
+
+  $(document).on('click','.cancel_delete_item_general_button',function(e)
+  {
+    e.preventDefault();
+
+    $('.confirm_delete_item_general_button').addClass(' d-none');
+    $('.cancel_delete_item_general_button').addClass(' d-none');
+    $('.delete_item_general_button').removeClass(' d-none');
+
+    var userTable = $('#table_1').DataTable();
+    var column = userTable.column(0);
+    column.visible(!column.visible());
   });
 
   $(document).on('click','.add_item_specfic_button',function(e)
@@ -662,16 +894,78 @@ $(document).ready(function()
 
   function checkserialnumber()
   {
-    if($('#serialnumber').val().trim().length == 0)
-    { 
-      $('#serialnumber').removeClass(" is-valid");
-      $('#serialnumber').addClass(" is-invalid");
+    //$('#serialnumber').addClass(" is-invalid");
+    if($('#serialnumber').val()  != "" && $('#serialnumber').val() != null)
+    {
+      var return_first = function () {
+         var tmp = null;
+         var serialnumber = $('#serialnumber').val();  
+             $.ajax({
+                async:false,  
+                  url:"functions/check_serial_number.php",  
+                  method:"POST",  
+                  data:{serialnumber:serialnumber},  
+                  dataType:"text",  
+                  success:function(data)
+                  {  
+                    alert(data);
+                     tmp = data;
+                  }  
+             }); 
+           return tmp;
+      }();
+
+      if(return_first == 1)
+      {
+        $('#serialnumber').addClass(" is-invalid");
+        $('#serialnumber-feedback').html('Serial Number already Exists'); 
+        return false;
+      }
+      else
+      {
+        $('#serialnumber-feedback').html(''); 
+        $('#serialnumber').removeClass(" is-invalid");
+      }
+    }
+    //$('#serialnumber').removeClass(" is-invalid");    
+  }
+
+  function checkserialnumberedit()
+  {
+    //alert($('#iteminfoidspecific').val());
+    //$('#serialnumber').addClass(" is-invalid");
+    var return_first = function () {
+       var tmp = null;
+       var serialnumber = $('#serialnumberEdit').val();
+       var itemid = $('#iteminfoidspecific').val();   
+           $.ajax({
+              async:false,  
+                url:"functions/check_serial_number.php",  
+                method:"POST",  
+                data:{serialnumber:serialnumber,itemid:itemid},  
+                dataType:"text",  
+                success:function(data)
+                {  
+                  //alert(data);
+                   tmp = data;
+                }  
+           }); 
+         return tmp;
+    }();
+
+    if(return_first == 1)
+    {
+      $('#serialnumberEdit').addClass(" is-invalid");
+      $('#serialnumberEdit-feedback').html('Serial Number already Exists'); 
       return false;
     }
     else
     {
-      $('#serialnumber').removeClass(" is-invalid");
+      $('#serialnumberEdit-feedback').html(''); 
+      $('#serialnumberEdit').removeClass(" is-invalid");
     }
+    //$('#serialnumber').removeClass(" is-invalid");
+    
   }
 
   function checkwhereabouts()
@@ -764,9 +1058,11 @@ $(document).ready(function()
       $('#acquisitionEdit').removeClass(" is-invalid");
     }
   }
-    
-});
+
+
  
   
+    
+});
 
 </script>

@@ -105,7 +105,7 @@
                           <td>'.$row['queueNumber'].'</td>
                           <td>'.$row['queueingTransactionDate'].'</td>
                           <td>'.$row['Remarks'].'</td>'.
-                          '<td><a href="deletePending.php?qtID='.$qtID.'" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td>
+                          '<td><a href="deletePending.php?qtID='.$qtID.'" class="delete" title="Delete" data-toggle="tooltip"><i class="fas fa-check"></i></a></td>
                         </tr>';
                   }
               ?>

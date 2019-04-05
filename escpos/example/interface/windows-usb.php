@@ -2,6 +2,7 @@
 /* Change to the correct path if you copy this example! */
 require __DIR__ . '/../../autoload.php';
 use Mike42\Escpos\Printer;
+use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
 /**
@@ -24,9 +25,24 @@ try {
 
     /* Print a "Hello world" receipt" */
     $printer = new Printer($connector);
+    $printer -> setLineSpacing(1);
+    $tux = EscposImage::load("../resources/puplogo.png", false);
+    $printer -> setJustification(Printer::JUSTIFY_CENTER);
+    $printer -> bitImageColumnFormat($tux);
+    // $printer -> feed();
+
+    $printer -> setTextSize(1, 1);
+    $printer -> setJustification(Printer::JUSTIFY_CENTER);
+    $printer -> text("Polytechnic University\n");
+    $printer -> text("of the Philippines\n");
+
+    // $printer -> inlineImage($tux);
+    // $printer -> text("Polytechnic University of the Philippines");
+    // $printer -> text("-test test\n");
+
     $printer -> setTextSize(3, 3);
     $printer -> setJustification(Printer::JUSTIFY_CENTER);
-    $printer -> text("ZZZZ-0001\n");
+    $printer -> text($_POST['code']."\n");
     $printer -> cut();
     
     /* Close printer */

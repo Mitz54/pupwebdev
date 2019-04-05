@@ -5,7 +5,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/dbc/dbc.php';
 function deleteitem($itemid)
 {
   $conn = conn();
-  $sql = "DELETE from item where itemID = '$itemid'";
+  $sql = "UPDATE item set status = 0 where itemID = '$itemid'";
 
   mysqli_query($conn,$sql);
 

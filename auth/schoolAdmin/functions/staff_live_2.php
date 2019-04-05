@@ -21,9 +21,10 @@ function getaccount()
 	if($stmt->rowCOUNT() > 0)
 	{
 	  $i = 0;
-	  echo '<table class="table table-bordered table-hover">
+	  echo '<table id="table_2" class="table table-bordered table-hover" width="100%">
               <thead class="thead-light">
                 <tr>
+                  <th scope="col" >✔</th>
                   <th scope="col">ID</th>
                   <th scope="col">Staff Name</th>
                   <th scope="col">Position</th>
@@ -47,6 +48,7 @@ function getaccount()
 					
 				}
 				echo "<tr>";
+					echo "<td><input type='checkbox' name='prof_checkbox_deleted' id='prof_checkbox_deleted' value='". $row['professorID'] ."'></td>";
 					echo "<th scope='row'>".$i."</th>";
 					echo "<td>".$row['firstName'].' '.$row['lastName']."</td>";
 					echo "<td>".$pos."</td>";

@@ -11,7 +11,7 @@
 {
   $host = "localhost";
   $user= "root";
-  $password= "649959948";
+  $password= "";
   $dbname = "pup";
 
   //SET DSN data source name

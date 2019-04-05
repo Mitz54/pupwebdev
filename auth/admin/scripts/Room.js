@@ -56,7 +56,7 @@ $(document).ready(function(){
 					success: function(data){
 						data = data.trim();
 						if(data == 'success' || data == 'updated'){
-							alert("Successfully Updated");
+							alert($roomType);
 							changeRow($thisobj, true);
 						}else if(data == 'exist'){
 							alert("Room already exists");
@@ -83,6 +83,7 @@ $(document).ready(function(){
 						if(data == 'success' || data == 'updated'){
 							alert("Successfully Inserted");
 							changeRow($thisobj, true);
+							console.log('sucess.');
 						}else if(data == 'exist'){
 							alert("Room already exists");
 
