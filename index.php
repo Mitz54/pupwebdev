@@ -174,7 +174,9 @@ function redirect()
     $message = 'Wrong username or password, please try again';
   echo "<script> alert('".$message."'); </script>"; 
     unset($_SESSION['username']);
-    session_destroy();
+    unset($_SESSION['accntID']);
+    unset($_SESSION['accountType']);
+    // session_destroy();
   }
 }
 ?>
