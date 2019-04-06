@@ -52,7 +52,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           var sched = tabledata[8];
                           var reserveID = tabledata[9];
                           var remarks = tabledata[10];
-
+                          var prof = tabledata[12];
                           // alert(remarks);
                           var con = confirm("Proceed for printing?");
                              
@@ -89,7 +89,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                 })
 
                           
-                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect+ "&remarks="+remarks;
+                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect+ "&remarks="+remarks+ "&prof="+prof;
                             }
                           });
                       });
@@ -100,12 +100,14 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   //letter table
 
                   $sel = "SELECT remarks,reservationID, reservationUser,description, reservationDate,
-                    roomID_FK,
+                    roomID_FK, CONCAT(PR.firstName,' ',PR.middleName,'. ',PR.lastName) as prof,
+                    CONCAT(PR.firstName,' ',LEFT(PR.lastName,1),'.') as profInitial,queueCode,
                     TIME_FORMAT(startTime,'%h:%i %p') as startTime,
                     TIME_FORMAT(endTime,'%h:%i %p') as endTime, scheduleDay,sectionID_FK
                     FROM schedule S
                     INNER JOIN reservation R ON R.scheduleID_FK = S.scheduleID
                     INNER JOIN purpose P on P.purposeID=R.purposeID_FK
+                    LEFT JOIN professor as PR on PR.professorID = R.professorID_FK
                     WHERE 
                      reservationStatus = 'pending' AND reservationDate >=(SELECT DATE_ADD(now(), INTERVAL -1 DAY))
                     ORDER BY 
@@ -123,7 +125,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
 
                   echo "<thead class='thead-light'>
                         <tr>
-                      <th scope='col'>Pending Number</th>
+                      <th scope='col'>Queue Code</th>
                       <th scope='col'>Name</th>
                       <th scope='col'>Section</th>
                       <th scope='col'>Purpose</th>
@@ -131,9 +133,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                       <th scope='col'>Room</th>
                       <th scope='col'>Start Time</th>
                       <th scope='col'>End Time</th>
-                      <th scope='col'>Schedule</th>
+                      <th hidden scope='col'>Day</th>
                       <th hidden scope='col'>reserveID</th>
                       <th hidden scope='col'>Remarks</th>
+                      <th scope='col'>Professor</th>
+                      <th hidden scope='col'>ProfFullName</th>
                     </tr>
                     </thead>
                     <tbody>";
@@ -145,7 +149,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
 
                   echo
                   "<tr>
-                  <td>{$num}</td>
+                  <td>{$row['queueCode']}</td>
                   <td>{$row['reservationUser']}</td>
                   <td>{$row['sectionID_FK']}</td>
                   <td>{$row['description']}</td>
@@ -153,9 +157,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   <td>{$row['roomID_FK']}</td> 
                   <td>{$row['startTime']}</td>
                   <td>{$row['endTime']}</td>
-                  <td>{$row['scheduleDay']}</td>      
+                  <td hidden>{$row['scheduleDay']}</td>      
                   <td hidden >{$row['reservationID']}</td>
-                  <td hidden >{$row['remarks']}</td>                       
+                  <td hidden >{$row['remarks']}</td>   
+                  <td>{$row['profInitial']}</td>
+                  <td hidden >{$row['prof']}</td>                          
                   </tr>
                   </tbody>\n";
                  $num++; 
@@ -246,7 +252,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
 
                   echo "<thead class='thead-light'>
                       <tr>
-                      <th scope='col'>Pending Number</th>
+                      <th scope='col'>Queue Code</th>
                       <th scope='col'>Name</th>
                       <th scope='col'>Section</th>
                       <th scope='col'>Purpose</th>
@@ -254,8 +260,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                       <th scope='col'>Room</th>
                       <th scope='col'>Start Time</th>
                       <th scope='col'>End Time</th>
-                      <th scope='col'>Schedule</th>
+                      <th hidden scope='col'>Schedule</th>
                       <th hidden scope='col'>ReservationID</th>
+                      <th scope='col'>Professor</th>
                       </tr>
                     </thead>
                     <tbody>";
@@ -269,7 +276,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
 
                   echo
                   "<tr >
-                  <td>{$num}</td>
+                  <td>{$row['queueCode']}</td>
                   <td>{$row['reservationUser']}</td>
                   <td>{$row['sectionID_FK']}</td>
                   <td>{$row['description']}</td>
@@ -277,8 +284,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   <td>{$row['roomID_FK']}</td> 
                   <td>{$row['startTime']}</td>
                   <td>{$row['endTime']}</td>
-                  <td>{$row['scheduleDay']}</td>
+                  <td hidden>{$row['scheduleDay']}</td>
                   <td hidden>{$row['reservationID']}</td> 
+                  <td>{$row['profInitial']}</td>
                   </tr>
                   </tbody>\n";
                  $num++; 

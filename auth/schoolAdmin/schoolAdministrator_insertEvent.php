@@ -10,12 +10,12 @@ $start = $_POST['startTime'];
 $end = $_POST['endTime'];
 $room = $_POST['room'];				//R3-1
 $day = $_POST['day'];				//mon
-
+$code = $_POST['code'];
 
 echo'<script>alert("ENTERED INSERT")</script>';
 
 
-$sql = "CALL insertReservationSchedule('$name','$purpose','$remarks','$date','$section','$start','$end','$room','$day','$prof');";
+$sql = "CALL insertReservationSchedule('$name','$purpose','$remarks','$date','$section','$start','$end','$room','$day','$prof','$code');";
 
 if ($con->query($sql) === TRUE) {
 

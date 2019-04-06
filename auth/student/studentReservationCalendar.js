@@ -128,13 +128,17 @@ var calendar= $("#student-calendar").fullCalendar({
         {
          if(roomIsSelected)
           {
-
-            var endtime = $.fullCalendar.moment(end).format('HH:mm:ss');
-            var starttime = $.fullCalendar.moment(start).format('HH:mm:ss');
-            var daySched = $.fullCalendar.moment(start).format('ddd');
             var dateSched = $.fullCalendar.moment(start).format('YYYY-MM-DD');
+            var starttime = $.fullCalendar.moment(start).format('HH:mm:ss');
+            var today = new Date();
+            var currdate =  $.fullCalendar.moment(today).format('YYYY-MM-DD');
+            var currtime =  $.fullCalendar.moment(today).format('HH:mm:ss');
+
+            if(dateSched>=currdate && starttime>=currtime){
+            var endtime = $.fullCalendar.moment(end).format('HH:mm:ss');        
+            var daySched = $.fullCalendar.moment(start).format('ddd');
             var schedule = daySched + ', ' + dateSched + ', ' + starttime + ' - ' + endtime;
-          
+            
              //day_ = $.fullCalendar.moment(start).format('ddd');
             selDay = daySched;
             selDate = dateSched;
@@ -152,6 +156,11 @@ var calendar= $("#student-calendar").fullCalendar({
             $('#create-roomSchedule #Date').val(date);
             $('#create-roomSchedule #selectedRoomSched').text(schedule);
             $('#create-roomSchedule').modal('toggle');
+            }
+            else{
+              alert("Invalid Schedule");
+            }
+           
             
           }
           else
@@ -223,12 +232,15 @@ $('#printButton').click (function(e)
     var prof =document.getElementById('Professor').value;
     var remarks = document.getElementById('Remarks').value;
     // remarks = document.getElementById('remarks-txtArea').value;
-
-    // INSERT SCHEDULE
+    if(purpose!= "")
+    {
+       // INSERT SCHEDULE
     $.ajax({
        url:"../schoolAdmin/schoolAdministrator_insertEvent.php",
        type:"POST",
-       data:{name:name, 
+       data:{
+             code:code,
+             name:name, 
              purpose:purpose,
              prof:prof, 
              remarks:remarks, 
@@ -244,6 +256,8 @@ $('#printButton').click (function(e)
         // alert("Added Successfully");
        }
       });
+    }
+   
 
 
       $("#addSchedModal")[0].reset();

@@ -12,6 +12,7 @@
 	$year = date('Y');
 	$controlID = $_GET['controlID'];
 	$controlID = str_pad($controlID, 6, '0', STR_PAD_LEFT);
+	$prof = $_GET['prof'];
 
 	if($purpose =="Others"){
 		$purpose = $_GET['remarks'];
@@ -23,7 +24,7 @@
     $pdf->AddPage('P','Letter',0);
     #DATE
     $pdf->setfont('Arial', 'B', 14);
-    $pdf->Cell(0,5,"RQ-".$year."-".$controlID,0,1,'R');
+    $pdf->Cell(0,5,"RSV-".$year."-".$controlID,0,1,'R');
 	#LETTER TITLE
     $pdf->setfont('Arial', 'B', 16);
     $pdf->ln(10);
@@ -44,7 +45,7 @@
 	$pdf->Cell(0,10,"Good Day!",0,1,'L');
 	#PARAGRAPH	
 	$pdf->ln(5);
-	$pdf->MultiCell(172,10,"I "  .$name.    ", from ".$sect."  would like to reserve " . $room . " on " . $date ." ". $sched ." at ".  $starttime. " - " . $endtime. " for our " . $purpose .".",0,'L');
+	$pdf->MultiCell(172,10,"I "  .$name.    ", from ".$sect."  would like to reserve " . $room . " on " . $date ." ". $sched ." at ".  $starttime. " - " . $endtime. " for our " . $purpose . "under Professor " . $prof. " .",0,'L');
     //We the $organization would like to
     $pdf->MultiCell(172,10,"Thank you very much and we are hoping for your very kind consideration rearding this matter.",0,'L');
     #CLOSE
@@ -62,7 +63,7 @@
     $pdf->Cell(0,0,"Recommending Approval:",0,0,'L');
     $pdf->ln(15);
     $pdf->setfont('Arial', '', 12);
-    $pdf->Cell(0,0,"Professor",0,0,'L');
+    $pdf->Cell(0,0,$prof,0,0,'L');
 
 
 	$pdf->output();
