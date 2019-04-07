@@ -5,9 +5,10 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 $scheduleDay = $_POST['scheduleDay'];		
 $startTime = $_POST['startTime'];	
 $endTime = $_POST['endTime'];	
-$scheduleID = $_POST['scheduleID'];			
+$scheduleID = $_POST['scheduleID'];	
+$reservationDate = null;		
 
-$sql = "CALL updateSchedule('$scheduleDay', '$startTime','$endTime', '$scheduleID')";
+$sql = "CALL updateSchedule('$scheduleDay', '$startTime','$endTime', '$scheduleID','$reservationDate')";
 
 if ($con->query($sql) === TRUE) {
 

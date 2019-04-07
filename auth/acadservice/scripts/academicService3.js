@@ -163,16 +163,16 @@ $(document).ready(function()
         $.ajax({
           url:"acadService_updateEvent.php",
           type:"POST",
-          data:{startTime:start, endTime:end, scheduleID:id, scheduleDay:day},
+          data:{startTime:start, endTime:end, scheduleID:id, scheduleDay:day, reservationDate:null},
           success:function()
           {
             calendar.fullCalendar('refetchEvents');
             alert("Event Updated");
           }
         });
-      // alert("Updated Successfully");
+      // alert("Updated Successfully ");
       // window.location.href = "http://localhost:1234/pupwebdev-iya/auth/admin/update.php?startTime="+ start +"&endTime=" + end + "&scheduleID="+ id + "&scheduleDay=" + day; 
-
+      
     }
 
   

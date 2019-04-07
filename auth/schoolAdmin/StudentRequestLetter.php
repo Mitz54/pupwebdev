@@ -45,7 +45,7 @@
 	$pdf->Cell(0,10,"Good Day!",0,1,'L');
 	#PARAGRAPH	
 	$pdf->ln(5);
-	$pdf->MultiCell(172,10,"I "  .$name.    ", from ".$sect."  would like to reserve " . $room . " on " . $date ." ". $sched ." at ".  $starttime. " - " . $endtime. " for our " . $purpose . "under Professor " . $prof. " .",0,'L');
+	$pdf->MultiCell(172,10,"I "  .$name.    ", from ".$sect."  would like to reserve " . $room . " on " . $date ." ". $sched ." at ".  $starttime. " - " . $endtime. " for our " . $purpose . " under Professor " . $prof. " .",0,'L');
     //We the $organization would like to
     $pdf->MultiCell(172,10,"Thank you very much and we are hoping for your very kind consideration rearding this matter.",0,'L');
     #CLOSE
@@ -64,7 +64,10 @@
     $pdf->ln(15);
     $pdf->setfont('Arial', '', 12);
     $pdf->Cell(0,0,$prof,0,0,'L');
-
+    $pdf->setfont('Arial', 'I', 12);
+    $pdf->ln(5);
+    $pdf->Cell(0,0,"Professor",0,0,'L');
+ 
 
 	$pdf->output();
 
