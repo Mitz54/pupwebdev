@@ -98,7 +98,7 @@ function selectReservationSched()
 // $room = $_POST['room'];
 
 $selDate="";
-
+$currentdate = date("Y-m-d");
 $startdate = $_GET['startdate']; // 2018-10-18
 $enddate =  date('Y-m-d',strtotime($startdate. '+6 days'));//$_GET['enddate'];
 //$enddate = '2018-10-26';
@@ -157,12 +157,23 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
         'color' => '#146B3B');
      }
   
-    else{
+     if($row["reservationStatus"] ==="pending" && $row["reservationDate"]>= $currentdate ){
          $reservedata[] = array(
-        'classNames' => 'pending-event',
         'id'   => $row["scheduleID"],
-        'title'   => $row["crowd_affected"]."   
-                    ".$row["ProfName"]."    
+        'title'   =>$row["crowd_affected"]."
+                    ".$row["ProfName"]."   
+                    ".$row["reservationStatus"],
+        'start'   => $selDate." ".$row["startTime"],
+        'end'   => $selDate." ".$row["endTime"],
+        'editable' => false,
+        'color' => '#FF8C42');
+    }
+
+    if($row["reservationStatus"] ==="ongoing" && $row["reservationDate"]>= $currentdate ){
+         $reservedata[] = array(
+       'id'   => $row["scheduleID"],
+        'title'   =>$row["crowd_affected"]."
+                    ".$row["ProfName"]."   
                     ".$row["reservationStatus"],
         'start'   => $selDate." ".$row["startTime"],
         'end'   => $selDate." ".$row["endTime"],

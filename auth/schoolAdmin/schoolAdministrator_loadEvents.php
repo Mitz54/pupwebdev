@@ -95,7 +95,7 @@ function selectReservationSched()
    include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 //echo"<script> alert('dfsdfs'); </script>";
 // $room = $_POST['room'];
-
+$currentdate = date('Y-m-d');
 $selDate="";
 
 $startdate = $_GET['startdate']; // 2018-10-18
@@ -158,7 +158,7 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
         'color' => '#146B3A');
      }
   
-    else{
+    if($row["reservationStatus"] ==="pending" && $row["reservationDate"]>= $currentdate ){
          $reservedata[] = array(
         'id'   => $row["scheduleID"],
         'title'   => $row["description"]."
@@ -167,6 +167,21 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
                     ".$row["reservationUser"]."   
                     ".$row["ProfName"]."   
                     ".$row["reservationStatus"],
+        'start'   => $selDate." ".$row["startTime"],
+        'end'   => $selDate." ".$row["endTime"],
+        'editable' => true,
+        'color' => '#FF8C42');
+    }
+
+    if($row["reservationStatus"] ==="ongoing" && $row["reservationDate"]>= $currentdate ){
+         $reservedata[] = array(
+        'id'   => $row["scheduleID"],
+        'title'   => $row["description"]."
+                    ".$row["remarks"]."   
+                    ".$row["crowd_affected"]."   
+                    ".$row["reservationUser"]."   
+                    ".$row["ProfName"]."   
+                    "."processing",
         'start'   => $selDate." ".$row["startTime"],
         'end'   => $selDate." ".$row["endTime"],
         'editable' => true,
