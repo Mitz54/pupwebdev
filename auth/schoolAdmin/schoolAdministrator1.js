@@ -134,38 +134,36 @@ $(document).ready(function()
         select: function(start, end, day, date, jsEvent) 
         {
          
-if(roomIsSelected)
-{
-  var endtime = $.fullCalendar.moment(end).format('HH:mm:ss');
-          var starttime = $.fullCalendar.moment(start).format('HH:mm:ss');
-          var daySched = $.fullCalendar.moment(start).format('ddd');
-          var dateSched = $.fullCalendar.moment(start).format('YYYY-MM-DD');
-          var schedule = daySched + ', ' + dateSched + ', ' + starttime + ' - ' + endtime;
+          if(roomIsSelected)
+          {
+            var endtime = $.fullCalendar.moment(end).format('HH:mm:ss');
+            var starttime = $.fullCalendar.moment(start).format('HH:mm:ss');
+            var daySched = $.fullCalendar.moment(start).format('ddd');
+            var dateSched = $.fullCalendar.moment(start).format('YYYY-MM-DD');
+            var schedule = daySched + ', ' + dateSched + ', ' + starttime + ' - ' + endtime;
         
            //day_ = $.fullCalendar.moment(start).format('ddd');
-          selDay = daySched;
-          selDate = dateSched;
-          startTime = starttime;
-          endTime = endtime;
+            selDay = daySched;
+            selDate = dateSched;
+            startTime = starttime;
+            endTime = endtime;
     
-          day = moment(day).format();
-          date = moment(date).format();
-          start = moment(start).format();
-          end = moment(end).format(); 
+            day = moment(day).format();
+            date = moment(date).format();
+            start = moment(start).format();
+            end = moment(end).format(); 
           
-          $('#create-roomSchedule #startTime').val(start);
-          $('#create-roomSchedule #endTime').val(end);
-          $('#create-roomSchedule #Day').val(day);
-          $('#create-roomSchedule #Date').val(date);
-          $('#create-roomSchedule #selectedRoomSched').text(schedule);
-          $('#create-roomSchedule').modal('toggle');
-          
-       
-}
-else
-{
-   alert("Please select a room.");
-}
+            $('#create-roomSchedule #startTime').val(start);
+            $('#create-roomSchedule #endTime').val(end);
+            $('#create-roomSchedule #Day').val(day);
+            $('#create-roomSchedule #Date').val(date);
+            $('#create-roomSchedule #selectedRoomSched').text(schedule);
+            $('#create-roomSchedule').modal('toggle');
+          }
+          else
+          { 
+            alert("Please select a room.");
+          }
         
          },
          eventClick: function(event) {
@@ -186,13 +184,44 @@ else
                       async:false,
                       data:{ID:id},
                       success:function(data){
-                        $('#lbl-sched-id').val(id);
+                        $('#lbl-sched-id').val(id);    
                         $('#inp-edit-name').val(data[0]);
-                        $('#sel-edit-course').val(data[1]).trigger("change");
-                        $('#sel-edit-sect').val(data[2]);
                         $('#sel-edit-prof').val(data[3]);
                         $('#sel-edit-purp').val(data[4]);
                         $('#inp-edit-rem').val(data[5]);
+                        $("#lbl-reservation-type").text(data[6]);
+
+                        //Detect if Reservation type is student or organization
+                        if(data[6] == "student")
+                        {
+                        $("#div-org").prop('hidden',true);
+                        $("#div-course").prop('hidden',false);                 
+                        $('#sel-edit-course').val(data[1]).trigger("change");
+                        $('#sel-edit-org').val("");
+                        $('#sel-edit-sect').val(data[2]);
+                        
+                        }
+
+                        else{
+                        $("#div-course").prop('hidden',true);
+                        $("#div-org").prop('hidden',false);
+                        $('#sel-edit-course').val("");
+                        $('#sel-edit-sect').val("");
+                        $('#sel-edit-org').val(data[2]);
+                        }
+
+                        //Detect if purpose is Other
+                        if(data[4] == 4)
+                        {
+                        $("#lbl-rem").prop('hidden',false);
+                        $("#inp-edit-rem").prop('hidden',false);                 
+                        }
+                        else{
+                        $("#lbl-rem").prop('hidden',true);
+                        $("#inp-edit-rem").prop('hidden',true);      
+                        }
+
+                      // alert(data[4]);
                       }
                     });
                     //    if(confirm("Are you sure you want to remove?"))
@@ -293,25 +322,50 @@ $('.fc-next-button').click(function(){
    //alert('nextis clicked, do something');
 });
 
+$('#add-closeButton').click(function(){
+  $('#add-sel-reserve-type').val("").trigger("change");
+});
 
-  $('#submitButton').click (function()
+$('#submitButton').click (function()
+{
+  var rsrv_type = $('#add-sel-reserve-type').val();
+  var section;
+  if(rsrv_type == "student")
   {
-     if($("#scheduleReservationUser").val()=="" || $("#Course").val()==null
-      || $("#Section").val()==null || $("#scheduleReservationPurpose").val()=="")
+    if($("#scheduleReservationUser").val()=="" 
+      || $("#Course").val()==null
+      || $("#Section").val()==null 
+      || $("#add-sel-prof").val()==""
+      || $("#scheduleReservationPurpose").val()=="")
      {
      alert("Please complete all fields!");
      }
-     else
+     else{
+      section = $('#Section').val();
+     }
+  }
+  
+  if(rsrv_type == "organization")
+  {
+    if($("#scheduleReservationUser").val()=="" 
+      || $("#Organization").val()==""
+      || $("#add-sel-prof").val()==""
+      || $("#scheduleReservationPurpose").val()=="")
      {
+     alert("Please complete all fields!");
+     }
+     else{
+      section = $('#Organization').val();
+     }
+  }
+  
 
     $("#create-roomSchedule").modal('hide');
-    //var section= document.getElementById('scheduleSection').value;
-    var section= document.getElementById('Section').value;
-    var purpose = document.getElementById('roomPurpose').selectedIndex;
-    var name = document.getElementById('scheduleReservationUser').value;
+    var purpose = $('#roomPurpose').val();
+    var name = $('#scheduleReservationUser').val();
     var remarks = $('#inp-remarks').val();
     var prof = $('#add-sel-prof').val(); ;
-    var room=document.getElementById('Room').value;
+    var room= $('#Room').val();
 
     //alert(name + "&purpose=" + purpose + "&section="+ section +"&startTssime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay+ "&date=" + selDate);
     // alert(prof);
@@ -320,7 +374,7 @@ $('.fc-next-button').click(function(){
        type:"POST",
        data:{name:name, purpose:purpose, remarks:remarks, section:section,
              room:room, date:selDate,day:selDay, startTime:startTime,
-              endTime:endTime,prof:prof},
+              endTime:endTime,prof:prof,reservetype:rsrv_type,code:"NONE"},
        success:function()
        {
         calendar.fullCalendar('refetchEvents');
@@ -328,20 +382,19 @@ $('.fc-next-button').click(function(){
        
        }
 
-      })
+      });
 
-    $("#addSchedModal")[0].reset();
-    $('#Section').empty();
-    $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
-    $("#remarks-txtArea").remove();
-     }
+      $("#addSchedModal")[0].reset();
+      $('#Section').empty();
+      $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
+      $("#remarks-txtArea").remove();
  
    // window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
    //  "&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&zendTime=" + endTime + "&room=" + room +"&day=" + selDay;
      
   });
 
-   $("#roomPurpose").change(function(){
+$("#roomPurpose").change(function(){
     var roomPurpose = document.getElementById("roomPurpose");
     var selected = roomPurpose.options[roomPurpose.selectedIndex].text;
     // alert(selected);
@@ -382,18 +435,26 @@ $("#delete-schedule-btn").click(function(){
 $("#update-schedule-btn").click(function(){
   if(confirm("Are you sur you want to update this reservation?"))
   {
+    var rsrv_type = $("#lbl-reservation-type").text();
     var id = $('#lbl-sched-id').val();
     var name = $('#inp-edit-name').val();
-    var section = $('#sel-edit-sect').val();
     var prof = $('#sel-edit-prof').val();
     var purpose = $('#sel-edit-purp').val();
     var remarks = $('#inp-edit-rem').val();
+     var users;
+    if(rsrv_type =="student"){
+     users = $('#sel-edit-sect').val();
+    }
+    else{
+      users = $("#sel-edit-org").val();
+    }
+    
 
-    alert(id+ name + section + prof+ purpose + remarks);
+    // alert(id+ name + section + prof+ purpose + remarks);
       $.ajax({
                      url:"schoolAdministrator_UpdateEventsInfo.php",
                      type:"POST",
-                     data:{id:id,name:name,section:section,prof:prof,purpose:purpose,remarks:remarks},
+                     data:{id:id,name:name,users:users,prof:prof,purpose:purpose,remarks:remarks},
                      success:function()
                      {
                       calendar.fullCalendar('refetchEvents');
@@ -403,9 +464,38 @@ $("#update-schedule-btn").click(function(){
   }
 });
 
-
-
 });
+
+$('input').keydown(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+$('input').keyup(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+
+$('textarea').keydown(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z,  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+$('textarea').keyup(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z,  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+
 
 //UPDATE RESERVATION INFO
 
@@ -420,6 +510,19 @@ function getSection(val){
     }
   });
 }
+
+function selectPurpose(val){
+  //If Others
+  if(val == 4){
+    $(".purp-remark").prop('hidden',false);
+  }
+  else{
+    $(".purp-remark").prop('hidden',true);
+    $("#inp-edit-rem").val("");
+  }
+}
+
+//REPORTS
 
 
 function selectReportType(val){

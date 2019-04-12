@@ -52,7 +52,7 @@ class ReservationReport extends FPDF
 		{
 			
 
-			$select = "select reservationUser, reservationDate, startTime, endTime, description,remarks,sectionID_FK, roomID_FK,approvedDate,reservationletter.reservationControlNumber as ControlNumber, reservation.reservationStatus AS 'Status'
+			$select = "select reservationUser, reservationDate, startTime, endTime, description,remarks,crowd_affected, roomID_FK,approvedDate,reservationletter.reservationControlNumber as ControlNumber, reservation.reservationStatus AS 'Status'
 				from reservation
 				join reservationletter on reservationletter.reservationID_FK = reservation.reservationID
 				join purpose on reservation.purposeID_FK = purpose.purposeID
@@ -74,7 +74,6 @@ class ReservationReport extends FPDF
 						$desc = $row['description'];
 						$remarks = $row['remarks'];
 						$room = $row['roomID_FK'];
-						$section = $row['sectionID_FK'];
 						$status = $row['Status'];
 						$approveDate = $row['approvedDate'];
 
@@ -90,7 +89,7 @@ class ReservationReport extends FPDF
 						$this->Cell(60,10,$desc,1,0,'C');
 						// $this->Cell(50,10,$row['remarks'],1,0,'C');
 						$this->Cell(15,10,$row['roomID_FK'],1,0,'C');
-						$this->Cell(25,10,$row['sectionID_FK'],1,0,'C');
+						$this->Cell(25,10,$row['crowd_affected'],1,0,'C');
 						$this->Cell(30,10,$row['Status'],1,0,'C');
 						
 						$this->Ln();

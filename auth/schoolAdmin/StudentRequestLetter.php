@@ -2,13 +2,13 @@
 	session_start();
 	$name = $_GET['name'];
 	$room = $_GET['room'];
-	$date = $_GET['date'];
+	$date = date_format(date_create($_GET['date']),"F d, Y");
 	$sect = $_GET['sect'];
 	$starttime = $_GET['starttime'];
 	$endtime = $_GET['endtime'];
 	$sched = $_GET['sched'];
 	$purpose = $_GET['purpose'];
-	$currentdate = date('m/d/Y');
+	$currentdate = date('F d, Y');
 	$year = date('Y');
 	$controlID = $_GET['controlID'];
 	$controlID = str_pad($controlID, 6, '0', STR_PAD_LEFT);

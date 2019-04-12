@@ -6,9 +6,9 @@ $query = $con->query("SELECT * FROM reservation as R
                       INNER JOIN schedule as S ON
                       S.scheduleID = R.scheduleID_FK
                       LEFT JOIN section SE on 
-                      R.sectionID_FK = SE.sectionID
+                      R.crowd_affected = SE.sectionID
 
-                       where S.scheduleID = ".$_POST['ID']
+                       where S.scheduleID =".$_POST['ID']
                       );
 
                           $rowCount = $query->num_rows;
@@ -20,10 +20,11 @@ $query = $con->query("SELECT * FROM reservation as R
                                 $reservationinfo = [
                                   $row['reservationUser'],
                                   $row['courseID_FK'],
-                                  $row['sectionID_FK'],
+                                  $row['crowd_affected'],
                                   $row['professorID_FK'],
                                   $row['purposeID_FK'],
                                   $row['remarks'],
+                                  $row['reservationType']
                                               ];
                               }
                         }

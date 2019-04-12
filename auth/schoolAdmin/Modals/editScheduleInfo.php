@@ -9,11 +9,12 @@
       </div>
       <div class="modal-body ml-3 mr-3">
         <div>
+          <label id="lbl-reservation-type" hidden></label>
           <input id="lbl-sched-id" hidden></input>
           <label>Name</label>
           <input id='inp-edit-name' class='form-control'></input>
         </div>
-        
+        <div id="div-course">
           <label>Course</label>
           <select id='sel-edit-course' onChange='getSection(this.value)' class='form-control'>
             <?php
@@ -21,13 +22,23 @@
             ?>
           </select>
         
-        <div>
+        
           <label>Section</label>
           <select id='sel-edit-sect' class='form-control' disabled>
             <option disabled selected hidden value="">Select Section...</option>
           </select>
 
         </div>
+
+        <div id="div-org">
+          <label>Organization</label>
+          <select id='sel-edit-org' class='form-control'>
+            <?php
+              include'Queries/readOrganizations.php';
+            ?>
+          </select>
+        </div>
+
 
         <div>
           <label>Professor</label>
@@ -40,14 +51,14 @@
 
         <div>
           <label>Purpose</label>
-          <select  id="sel-edit-purp" class="form-control">
+          <select  id="sel-edit-purp" onChange="selectPurpose(this.value)" class="form-control">
             <?php  
                       include include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
             ?>   
           </select>
          
-         <label>Remarks</label>
-          <textarea id='inp-edit-rem' class='form-control'></textarea>
+         <label id="lbl-rem" class ="purp-remark"hidden>Please specify</label>
+          <textarea id='inp-edit-rem' class='form-control purp-remark' placeholder="e.g., General Cleaning" hidden></textarea>
         </div>
         
         

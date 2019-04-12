@@ -65,7 +65,7 @@ $(document).ready(function()
 var calendar= $("#student-calendar").fullCalendar({
   header:{
     left:'prev next',
-    
+     
     right:'agendaWeek listMonth'
   },
    height: 510,
@@ -126,15 +126,15 @@ var calendar= $("#student-calendar").fullCalendar({
 
         select: function(start, end, day, date, jsEvent) 
         {
-         if(roomIsSelected)
+         if(roomIsSelected && $("#reserve-type").val()!="")
           {
-            var dateSched = $.fullCalendar.moment(start).format('YYYY-MM-DD');
+            var dateSched = $.fullCalendar.moment(start).format('YYYY-MM-DD')+' '+$.fullCalendar.moment(start).format('HH:mm:ss');
             var starttime = $.fullCalendar.moment(start).format('HH:mm:ss');
             var today = new Date();
-            var currdate =  $.fullCalendar.moment(today).format('YYYY-MM-DD');
-            var currtime =  $.fullCalendar.moment(today).format('HH:mm:ss');
+            var currdate =  $.fullCalendar.moment(today).format('YYYY-MM-DD')+' '+$.fullCalendar.moment(today).format('HH:mm:ss');
+            // var currtime =  $.fullCalendar.moment(today).format('HH:mm:ss');
 
-            if(dateSched>=currdate && starttime>=currtime){
+            if(dateSched>=currdate){
             var endtime = $.fullCalendar.moment(end).format('HH:mm:ss');        
             var daySched = $.fullCalendar.moment(start).format('ddd');
             var schedule = daySched + ', ' + dateSched + ', ' + starttime + ' - ' + endtime;
@@ -156,8 +156,21 @@ var calendar= $("#student-calendar").fullCalendar({
             $('#create-roomSchedule #Date').val(date);
             $('#create-roomSchedule #selectedRoomSched').text(schedule);
             $('#create-roomSchedule').modal('toggle');
+            if($("#reserve-type").val()=='student')
+            {
+               $('#course-div').prop('hidden',false);
+               $('#org-div').prop('hidden',true);
             }
-            else{
+
+            if($("#reserve-type").val()=='organization')
+            {
+              $('#org-div').prop('hidden',false);
+              $('#course-div').prop('hidden',true);
+            }
+           
+          }
+
+          else{
               alert("Invalid Schedule");
             }
            
@@ -165,7 +178,7 @@ var calendar= $("#student-calendar").fullCalendar({
           }
           else
           {
-             alert("Please select a room.");
+             alert("Please select a reservation type and room.");
           }
        
          }
@@ -186,22 +199,45 @@ $("#reservationButton").click(function(){
 
 $('#submitButton').click (function()
   {
-    if($("#inpt-fname").val()==""
-      || $("#inpt-lname").val()==""
-      || $("#Course").val()==null
-      || $("#Section").val()==null 
-      || $("#Professor").val() ==null
-      || $("#scheduleReservationPurpose").val()==""
-      )
-     {
-      alert("Please complete all necessary fields!");
-     }
-     else
-     {
-       $('#myModal').modal('toggle');
-       $('#create-roomSchedule').modal('hide');
-       $('#student-cal').modal('hide');
+    var reserve_type = $("#reserve-type").val();
+    if(reserve_type=="student")
+    {
+      if($("#inpt-fname").val()==""
+        || $("#inpt-lname").val()==""
+        || $("#Course").val()==null
+        || $("#Section").val()==null 
+        || $("#Professor").val() ==null
+        || $("#scheduleReservationPurpose").val()=="")
+        {
+          alert("Please complete all necessary fields!");
+        }
+      else
+      {
+        $('#myModal').modal('toggle');
+        $('#create-roomSchedule').modal('hide');
+        $('#student-cal').modal('hide');
       }
+    }
+      
+    if(reserve_type=="organization")
+    {
+       if($("#inpt-fname").val()==""
+        || $("#inpt-lname").val()==""
+        || $("#Organization").val()==null
+        || $("#Professor").val() ==null
+        || $("#scheduleReservationPurpose").val()==""
+        )
+      {
+        alert("Please complete all necessary fields!");
+      }
+      else
+      {
+        $('#myModal').modal('toggle');
+        $('#create-roomSchedule').modal('hide');
+        $('#student-cal').modal('hide');
+      }
+    } 
+    // alert("Hello");
    
   });
 
@@ -235,7 +271,10 @@ $('#printButton').click (function(e)
     if(purpose!= "")
     {
        // INSERT SCHEDULE
-    $.ajax({
+
+    if($('#reserve-type').val()=='student')
+    {
+       $.ajax({
        url:"../schoolAdmin/schoolAdministrator_insertEvent.php",
        type:"POST",
        data:{
@@ -250,6 +289,7 @@ $('#printButton').click (function(e)
              day:selDay, 
              startTime:startTime,
              endTime:endTime},
+             reservetype:$('#reserve-type').val(),
        success:function()
         {
         calendar.fullCalendar('refetchEvents');
@@ -257,6 +297,39 @@ $('#printButton').click (function(e)
        }
       });
     }
+   
+    if($('#reserve-type').val()=='organization')
+    {
+      var organization = $('#Organization').val();
+       $.ajax({
+       url:"../schoolAdmin/schoolAdministrator_insertEvent.php",
+       type:"POST",
+       data:{
+             code:code,
+             name:name, 
+             purpose:purpose,
+             prof:prof, 
+             remarks:remarks, 
+             section:organization,
+             room:room, 
+             date:selDate, 
+             day:selDay, 
+             startTime:startTime,
+             endTime:endTime,
+             reservetype:$('#reserve-type').val()},
+       success:function()
+        {
+        calendar.fullCalendar('refetchEvents');
+        // alert("Added Successfully");
+       }
+      });
+    }
+    
+
+    }
+
+
+   
    
 
 
@@ -323,3 +396,34 @@ $("#stud-cal-close").click(function(){
   $("#Room").val("").trigger("change");
   roomIsSelected = false;
 });
+
+$('input').keydown(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+$('input').keyup(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+
+$('textarea').keydown(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z,  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+$('textarea').keyup(function(){
+var word = $(this).val();
+            if ( word.match("^[a-zA-Z,  ]*$") == null ) {
+                word = word.slice(0,-1) + '';
+                $(this).val(word);
+            }
+});
+

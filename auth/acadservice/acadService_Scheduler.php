@@ -46,7 +46,7 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
       <div class="col main-content">
         <div class="module-container">
           <div class="schedule-header">
-            <div class="room-select">
+          <div class="col-md-4">
               <select class="form-control" id="Room">
                  <option disabled selected hidden >Select Room</option>
                        
@@ -73,15 +73,20 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
                     ?>
 
               </select>
+              </div>
+              <div class="col-md-8">
+                <button class="btn btn-info2 float-right"  type="button" data-toggle="modal" data-target="#deleteModal" id="deleteSchedBtn">Delete Schedule</button>
+              </div>
+
             </div>
+            <div class="room-select">
+              
 
-
+          </div>
 <!-- -------------------------------------CREATE REPORT and DELETE SCHEDULE BUTTON---------------------------    -->  
       
-          <button class="btn btn-info create-report" type="button" id="printbtn" >Create Report</button>          
-          <button class="btn btn-info2"  type="button" data-toggle="modal" data-target="#deleteModal" id="deleteSchedBtn">Delete Schedule</button>
-          </div>
-
+          <!-- <button class="btn btn-info create-report" type="button" id="printbtn" >Create Report</button>           -->
+        
 
 
 <!-- ----------------------------------------------PRINT FUNCTION------------------------------------------------ -->

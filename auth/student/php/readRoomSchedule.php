@@ -147,7 +147,7 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
      if($row["reservationStatus"] ==="approved"){
         $reservedata[] = array(
         'id'   => $row["scheduleID"],
-        'title'   =>$row["sectionID_FK"]."
+        'title'   =>$row["crowd_affected"]."
                     ".$row["ProfName"]."   
                     ".$row["reservationStatus"],
         'start'   => $selDate." ".$row["startTime"],
@@ -161,7 +161,7 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
          $reservedata[] = array(
         'classNames' => 'pending-event',
         'id'   => $row["scheduleID"],
-        'title'   => $row["sectionID_FK"]."   
+        'title'   => $row["crowd_affected"]."   
                     ".$row["ProfName"]."    
                     ".$row["reservationStatus"],
         'start'   => $selDate." ".$row["startTime"],

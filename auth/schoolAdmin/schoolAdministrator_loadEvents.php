@@ -148,7 +148,7 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
         'id'   => $row["scheduleID"],
         'title'   => $row["description"]
                     .$row["remarks"]." 
-                    ".$row["sectionID_FK"]."   
+                    ".$row["crowd_affected"]."   
                     ".$row["reservationUser"]."   
                     ".$row["ProfName"]."   
                     ".$row["reservationStatus"],
@@ -163,7 +163,7 @@ $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
         'id'   => $row["scheduleID"],
         'title'   => $row["description"]."
                     ".$row["remarks"]."   
-                    ".$row["sectionID_FK"]."   
+                    ".$row["crowd_affected"]."   
                     ".$row["reservationUser"]."   
                     ".$row["ProfName"]."   
                     ".$row["reservationStatus"],

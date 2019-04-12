@@ -3,7 +3,7 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 
 $id = $_POST['id'];
 $name = $_POST['name'];
-$section = $_POST['section'];
+$users = $_POST['users'];
 $purpose =$_POST['purpose'];
 $prof = $_POST['prof'];
 $remarks= $_POST['remarks'];
@@ -29,7 +29,7 @@ $remarks= $_POST['remarks'];
 
  $sql = "UPDATE reservation set 
                         reservationUser = '".$name."'
-								,sectionID_FK = '".$section."'
+								,crowd_affected = '".$users."'
 								,purposeID_FK = ".$purpose."
 								,remarks = '".$remarks."'
 								,professorID_FK = ".$prof." 

@@ -216,11 +216,21 @@ include 'Modals/editScheduleInfo.php';
                 <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-                <div class="modal-body">
+              <div class="modal-body">
                 <div class="form-group">
-                  <label for="scheduleReservationUser">Name</label>
-                    <textarea class="form-control" rows="1" placeholder="Enter Name.." id="scheduleReservationUser"></textarea>
+<!-- RESERVATION TYPE -->
+                  <label>Reservation Type</label>
+                  <select id="add-sel-reserve-type" onChange="selectReservationType(this.value)" class="form-control">
+                    <option disabled selected hidden value=""> Select Reservation Type...</option>
+                    <option value="student">Student</option>
+                    <option value="organization">Organization</option>
+                  </select>
                 <form action="" method="post">
+<!-- NAME -->
+                  <label for="scheduleReservationUser">Name</label>
+                  <input disabled disabled class="form-control" rows="1" placeholder="Enter Name.." id="scheduleReservationUser"></input>
+                <div id="add-div-course" hidden>
+<!-- COURSE -->
                   <label for="scheduleCourse">Course</label>
                     <select class="form-control" type="text" name="scheduleCourse" id="Course" onChange="change_Course();" required>
                       <option disabled selected hidden>Select Courses..</option>           
@@ -241,53 +251,52 @@ include 'Modals/editScheduleInfo.php';
                             }
                             mysqli_next_result($con);
                         ?>
-                     </select>
-                <div id="section">
+                    </select>
+<!-- SECTION -->
                   <label for="scheduleSection">Section</label>
-                    <select  class="form-control" type="text" name="scheduleSection" id="Section" required>
+                    <select class="form-control" type="text" name="scheduleSection" id="Section" required>
                      <option disabled selected hidden>Select Section..</option>
-                  <!-- <include 'ajax.php';> -->
-
+                    </select>
+                  </div>
+<!-- ORGANIZATIONS -->
+                <div id="add-div-org" hidden>
+                  <label>Organization</label>
+                    <select class="form-control" id="Organization" required>
+                     <option disabled selected hidden>Select Organization..</option>
+                       <?php
+                          include'Queries/readOrganizations.php';
+                      ?>
                     </select>
                 </div>
+                  
+          
 
+<!-- PROFESSORS -->
                 <div>
                   <label>Professor</label>
-                    <select id='add-sel-prof' class='form-control'>
+                    <select disabled id='add-sel-prof' class='form-control'>
                       <?php
                           include'Queries/readProfessors.php';
                       ?>
                     </select>
                 </div>
-              </form>
 
-                  <script type="text/javascript">
-
-                    function change_Course()
-                    {
-                    
-                    var xmlhttp= new XMLHttpRequest();
-                    xmlhttp.open("GET","ajax.php?course="+document.getElementById("Course").value,false);
-                    xmlhttp.send(null);
-                    // alert(xmlhttp.responseText);
-                    document.getElementById("section").innerHTML=xmlhttp.responseText;
-                  } 
-
-                  </script>
-                  
+<!-- PURPOSE   -->
                 <label for="scheduleReservationPurpose">Reservation Purpose</label>
-               <!--  <textarea class="form-control" rows="5" id="scheduleReservationPurpose" placeholder="Enter Reservation Purpose.."></textarea> -->
-               <select class="form-control" type="text" name="roomPurpose" id="roomPurpose" required>
-                  <?php  
-                      include include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
-                    ?>
+                  <select disabled class="form-control" onChange="selectPurpose(this.value)"id="roomPurpose" required>
+                      <option disabled selected hidden value="">Select Purpose...</option>
+                        <?php  
+                          include include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
+                        ?>
                   </select>
-                <div id="remarks-div">
-                  <label>Remarks</label>
-                  <textarea id="inp-remarks" class="form-control"></textarea>
+<!-- REMARKS -->
+                <div id="remarks-div" class="purp-remark" hidden>
+                  <label>Please specify:</label>
+                  <textarea id="inp-remarks" class="form-control" placeholder="e.g., General Cleaning"></textarea>
                 </div>            
                 </div>               
                 </div>
+<!-- SCHEDULE TIME -->
                 <div class="form-group ml-4 mb-5" style="display: flex; font-size: 16px;">
                   <label for="selectedRoomSched">Schedule: </label>
                   <div id="selectedRoomSched" style="margin-left: 20px;">
@@ -297,10 +306,10 @@ include 'Modals/editScheduleInfo.php';
                     <input type="hidden" id="Date" />
                   </div>
                 </div>
-            
+              </form>
               <div class="modal-footer">
                 <button type="button" onsubmit="doSubmit()" class="btn btn-pupcustomcolor" id="submitButton" name="submitButton">Save</button>
-                <button type="button" id ="closeButton"class="btn btn-secondary" data-dismiss="modal" onclick="resetSection()">Close</button>
+                <button type="button" id ="add-closeButton"class="btn btn-secondary" data-dismiss="modal" onclick="resetSection()">Close</button>
                   </div>
               </div>
             </div>
@@ -330,19 +339,6 @@ include 'Modals/editScheduleInfo.php';
 
   
 
-<script type="text/javascript">
-  
-function resetSection()
-{
-
-   $("#addSchedModal")[0].reset();
-    $('#Section').empty();
-    $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
-
-}
-
-
-</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="schoolAdministrator1.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
@@ -356,3 +352,51 @@ function resetSection()
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script> -->
 
 
+
+<script type="text/javascript">
+  
+function resetSection()
+{
+
+   $("#addSchedModal")[0].reset();
+    $('#Section').empty();
+    $('#Section').append(' <option disabled selected hidden>Select Section..</option>');
+
+}
+
+
+function change_Course()
+{
+  var xmlhttp= new XMLHttpRequest();
+  xmlhttp.open("GET","ajax.php?course="+document.getElementById("Course").value,false);
+  xmlhttp.send(null);
+  // alert(xmlhttp.responseText);
+  document.getElementById("Section").innerHTML=xmlhttp.responseText;
+} 
+
+
+function selectReservationType(val){
+    $("#scheduleReservationUser").prop('disabled',false);
+    $("#add-sel-prof").prop('disabled',false);
+    $("#roomPurpose").prop('disabled',false);
+    $("#inp-remarks").prop('disabled',false);
+
+  if(val == "student"){
+    $("#add-div-course").prop('hidden',false);
+    $("#add-div-org").prop('hidden',true);
+  }
+  if(val == "organization"){
+    $("#add-div-org").prop('hidden',false);
+    $("#add-div-course").prop('hidden',true);
+  }
+  if(val == ""){
+    $("#add-div-org").prop('hidden',true);
+    $("#add-div-course").prop('hidden',true);
+    $("#scheduleReservationUser").prop('disabled',true);
+    $("#add-sel-prof").prop('disabled',true);
+    $("#roomPurpose").prop('disabled',true);
+    $("#inp-remarks").prop('disabled',true);
+  }
+  // alert(val);
+}
+</script>

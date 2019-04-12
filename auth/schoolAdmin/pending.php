@@ -53,6 +53,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                           var reserveID = tabledata[9];
                           var remarks = tabledata[10];
                           var prof = tabledata[12];
+                          var reservationType = tabledata[13];
                           // alert(remarks);
                           var con = confirm("Proceed for printing?");
                              
@@ -88,8 +89,15 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                                   }
                                 })
 
-                          
-                                window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect+ "&remarks="+remarks+ "&prof="+prof;
+                                if(reservationType=="student")
+                                {
+                                   window.location.href = "StudentRequestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect+ "&remarks="+remarks+ "&prof="+prof;
+                                }
+                                else
+                                {
+                                   window.location.href = "requestLetter.php?name=" +name+"&room=" +room+ "&date=" +date+ "&starttime=" +starttime+ "&endtime=" +endtime+ "&sched=" +sched+ "&purpose=" +purpose+"&controlID="+controlID+ "&sect="+sect+ "&remarks="+remarks+ "&prof="+prof;
+                                }
+                               
                             }
                           });
                       });
@@ -103,7 +111,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                     roomID_FK, CONCAT(PR.firstName,' ',PR.middleName,'. ',PR.lastName) as prof,
                     CONCAT(PR.firstName,' ',LEFT(PR.lastName,1),'.') as profInitial,queueCode,
                     TIME_FORMAT(startTime,'%h:%i %p') as startTime,
-                    TIME_FORMAT(endTime,'%h:%i %p') as endTime, scheduleDay,sectionID_FK
+                    TIME_FORMAT(endTime,'%h:%i %p') as endTime, scheduleDay,crowd_affected,reservationType
                     FROM schedule S
                     INNER JOIN reservation R ON R.scheduleID_FK = S.scheduleID
                     INNER JOIN purpose P on P.purposeID=R.purposeID_FK
@@ -138,6 +146,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                       <th hidden scope='col'>Remarks</th>
                       <th scope='col'>Professor</th>
                       <th hidden scope='col'>ProfFullName</th>
+                      <th hidden scope='col'>Type</th>
                     </tr>
                     </thead>
                     <tbody>";
@@ -151,7 +160,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   "<tr>
                   <td>{$row['queueCode']}</td>
                   <td>{$row['reservationUser']}</td>
-                  <td>{$row['sectionID_FK']}</td>
+                  <td>{$row['crowd_affected']}</td>
                   <td>{$row['description']}</td>
                   <td>{$row['reservationDate']}</td>
                   <td>{$row['roomID_FK']}</td> 
@@ -161,7 +170,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   <td hidden >{$row['reservationID']}</td>
                   <td hidden >{$row['remarks']}</td>   
                   <td>{$row['profInitial']}</td>
-                  <td hidden >{$row['prof']}</td>                          
+                  <td hidden >{$row['prof']}</td>         
+                  <td hidden >{$row['reservationType']}</td>                          
                   </tr>
                   </tbody>\n";
                  $num++; 
@@ -278,7 +288,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
                   "<tr >
                   <td>{$row['queueCode']}</td>
                   <td>{$row['reservationUser']}</td>
-                  <td>{$row['sectionID_FK']}</td>
+                  <td>{$row['crowd_affected']}</td>
                   <td>{$row['description']}</td>
                   <td>{$row['reservationDate']}</td>
                   <td>{$row['roomID_FK']}</td> 

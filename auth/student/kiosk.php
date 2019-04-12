@@ -326,7 +326,7 @@ kapag gagawa ng connection  -->
 							<h1 class="card-text" id="offnum">-'. $increase . $queueNum . '</h1>
 							<h5 class="card-text">Transaction Number</h5>
 							<form method="post">
-								<button class="btn btn-block text-white pupcolor" type="submit" name="printModal" id="printButton" value=" ">PRINT</button>
+								<button class="btn btn-block text-white pupcolor" type="button" name="printModal" id="printButton" value=" ">PRINT</button>
 							</form>
 						</div>
 					  </div>
@@ -352,8 +352,44 @@ kapag gagawa ng connection  -->
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-      		<h4 class="modal-title">Room Reservation</h4>
+      <div class="modal-header"> 
+
+    				<div class="form-group col-md-6">
+    					<label>Reservation Type</label>
+      					<select  class=form-control id="reserve-type">
+      						<option disabled selected hidden value="">Select Reservation Type</option>
+      						<option value="student">Student</option>
+      						<option value="organization">Organization</option>
+      					</select>
+    				</div>
+    				<div class="form-group col-md-6">
+      					<label>Room</label>
+      					<select class="form-control" id="Room">
+             <option disabled selected hidden value="">Select Room..</option>
+                   
+                  <?php  
+                  require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
+                  $query = $con->query("CALL getAllRoomID()"); 
+                  // $query = mysqli_query($connect, "CALL selectAllSubject") or die("Query fail: " . mysqli_error());
+                  $rowCount = $query->num_rows;
+                  if($rowCount > 0)
+                    {
+                      while($row=$query->fetch_assoc())
+                      { 
+                        echo '<option value='.$row['roomID'].'>'.$row['roomID'].'</option>';
+                      }
+                    }
+                  else
+                    {
+                      echo'<option value="">Room not available</option>';
+                    }
+                    mysqli_next_result($con);
+                  ?>
+                  </select>
+    				</div>
+  		
+      
+      		<!-- <h4 class="modal-title">Room Reservation</h4>
       		<select class="form-control" id="Room">
              <option disabled selected hidden value="">Select Room..</option>
                    
@@ -376,6 +412,8 @@ kapag gagawa ng connection  -->
                     mysqli_next_result($con);
                   ?>
                   </select>
+ -->
+
 
 
         
@@ -426,6 +464,7 @@ kapag gagawa ng connection  -->
     				</div>
   				</div>
                   <!-- COURSE -->
+                  <div id="course-div" hidden>
                   <form action="" method="post">
 
                   <label for="scheduleCourse">Course</label>
@@ -464,6 +503,20 @@ kapag gagawa ng connection  -->
                   </select>
                   </div>
                    </form>
+                   </div>
+
+                   <div id="org-div" hidden>
+                   	<label for="scheduleCourse">Organization</label>
+                  	<select class="form-control mb-1" type="text" name="scheduleCourse" id="Organization">
+                 	 <option disabled selected hidden value="">Select Organization..</option>          
+                  
+                 
+                   	 <?php
+              		include '../schoolAdmin/Queries/readOrganizations.php';
+              		?>
+                 
+                  </select>
+                   </div>
 
                  <!-- PROFESSOR -->
               	<label>Professor</label>
@@ -482,7 +535,7 @@ kapag gagawa ng connection  -->
                 	
                   <option disabled selected hidden>Select Purpose..</option>
                 	<?php  
-                			include include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
+                		 include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/SelectAllPurpose.php');
                     ?>
                   </select>
                 <div hidden id="remarks-div">
