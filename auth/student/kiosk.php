@@ -326,7 +326,7 @@ kapag gagawa ng connection  -->
 							<h1 class="card-text" id="offnum">-'. $increase . $queueNum . '</h1>
 							<h5 class="card-text">Transaction Number</h5>
 							<form method="post">
-								<button class="btn btn-block text-white pupcolor" type="button" name="printModal" id="printButton" value=" ">PRINT</button>
+								<button class="btn btn-block text-white pupcolor" type="submit" name="printModal" id="printButton" value=" ">PRINT</button>
 							</form>
 						</div>
 					  </div>
