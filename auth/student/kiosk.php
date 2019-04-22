@@ -197,9 +197,6 @@ else
 
 		if (isset($_POST['printModal']))
 		{
-			echo "<script>alert('print modal:" .  $_POST['printModal']."');</script>";
-			// echo '<script>alert();</script>';
-			// require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/student/php/getNextQueueNumber.php';
 			require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
 			mysqli_query($con, 'call insertNewQueue("' . $_SESSION['queueNumber'] . '", "' . date('Y-m-d') . '")') or die("Query fail: " . mysqli_error());
 			
@@ -589,10 +586,6 @@ function getTransaction(objButton){
 		url:"php/getNextQueueNumber.php",
 		method:"POST",
 		data:{transactionNum: objButton.value},
-		success:function()
-		{
-		alert();
-		}
 	});
 }
 

@@ -1,4 +1,6 @@
 <?php
+$timestamp = time(); 
+$today =  date("F d, Y h:i:s A", $timestamp);
 /* Change to the correct path if you copy this example! */
 require __DIR__ . '/../../autoload.php';
 use Mike42\Escpos\Printer;
@@ -43,6 +45,10 @@ try {
     $printer -> setTextSize(3, 3);
     $printer -> setJustification(Printer::JUSTIFY_CENTER);
     $printer -> text($_POST['code']."\n");
+    
+    $printer -> setTextSize(1, 1);
+    $printer -> setJustification(Printer::JUSTIFY_CENTER);
+    $printer -> text($today);
     $printer -> cut();
     
     /* Close printer */
