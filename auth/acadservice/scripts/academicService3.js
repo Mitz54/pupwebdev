@@ -102,6 +102,7 @@ $(document).ready(function()
         if(confirm("Are you sure you want to remove it?"))
         {    
           var id = event.id;
+          // alert(id);
            $.ajax
            ({
              url:"acadService_deleteEvent.php",
@@ -113,7 +114,7 @@ $(document).ready(function()
               alert("Event Removed");
             }
           }); 
-          // alert("Deleted Successfully");
+          alert("Deleted Successfully");
           // window.location.href = "http://localhost:1234/pupwebdev-iya/auth/admin/delete.php?id="+ id;
         }
 

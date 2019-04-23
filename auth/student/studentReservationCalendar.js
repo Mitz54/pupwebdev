@@ -341,7 +341,7 @@ $('#printButton').click (function(e)
   //   window.location.href = "http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_insertEvent.php?name="+ name + "&purpose=" + purpose +
   //   "&date="+ selDate + "&section="+ section +"&startTime=" + startTime + "&endTime=" + endTime + "&room=" + room +"&day=" + selDay;
 
-    location.reload();
+     location.reload();
 
   });
 
