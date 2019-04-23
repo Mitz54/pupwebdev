@@ -74,7 +74,9 @@ function createtable()
 	            <th scope='col' >No</th>
 	            <th scope='col' >Borrower's Name</th>
 	            <th scope='col' >Item</th>
-	            <th scope='col' >Due Date</th>
+	            <th scope='col' >Issued Date</th>
+              <th scope='col' >Initial Date</th>
+              <th scope='col' >Due Date</th>
 	            <th scope='col' >Quantity</th>
 	            <th scope='col'>Actions</th>
 	          </tr>
@@ -85,11 +87,21 @@ function createtable()
       {
         if(checkitems($row['borrowingDetailsID_FK']) > 0)
         {
+          $iDate = new DateTime($row['initialDate']);
+          $isDate = new DateTime($row['issueDate']);
+          $dDate = new DateTime($row['dueDate']);
+
+          $dDate = $dDate->format("F j, Y");
+          $isDate = $isDate->format("F j, Y");
+          $iDate = $iDate->format("F j, Y");
+
           echo "<tr>
           <td>" . $row['borrowingDetailsID'] . "</td>
-          <td>" . $row['borrowname'] . "</td>
-          <td>" . $row['itemname'] . "</td>
-          <td>" . $row['dueDate']. "</td>".
+          <td>" . $row['borrowname'] . "</td>"
+            ."<td>" .  $isDate . "</td>"
+          ."<td>" .  $iDate . "</td>"
+          ."<td>" .  $dDate . "</td>".
+          "<td>" . $row['itemname'] .
             "<td>" . getquantity($row['borrowingDetailsID_FK']). "</td>";
           echo '<center>
               <td>

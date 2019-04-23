@@ -55,6 +55,27 @@ function checkAvailability($borrowid)
   }
 }
 
+function checkAvailability2($borrowid)
+{
+  date_default_timezone_set("Asia/Manila");
+  $pdo = pdo();
+  $sql = "select * from borrowingdetails where borrowingdetailsID = ?;";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([$borrowid]);
+  $result = $stmt->fetch();
+  $date = strtotime(date("Y-m-d"));
+  $duedate = strtotime($result['dueDate']);
+
+  if($date > $duedate)
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
 function getborrowable($itemid)
 {
   $many = 0;
@@ -111,8 +132,11 @@ function createtable()
 	          <tr>
 	            <th scope='col' >No</th>
 	            <th scope='col' >Borrower's Name</th>
-	            <th scope='col' >Due Date</th>
+	            <th scope='col' >Issued Date</th>
+              <th scope='col' >Initial Date</th>
+              <th scope='col' >Due Date</th>
 	            <th scope='col' >Quantity</th>
+              <th scope='col' >Status</th>
 	            <th scope='col'>Actions</th>
 	          </tr>
 	        </thead>";
@@ -120,21 +144,49 @@ function createtable()
       // output data of each row
       while($row = $result->fetch_assoc()) 
       {
-        $osDate = new DateTime($row['dueDate']);
-        $sDate = $osDate->format("F j, Y");
+        $iDate = new DateTime($row['initialDate']);
+        $isDate = new DateTime($row['issueDate']);
+        $dDate = new DateTime($row['dueDate']);
+
+        $dDate = $dDate->format("F j, Y");
+        $isDate = $isDate->format("F j, Y");
+        $iDate = $iDate->format("F j, Y");
         echo "<tr>
           <td>" . $row['borrowingDetailsID'] . "</td>
-          <td>" . $row['borrowname'] . "</td>
-          <td>" .  $sDate . "</td>".
+          <td>" . $row['borrowname'] . "</td>"
+          ."<td>" .  $isDate . "</td>"
+          ."<td>" .  $iDate . "</td>"
+          ."<td>" .  $dDate . "</td>".
           "<td>" . getquantity($row['borrowingDetailsID_FK']). "</td>";
+
+          echo "<td>";
+          if(checkAvailability($row['borrowingDetailsID']) == 1)
+          {
+            echo '<h6 class="text-danger">Insufficient <br> Quantity</h6>';
+          }
+          else if(checkAvailability2($row['borrowingDetailsID']) == 1)
+          {
+            echo '<h6 class="text-danger">Due Date</h6>';
+          }
+          else
+          {
+            echo '<h6 class="text-success">Good</h6>';
+          }
+          echo "</td>";
+
         echo '<td>
                 <center>';
+
+
 
               echo'<button type="button" id="'.$row['borrowingDetailsID'].'" class="btn btn-sm btn-secondary view_pending_item"><i class="fas fa-eye"></i></button> ';
 
               //echo "<script>console.log( '".checkAvailability($row['borrowingDetailsID'])."' );</script>";
-
               if(checkAvailability($row['borrowingDetailsID']) == 1)
+              {
+                echo '<button type="button" id="'.$row['borrowingDetailsID'].'" class="btn btn-sm btn-secondary approve_pending_item" disabled><i class="fas fa-check"></i></button>';
+              }
+              else if(checkAvailability2($row['borrowingDetailsID']) == 1)
               {
                 echo '<button type="button" id="'.$row['borrowingDetailsID'].'" class="btn btn-sm btn-secondary approve_pending_item" disabled><i class="fas fa-check"></i></button>';
               }
@@ -142,6 +194,10 @@ function createtable()
               {
                 echo '<button type="button" id="'.$row['borrowingDetailsID'].'" class="btn btn-sm btn-secondary approve_pending_item"><i class="fas fa-check"></i></button>';
               }
+
+             
+
+
 
            
               echo'	<button type="button" id="'.$row['borrowingDetailsID'].'" class="btn btn-sm btn-secondary delete_pending_item" data-toggle="modal" data-target="#actionDeleteItemModal"><i class="fas fa-times"></i></button>
