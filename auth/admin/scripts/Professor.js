@@ -16,6 +16,7 @@ $(document).ready(function(){
     	$("table tbody tr:first").before(row);		
 		// $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
 		$("table tbody tr").eq(0).find(".add, .edit").toggle();
+		$("table tbody tr:first td:first input:first").focus();
         $('[data-toggle="tooltip"]').tooltip();
     });
 	// Add row on add button click

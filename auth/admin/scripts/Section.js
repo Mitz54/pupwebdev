@@ -26,6 +26,7 @@ $(document).ready(function(){
     	$("table tbody tr:first").before(row);		
 		// $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
 		$("table tbody tr").eq(0).find(".add, .edit").toggle();
+		$("table tbody tr:first td:first input:first").focus();
         $('[data-toggle="tooltip"]').tooltip();
     });
 	// Add row on add button click
@@ -68,7 +69,7 @@ $(document).ready(function(){
 							alert("Successfully Updated");
 							changeRow($thisobj, true);
 						}else if(data == 'exist'){
-							alert("Section already exists");
+							alert("Section already exists or is very similar to an existing one");
 							changeRow($thisobj, false);
 						}else if(data == 'invalid'){
 							alert("Invalid Course");
@@ -101,7 +102,7 @@ $(document).ready(function(){
 							alert("Successfully Inserted");
 							changeRow($thisobj, true);
 						}else if(data == 'exist'){
-							alert("Section already exists");
+							alert("Section already exists or is very similar to an existing one");
 
 							// remove row
 							$thisobj.parents("tr").remove();
@@ -145,7 +146,6 @@ $(document).ready(function(){
 	   	var $sectionID = $(this).parents("tr")       		//Find parent row <tr>
 			.find('.sectionID').find('.old-value').text();   	//Get a child with class="RoomID old-value"
 		var $thisobj = $(this);
-		alert($sectionID);
 		if(confirm('Do you really wish to delete Section?')){
 
 			// post deleteroom

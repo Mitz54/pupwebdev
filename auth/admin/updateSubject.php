@@ -16,10 +16,13 @@ if($oldSubjectID == $newSubjectID ){
 
 	updateSubject($con, $oldSubjectID, $newSubjectID , $subjectTitle);
 }else{
+	$newCleanID = clean($newSubjectID);
+	$oldCleanID = clean($oldSubjectID);
+	$replace_query = replace_query("subjectID");
 	// make sure newSubjectID  does not exist
-	$sql = 'SELECT subjectID FROM subject WHERE subjectID = ?';
+	$sql = 'SELECT subjectID FROM subject WHERE '.$replace_query.' = ? AND '.$replace_query.' NOT LIKE "'.$oldCleanID.'"';
 	$stmt = $con->prepare($sql);
-	$stmt->bind_param("s", $newSubjectID);
+	$stmt->bind_param("s", $newCleanID);
 	$stmt->execute();
 	$stmt->store_result();
 
