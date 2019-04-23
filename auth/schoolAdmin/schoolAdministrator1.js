@@ -497,6 +497,11 @@ var word = $(this).val();
             }
 });
 
+$("#create-report-btn").click(function(){
+  $.ajax({
+    url:'Queries/updateReservationtoVoid.php'
+  });
+});
 
 //UPDATE RESERVATION INFO
 

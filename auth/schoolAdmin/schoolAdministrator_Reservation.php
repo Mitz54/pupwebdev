@@ -85,7 +85,7 @@ include 'Modals/editScheduleInfo.php';
                   </select>
           </div>
              <div class="col">
-            <button class="btn btn-info create-report" type="button" data-toggle="modal" data-target="#reportModal">Create Report</button>
+            <button id="create-report-btn" class="btn btn-info create-report" type="button" data-toggle="modal" data-target="#reportModal">Create Report</button>
           </div>
         </div>
         <div class="room-calendar">

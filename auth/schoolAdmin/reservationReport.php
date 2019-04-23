@@ -48,7 +48,7 @@ class ReservationReport extends FPDF
 			$this->Cell(60,10,'Purpose',1,0,'C');
 			// $this->Cell(50,10,'Remarks',1,0,'C');
 			$this->Cell(15,10,'Room',1,0,'C');
-			$this->Cell(25,10,'Section',1,0,'C');
+			$this->Cell(25,10,'Users',1,0,'C');
 			$this->Cell(30,10,'Status',1,0,'C');
 			$this->Ln();
 		}
@@ -64,13 +64,10 @@ from reservation
 join reservationletter on reservationletter.reservationID_FK = reservation.reservationID
 join purpose on reservation.purposeID_FK = purpose.purposeID
 join schedule on reservation.scheduleID_FK= schedule.scheduleID
- room on room.roomID= schedule.roomID_FK
+join room on room.roomID= schedule.roomID_FK
 
 where approvedDate  BETWEEN '".$start."' AND '".$end."'
-&& reservation.reservationStatus  = 'approved' ||
 
- approvedDate BETWEEN '".$start."' AND '".$end."'
-&& reservation.reservationStatus  = 'reject'
 			";
 
             $result=mysqli_query($con,$select);
