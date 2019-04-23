@@ -159,9 +159,9 @@
         </button>
       </div>
       <div class="modal-body">
-      	<div id='viewPendingItemModalData'>
-      		
-      	</div>
+        <div id='viewPendingItemModalData'>
+          
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -180,12 +180,12 @@
         </button>
       </div>
       <div class="modal-body">
-      	<div id='viewApproveItemModalData'>
-      		
-      	</div>
+        <div id='viewApproveItemModalData'>
+          
+        </div>
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-pupcustomcolor approve_pending_item_return">Return</button>
+        <button type="button" class="btn btn-pupcustomcolor approve_pending_item_return">Return</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -356,25 +356,25 @@ $(document).ready(function()
 
   $(document).on('click', '.approve_pending_item_return', function(){
     var favorite = [];
-	var ids = [];
-	var numberchecked = 0;
-	$.each($(".checkboxid:checked"), function(){            
-	    favorite.push($(this).val());
-	    ids.push($(this).attr('id'));
-	    numberchecked = numberchecked + 1;
-	});
+  var ids = [];
+  var numberchecked = 0;
+  $.each($(".checkboxid:checked"), function(){            
+      favorite.push($(this).val());
+      ids.push($(this).attr('id'));
+      numberchecked = numberchecked + 1;
+  });
 
-	if(numberchecked == 0)
-	{
-		alert('Select from the item/s first before returning');
-	}
-	else
-	{
-		for(var k=0;k< numberchecked;k++)
+  if(numberchecked == 0)
+  {
+    alert('Select from the item/s first before returning');
+  }
+  else
+  {
+    for(var k=0;k< numberchecked;k++)
         {
-        	var iteminfoid = favorite[k];
-        	var borrowingid = ids[k];
-        	$.ajax({  
+          var iteminfoid = favorite[k];
+          var borrowingid = ids[k];
+          $.ajax({  
                     url:"functions/borrowing_view_return_item.php",
                     data:{iteminfoid:iteminfoid,borrowingid:borrowingid},  
                     method:"post",   
@@ -388,7 +388,7 @@ $(document).ready(function()
                     }  
                });
         }
-	}
+  }
   });
 
   $(document).on('click', '.delete_pending', function(){
@@ -438,31 +438,31 @@ $(document).ready(function()
   $(document).on('click', '.remove_approve_item', function(){
     var requestid = $(this).attr("id");  
     $.ajax({
-  		url:'functions/borrowing_view_approved_item.php',
-  		data:{borrowid:requestid},
-  		method:'post',
-  		success:function(data)
-  		{
-  			$('#viewApproveItemModalData').html(data);
-  			$('#viewApproveModal').modal('show');
-  		}
-  	});
+      url:'functions/borrowing_view_approved_item.php',
+      data:{borrowid:requestid},
+      method:'post',
+      success:function(data)
+      {
+        $('#viewApproveItemModalData').html(data);
+        $('#viewApproveModal').modal('show');
+      }
+    });
   });
 
   $(document).on('click','.view_pending_item',function(e)
   {
-  	var borrowid = $(this).attr('id');
-  	
-  	$.ajax({
-  		url:'functions/borrowing_view_pending_item.php',
-  		data:{borrowid:borrowid},
-  		method:'post',
-  		success:function(data)
-  		{
-  			$('#viewPendingItemModalData').html(data);
-  			$('#viewPendingModal').modal('show');
-  		}
-  	});
+    var borrowid = $(this).attr('id');
+    
+    $.ajax({
+      url:'functions/borrowing_view_pending_item.php',
+      data:{borrowid:borrowid},
+      method:'post',
+      success:function(data)
+      {
+        $('#viewPendingItemModalData').html(data);
+        $('#viewPendingModal').modal('show');
+      }
+    });
   });
 
 });

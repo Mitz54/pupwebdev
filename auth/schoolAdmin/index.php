@@ -1,5 +1,4 @@
-<?php session_start();
-require "logincheck.php";?>
+<?php session_start(); ?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php';
       include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php'); ?>
 
@@ -36,7 +35,7 @@ require "logincheck.php";?>
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <h2 class="card-title">1</h2>
+                <h2 class="card-title"><span id="span1"></span></h2>
                 <p class="card-text">Number of Items</p>
               </div>
               <div class="card-footer">
@@ -47,7 +46,7 @@ require "logincheck.php";?>
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <h2 class="card-title">1</h2>
+                <h2 class="card-title"><span id="span2"></span></h2>
                 <p class="card-text">Number of Borrowers</p>
               </div>
               <div class="card-footer">
@@ -84,3 +83,34 @@ require "logincheck.php";?>
 </div>
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/footer.php' ?>
+
+<script>
+$(document).ready(function()
+{  
+  var num = 1;
+  var num2 = 2;
+  var num3 = 3;
+  $.ajax({
+        url:"functions/index_live.php",
+        method:"post",
+        data:{num:num},
+        dataType:"text",
+        success:function(data)
+        {
+          $('#span1').text(data);
+        }
+      });
+
+  $.ajax({
+        url:"functions/index_live.php",
+        method:"post",
+        data:{num:num2},
+        dataType:"text",
+        success:function(data)
+        {
+          $('#span2').text(data);
+        }
+      });
+
+});
+</script>

@@ -130,29 +130,7 @@
   </div>
 </div>
 
-<!-- <div class="modal fade" id="addItemSpecificModal"00000000>
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addStaffModalTitle">Add Specific Item</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" id="edit_general_form" enctype="multipart/form-data">
-          <div id="edit_item_general"></div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-pupcustomcolor" id="save_confirm_general">Save</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
-
- --><div class="modal fade" id="editItemGeneral" tabindex="-1" role="dialog" aria-labelledby="addStaffModalTitle" aria-hidden="true">
+<div class="modal fade" id="editItemGeneral" tabindex="-1" role="dialog" aria-labelledby="addStaffModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -295,6 +273,46 @@
 <script>  
 $(document).ready(function()
 {  
+  $(document).on('click','.delete_all_item_general_button',function(e){
+    e.preventDefault();
+    if(confirm('are you sure you want to delete all items?'))
+    {
+      $.ajax({
+        url:"functions/delete_all_general.php",
+        method:"post",
+
+        dataType:"text",
+        success:function(data)
+        {
+          alert('Item(s) Deleted');
+          fetch_data();
+          fetch_data2();
+          fetch_data3();
+          fetch_data4();
+        }
+      });
+    }
+  });
+
+  $(document).on('click','.delete_all_item_specfic_button',function(e){
+    e.preventDefault();
+    if(confirm('are you sure you want to delete all specific items?'))
+    {
+      $.ajax({
+        url:"functions/delete_all_specific.php",
+        method:"post",
+        dataType:"text",
+        success:function(data)
+        {
+          alert('Item(s) Deleted');
+          fetch_data();
+          fetch_data2();
+          fetch_data3();
+          fetch_data4();
+        }
+      });
+    }
+  });
 
   $('#search_general').keyup(function()
   {
@@ -359,7 +377,7 @@ $(document).ready(function()
                "bLengthChange": false,
                dom: 'l<"toolbar1">frtip',
                initComplete: function(){
-                $("div.toolbar1").html(' <button type="button" class="btn btn-pupcustomcolor ml-2" data-toggle="modal"  data-target="#addItemModal">Add Item</button> <input type="submit" class="btn btn-pupcustomcolor delete_item_general_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor" name="print_pending" id="print_pending" value ="Print list" > <input type="submit" class="btn btn-pupcustomcolor confirm_delete_item_general_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_item_general_button d-none" value="Cancel">');           
+                $("div.toolbar1").html(' <button type="button" class="btn btn-pupcustomcolor ml-2" data-toggle="modal"  data-target="#addItemModal">Add Item</button> <input type="submit" class="btn btn-pupcustomcolor delete_item_general_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor" name="print_pending" id="print_pending" value ="Print list" > <input type="submit" class="btn btn-pupcustomcolor confirm_delete_item_general_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_item_general_button d-none" value="Cancel"> <input type="submit" class="btn btn-pupcustomcolor delete_all_item_general_button d-none" value="Delete All">');           
               }       
               });    
               var column = table.column(0);
@@ -385,7 +403,7 @@ $(document).ready(function()
 
                dom: 'r<"toolbar2">frtip',
                initComplete: function(){
-                $("div.toolbar2").html(' <input type="submit" class="btn btn-pupcustomcolor ml-2 add_item_specfic_button" data-toggle="modal"  data-target="#addItemSpecificModal" value="Add Item"> <input type="submit" class="btn btn-pupcustomcolor delete_item_specfic_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor" name="print_specific" id="print_specific" value ="Print list"> <input type="submit" class="btn btn-pupcustomcolor confirm_delete_item_specfic_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_item_specfic_button d-none" value="Cancel">');           
+                $("div.toolbar2").html(' <input type="submit" class="btn btn-pupcustomcolor ml-2 add_item_specfic_button" data-toggle="modal"  data-target="#addItemSpecificModal" value="Add Item"> <input type="submit" class="btn btn-pupcustomcolor delete_item_specfic_button" value="Multiple Delete"> <input type="submit" class="btn btn-pupcustomcolor" name="print_specific" id="print_specific" value ="Print list"> <input type="submit" class="btn btn-pupcustomcolor confirm_delete_item_specfic_button ml-3 d-none" value="Confirm"> <input type="submit" class="btn btn-pupcustomcolor cancel_delete_item_specfic_button d-none" value="Cancel"> <input type="submit" class="btn btn-pupcustomcolor delete_all_item_specfic_button d-none" value="Delete All">');           
               }       
               });   
               var column = table.column(0);
@@ -559,8 +577,8 @@ $(document).ready(function()
     checkitem();
     checkcondition();
     checkunitprice();
-    //alert($('#itemNumber').val());
-    if(checkitem() != false && checkcondition() != false && checkunitprice() != false)
+    checkserialnumber();
+    if(checkitem() != false && checkcondition() != false && checkunitprice() != false && checkserialnumber() != false)
     {
       if(confirm("Are you sure you want to add item?"))
       {
@@ -705,6 +723,7 @@ $(document).ready(function()
 
     $('.confirm_delete_item_specfic_button').removeClass(' d-none');
     $('.cancel_delete_item_specfic_button').removeClass(' d-none');
+    $('.delete_all_item_specfic_button').removeClass(' d-none');
     $('.delete_item_specfic_button').addClass(' d-none');
 
     var userTable = $('#table_2').DataTable();
@@ -719,6 +738,7 @@ $(document).ready(function()
 
     $('.confirm_delete_item_specfic_button').addClass(' d-none');
     $('.cancel_delete_item_specfic_button').addClass(' d-none');
+    $('.delete_all_item_specfic_button').addClass(' d-none');
     $('.delete_item_specfic_button').removeClass(' d-none');
 
     var userTable = $('#table_2').DataTable();
@@ -810,6 +830,7 @@ $(document).ready(function()
 
     $('.confirm_delete_item_general_button').removeClass(' d-none');
     $('.cancel_delete_item_general_button').removeClass(' d-none');
+    $('.delete_all_item_general_button').removeClass(' d-none');
     $('.delete_item_general_button').addClass(' d-none');
 
     var userTable = $('#table_1').DataTable();
@@ -823,6 +844,7 @@ $(document).ready(function()
 
     $('.confirm_delete_item_general_button').addClass(' d-none');
     $('.cancel_delete_item_general_button').addClass(' d-none');
+    $('.delete_all_item_general_button').addClass(' d-none');
     $('.delete_item_general_button').removeClass(' d-none');
 
     var userTable = $('#table_1').DataTable();
@@ -832,8 +854,8 @@ $(document).ready(function()
 
   $(document).on('click','.add_item_specfic_button',function(e)
   {
-  	e.preventDefault();
-  	fetch_data5();
+    e.preventDefault();
+    fetch_data5();
   });
 
   function checkitem()
@@ -894,7 +916,6 @@ $(document).ready(function()
 
   function checkserialnumber()
   {
-    //$('#serialnumber').addClass(" is-invalid");
     if($('#serialnumber').val()  != "" && $('#serialnumber').val() != null)
     {
       var return_first = function () {
@@ -908,8 +929,7 @@ $(document).ready(function()
                   dataType:"text",  
                   success:function(data)
                   {  
-                    alert(data);
-                     tmp = data;
+                    tmp = data;
                   }  
              }); 
            return tmp;
@@ -926,6 +946,12 @@ $(document).ready(function()
         $('#serialnumber-feedback').html(''); 
         $('#serialnumber').removeClass(" is-invalid");
       }
+    }
+    else
+    {
+      $('#serialnumber').addClass(" is-invalid");
+      $('#serialnumber-feedback').html('Please enter a Serial number'); 
+      return false;
     }
     //$('#serialnumber').removeClass(" is-invalid");    
   }

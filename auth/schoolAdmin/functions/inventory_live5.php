@@ -4,7 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/dbc/dbc.php';
 function getitemoption()
 {
   $conn = conn();
-  $sql = "SELECT * FROM item";
+  $sql = "SELECT * FROM item where status = 1";
   $result = $conn->query($sql);
 
   if ($result->num_rows > 0) 
