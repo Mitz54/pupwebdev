@@ -230,7 +230,7 @@ else
 				$queueID=$row['next'];
 			}
 			mysqli_close($con);
-			echo '<script>alert('. $queueID.');</script>';
+			// echo '<script>alert('. $queueID.');</script>';
 			require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
 			mysqli_query($con, 'call insertNewQueueingTransaction(' . $queueID . ', "' . date('Y-m-d') . '", ' . $_POST['printModal'] . ')') or die("Query fail: " . mysqli_error($con));
 		
