@@ -143,7 +143,7 @@ require "logincheck.php";?>
               // account
 
               $userName = $_POST['username'];
-              $password = $_POST['password'];
+              $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
               $profID = $_POST['professorID'];
               $accountType = "prof";
 

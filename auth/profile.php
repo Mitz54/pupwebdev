@@ -6,7 +6,39 @@
     <a class="nav-link logout-button" href="../../index.php"><i class="fas fa-power-off icon"></i>Logout</a>
   </li>
 </ul> -->
+<?php    
 
+if(isset($_POST['ChangePasswordBtn'])){
+  include_once ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
+  $newpass = $_POST['new_password'];
+  $username = $_SESSION['username'];
+  $result = mysqli_query($con, "call getPasswordByUsername('$username')");
+	$resultCheck = mysqli_num_rows($result);
+  if ($resultCheck > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+      $userpassword = $row['password'];
+    }
+    if(password_verify($_POST['current_password'],$userpassword)){
+      if( $_POST['new_password'] == $_POST['confirm_password'])
+      {
+        $hash_newpassword = password_hash($newpass, PASSWORD_DEFAULT);
+        echo "<script>alert('". $hash_newpassword . " " . $username ."');</script>";
+        // mysqli_query($con, "call updatePass('$hash_newpassword', '$username')");
+        // include_once ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
+        // mysqli_query($con, "call updatePass('" .$hash_newpassword. "', '".$username."')");
+        mysqli_query($con, "UPDATE account SET password = '$hash_newpassword' WHERE userName = '$username';)") or die("Query fail: " . mysqli_error());
+        echo "<script>alert('Successfully changed password.');</script>";
+      }
+      else {
+        echo "<script>alert('new password does not match. Please recheck');</script>";
+      }
+    }
+    else{
+      echo "<script>alert('Current Password is wrong.');</script>";
+    }
+  }
+}    
+?>
 
 <style>
 	#changePassword {
@@ -46,27 +78,28 @@
         </button>
       </div>
       <div class="modal-body ">
+      <form method = "post">
         <div class="control-group">
             <label for="current_password" class="control-label">Current Password</label>
             <div class="controls">
-                <input type="password" name="current_password">
+                <input type="password" name="current_password" required>
             </div>
         </div>
         <div class="control-group">
             <label for="new_password" class="control-label">New Password</label>
             <div class="controls">
-                <input type="password" name="new_password">
+                <input type="password" name="new_password" required>
             </div>
         </div>
         <div class="control-group">
             <label for="confirm_password" class="control-label">Confirm Password</label>
             <div class="controls">
-                <input type="password" name="confirm_password">
+                <input type="password" name="confirm_password" required>
             </div>
         </div>      
     </div>
     <div class="modal-footer">
-        <button href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button href="#" class="btn btn-primary" id="password_modal_save">Save changes</button>
+        <button class="btn btn-primary" id="password_modal_save" name="ChangePasswordBtn">Save changes</button>
     </div>
+    </form>
 </div>
