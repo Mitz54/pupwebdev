@@ -1,5 +1,5 @@
 <?php
-
+include "QValidate_Functions.php";
 //mysqli
 // insert Room to database
 function insertRoom(mysqli $conn, $roomID, $roomType){

@@ -4,16 +4,19 @@
 include_once($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 include "Section_Functions.php";
 
-$sectionID = $_POST['sectionID'];
-$courseID = $_POST['courseID'];
-$yearLevel = $_POST['yearLevel'];
+$sectionID = trim($_POST['sectionID']);
+$courseID = trim($_POST['courseID']);
+$yearLevel = trim($_POST['yearLevel']);
 
 // validate here!
 if($yearLevel > 0 && $yearLevel < 6){
+
+	$cleanID = clean($sectionID);
+	$replace_query = replace_query("sectionID");
 	// make sure Section  does not exist
-	$sql = 'SELECT sectionID FROM section WHERE sectionID = ?';
+	$sql = 'SELECT sectionID FROM section WHERE '.$replace_query.' = ?';
 	$stmt = $con->prepare($sql);
-	$stmt->bind_param("s", $sectionID);
+	$stmt->bind_param("s", $cleanID);
 	$stmt->execute();
 	$stmt->store_result();
 

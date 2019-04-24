@@ -1,4 +1,5 @@
 <?php
+include "QValidate_Functions.php";
 //mysqli
 // insert Subject to database
 function insertSubject(mysqli $conn, $subjectID, $subjectTitle){

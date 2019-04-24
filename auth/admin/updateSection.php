@@ -14,6 +14,7 @@ $yearLevel = $_POST['yearLevel'];
 if($yearLevel > 0 && $yearLevel < 6){
 	//update yearLevel
 	if($oldSectionID == $newSectionID ){
+
 		// make sure course is valid
 			$sql2 = 'SELECT courseID FROM course WHERE courseID = ?';
 			$stmt2 = $con->prepare($sql2);
@@ -29,10 +30,14 @@ if($yearLevel > 0 && $yearLevel < 6){
 				echo "invalid";
 			}
 	}else{
+
+		$newCleanID = clean($newSectionID);
+		$oldCleanID = clean($oldSectionID);
+		$replace_query = replace_query("sectionID");
 		// make sure Section  does not exist
-		$sql = 'SELECT sectionID FROM section WHERE sectionID = ?';
+		$sql = 'SELECT sectionID FROM section WHERE '.$replace_query.' = ? AND '.$replace_query.' NOT LIKE "'.$oldCleanID.'"';
 		$stmt = $con->prepare($sql);
-		$stmt->bind_param("s", $sectionID);
+		$stmt->bind_param("s", $newCleanID);
 		$stmt->execute();
 		$stmt->store_result();
 

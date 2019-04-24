@@ -1,4 +1,5 @@
 <?php
+include "QValidate_Functions.php";
 /* comments
 	why courseID is varchar(60) here
 

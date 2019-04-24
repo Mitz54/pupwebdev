@@ -1,4 +1,5 @@
 <?php
+include "QValidate_Functions.php";
 
 //mysqli
 // insert Course to database

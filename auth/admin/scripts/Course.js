@@ -5,7 +5,7 @@ $(document).ready(function(){
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		var index = $("table tbody tr:last-child").index();
+		// var index = $("table tbody tr:last-child").index();
         var row = '<tr>' +
 
         
@@ -13,8 +13,11 @@ $(document).ready(function(){
             '<td class = "editableColumns courseTitle"> <div class="old-value"></div> <input type="text" class="form-control new-value"></td>' +
 			'<td>' + actions + '</td>' +
         '</tr>';
-    	$("table").append(row);		
-		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+    	// $("table").append(row);		
+		// $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+    	$("table tbody tr:first").before(row);		
+		$("table tbody tr").eq(0).find(".add, .edit").toggle();
+		$("table tbody tr:first td:first input:first").focus();
         $('[data-toggle="tooltip"]').tooltip();
     });
 
@@ -56,7 +59,7 @@ $(document).ready(function(){
 							alert("Successfully Updated");
 							changeRow($thisobj, true);
 						}else if(data == 'exist'){
-							alert("Course already exists");
+							alert("Course already exists or is very similar to an existing one");
 							changeRow($thisobj, false);
 						}
 					}
@@ -81,7 +84,7 @@ $(document).ready(function(){
 							alert("Successfully Inserted");
 							changeRow($thisobj, true);
 						}else if(data == 'exist'){
-							alert("Course already exists");
+							alert("Course already exists or is very similar to an existing one");
 
 							// remove row
 							$thisobj.parents("tr").remove();

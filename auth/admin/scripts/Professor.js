@@ -5,7 +5,7 @@ $(document).ready(function(){
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		var index = $("table tbody tr:last-child").index();
+		// var index = $("table tbody tr:last-child").index();
         var row = '<tr>' +
         	'<td class = "hidden professorID"><input type="hidden" class = "old-value"/></td>' +
             '<td class = "editableColumns firstName"> <div class="old-value"></div> <input type="text" class="form-control new-value"></td>' +
@@ -13,8 +13,10 @@ $(document).ready(function(){
 			'<td class = "editableColumns lastName"> <div class="old-value"></div> <input type="text" class="form-control new-value"></td>' +
 			'<td>' + actions + '</td>' +
         '</tr>';
-    	$("table").append(row);		
-		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+    	$("table tbody tr:first").before(row);		
+		// $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+		$("table tbody tr").eq(0).find(".add, .edit").toggle();
+		$("table tbody tr:first td:first input:first").focus();
         $('[data-toggle="tooltip"]').tooltip();
     });
 	// Add row on add button click

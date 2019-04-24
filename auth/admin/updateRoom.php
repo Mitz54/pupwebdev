@@ -5,9 +5,9 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 include "Room_Functions.php";
 
 
-$oldRoomID = $_POST['oldRoomID'];
-$newRoomID = $_POST['newRoomID'];
-$roomType = $_POST['roomType'];
+$oldRoomID = trim($_POST['oldRoomID']);
+$newRoomID = trim($_POST['newRoomID']);
+$roomType = trim($_POST['roomType']);
 
 // validate here!
 
@@ -17,10 +17,14 @@ if($oldRoomID == $newRoomID ){
 
 	updateRoom($con, $oldRoomID, $newRoomID , $roomType);
 }else{
+
+	$newCleanID = clean($newRoomID);
+	$oldCleanID = clean($oldRoomID);
+	$replace_query = replace_query("roomID");
 	// make sure newRoomID  does not exist
-	$sql = 'SELECT roomID FROM room WHERE roomID = ?';
+	$sql = 'SELECT roomID FROM room WHERE '.$replace_query.' = ? AND '.$replace_query.' NOT LIKE "'.$oldCleanID.'"';
 	$stmt = $conn->prepare($sql);
-	$stmt->bind_param("s", $newRoomID);
+	$stmt->bind_param("s", $newCleanID);
 	$stmt->execute();
 	$stmt->store_result();
 

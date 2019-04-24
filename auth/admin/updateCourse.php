@@ -5,9 +5,9 @@ include($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 include "Course_Functions.php";
 
 
-$oldCourseID = $_POST['oldCourseID'];
-$newCourseID = $_POST['newCourseID'];
-$courseTitle = $_POST['courseTitle'];
+$oldCourseID = trim($_POST['oldCourseID']);
+$newCourseID = trim($_POST['newCourseID']);
+$courseTitle = trim($_POST['courseTitle']);
 // validate here!
 
 //update courseTitle
@@ -16,10 +16,13 @@ if($oldCourseID == $newCourseID ){
 
 	updateCourse($con, $oldCourseID, $newCourseID , $courseTitle);
 }else{
+	$newCleanID = clean($newCourseID);
+	$oldCleanID = clean($oldCourseID);
+	$replace_query = replace_query("courseID");
 	// make sure newCourseID  does not exist
-	$sql = 'SELECT courseID FROM course WHERE courseID = ?';
+	$sql = 'SELECT courseID FROM course WHERE '.$replace_query.' = ? AND '.$replace_query.' NOT LIKE "'.$oldCleanID.'"';
 	$stmt = $con->prepare($sql);
-	$stmt->bind_param("s", $newCourseID);
+	$stmt->bind_param("s", $newCleanID);
 	$stmt->execute();
 	$stmt->store_result();
 

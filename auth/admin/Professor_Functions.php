@@ -1,5 +1,6 @@
 
 <?php
+include "QValidate_Functions.php";
 
 //mysqli
 // insert Professor to database
