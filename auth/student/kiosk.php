@@ -50,8 +50,15 @@ kapag gagawa ng connection  -->
 
 
 <?php  include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header3.php';
+session_start();
+if (isset($_SESSION['queueNumber']) && isset($_SESSION['increaseNumber'])) {
 
-
+}
+else
+{
+	$_SESSION['increaseNumber'] = 0;
+	$_SESSION['queueNumber'] = 0;
+}
 ?>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -150,6 +157,7 @@ kapag gagawa ng connection  -->
             </div>
   <!------------------------------------------------------ QUEUE COLUMN ---------------------------------------------------->
   <div class="row">
+
   <?php
 		require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
 
@@ -168,6 +176,7 @@ kapag gagawa ng connection  -->
 			$officeHead[$counter] = strtoupper($row['firstName'] . " " . $row['lastName']);
 			$officeRoom[$counter] = $row['roomID_FK'];
 			$officeCode[$counter] = strtoupper($row['code']);
+
 			$counter++;
 		}
 		mysqli_close($con);
@@ -185,35 +194,13 @@ kapag gagawa ng connection  -->
 			$counter++;
 		}
 		mysqli_close($con);
-		
-		require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
-		$res = mysqli_query($con, "call selectNextQueueNumber()") or die("Query fail: " . mysqli_error());
-		
-		while($row=mysqli_fetch_array($res))
-		{
-			if ($row['next']!=null)
-				$queueNum=$row['next'];
-			else
-				$queueNum=1;
-		}
-		mysqli_close($con);
-		
-		if ($queueNum<10){
-			$increase="000";
-		}
-		elseif ($queueNum<100) {
-			$increase="00";
-		}
-		elseif ($queueNum<1000) {
-			$increase="0";
-		}
-		
+
 		if (isset($_POST['printModal']))
 		{
 			require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
-			mysqli_query($con, 'call insertNewQueue("' . $queueNum . '", "' . date('Y-m-d') . '")') or die("Query fail: " . mysqli_error());
+			mysqli_query($con, 'call insertNewQueue("' . $_SESSION['queueNumber'] . '", "' . date('Y-m-d') . '")') or die("Query fail: " . mysqli_error());
 			
-			$res = mysqli_query($con, 'call selectQueueID(' . $queueNum . ')') or die("Query fail: " . mysqli_error());
+			$res = mysqli_query($con, 'call selectQueueID(' . $_SESSION['queueNumber'] . ')') or die("Query fail: " . mysqli_error());
 			while($row=mysqli_fetch_array($res))
 			{
 				$queueID=$row['queueID'];
@@ -222,6 +209,7 @@ kapag gagawa ng connection  -->
 			
 			require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
 			mysqli_query($con, 'call insertNewQueueingTransaction(' . $queueID . ', "' . date('Y-m-d') . '", ' . $_POST['printModal'] . ')') or die("Query fail: " . mysqli_error($con));
+		
 			mysqli_close($con);
 			
 			//-------------------------------KARL DITO KA MAGBAGO-----------------------------------------------
@@ -239,7 +227,7 @@ kapag gagawa ng connection  -->
 			
 			//--------------------------------------------------------------------------------------------------
 			
-			header('Location: kiosk.php?');
+			// header('Location: kiosk.php?');
 			// exit(); 
 
 			// location.reload(true);
@@ -306,35 +294,34 @@ kapag gagawa ng connection  -->
 				</div>
 				</div>
 			</div>';
-		}
-
-		echo '<!-- The Modal(Print Queue) -->
-		<div class="modal fade modaladjust" id="myModal"> 
-			<div class="modal-dialog">
-				<div class="modal-content">
-				  <!-- Modal Header -->
-				  <div class="modal-header">
-					<h4 class="col-12 modal-title text-center" id="sample">Print Queue Number</h4>
-				  </div>
-
-				  <!-- Modal body -->
-				  <div class="modal-body" id="printArea">
-					<div class="card-deck">
-					  <div class="card bg-white">
-						<div class="card-body text-center">
-							<h1 class="card-text" id="offcode">N/A</h1>
-							<h1 class="card-text" id="offnum">-'. $increase . $queueNum . '</h1>
-							<h5 class="card-text">Transaction Number</h5>
-							<form method="post">
-								<button class="btn btn-block text-white pupcolor" type="submit" name="printModal" id="printButton" value=" ">PRINT</button>
-							</form>
+			echo '<!-- The Modal(Print Queue) -->
+			<div class="modal fade modaladjust" id="myModal"> 
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+						<h4 class="col-12 modal-title text-center" id="sample">Print Queue Number</h4>
 						</div>
-					  </div>
+	
+						<!-- Modal body -->
+						<div class="modal-body" id="printArea">
+						<div class="card-deck">
+							<div class="card bg-white">
+							<div class="card-body text-center">
+								<h1 class="card-text" id="offcode">N/A</h1>
+								<h1 class="card-text" id="offnum">-'. $_SESSION['increaseNumber'] . $_SESSION['queueNumber'] . '</h1>
+								<h5 class="card-text">Transaction Number</h5>
+								<form method="post">
+									<button class="btn btn-block text-white pupcolor" type="submit" name="printModal" id="printButton" value=" ">PRINT</button>
+								</form>
+							</div>
+							</div>
+						</div>
+						</div>
 					</div>
-				  </div>
 				</div>
-			</div>
-		</div>';
+			</div>';
+		}
   ?>
   
 	
@@ -589,10 +576,17 @@ kapag gagawa ng connection  -->
 <link href="/pupwebdev/assets/stylesheet/fullcalendar390.min.css" rel="stylesheet">
 <script src="/pupwebdev/assets/javascript/moment.min.js"></script>
 <script src="/pupwebdev/assets/javascript/fullcalendar390.min.js"></script>
+
 <script>
 
 function getTransaction(objButton){
 	document.getElementById("printButton").value=objButton.value;
+	
+	$.ajax({
+		url:"php/getNextQueueNumber.php",
+		method:"POST",
+		data:{transactionNum: objButton.value},
+	});
 }
 
 function getOfficeCode(code){

@@ -23,29 +23,26 @@ try
     if(empty($username) || empty($pass))
     {
       $message = '<label>All fields are required</label>';
+      echo "<script> alert('".$message."'); </script>"; 
     }
     else
     {
-
-      //$query = $conn->prepare("SELECT * FROM account WHERE userName = '$username' AND password = '$pass'");
-      $query = $con->prepare("CALL getAccountInfo ('$username', '$pass')");
+      $query = $con->prepare("CALL getPasswordByUsername ('$username')");
       $query->execute();
-      $query->bind_result($accountType, $accountID, $room,  $officeID, $office);
+      $query->bind_result($password);
       $query->fetch();
-      
-      //$query->execute(array('userName' => $username, 'password' => $pass));
-      //$query->setFetchMode(PDO::FETCH_ASSOC);
-      // $data = $query->fetch();
-      // $accountType = $data['accountType'];
-      // $room = $data['roomID'];
-      // $office = $data['officeName'];
-      // $accountID = $data['accountID'];
-      // $officeID= $data['officeID'];
+      $query->close();
 
-      // check if username and password exists
-      
-
+      $hashed_password = $password;
+      //$query = $conn->prepare("SELECT * FROM account WHERE userName = '$username' AND password = '$pass'");
+      if(password_verify($pass,$hashed_password))
+      {
+        $query = $con->prepare("CALL getAccountInfo ('$username')");
+        $query->execute();
+        $query->bind_result($accountType, $accountID, $room,  $officeID, $office);
+        $query->fetch();
         $query->close();
+     
         // get firstname lastname
         $query2 = $con->prepare("CALL getProfName('$username')");
         $query2->execute();
@@ -82,7 +79,7 @@ try
         }
         else //if not faculty but maybe an admin
         {
-          $query2 = $con->prepare("CALL getAccountID('$username', '$pass')");
+          $query2 = $con->prepare("CALL getAccountID('$username')");
           $query2->execute();
           $query2->bind_result($accountID, $accountType);
           $query2->fetch();
@@ -106,41 +103,18 @@ try
             $con=null;
             exit();
           }
-          else{
-            $message = 'Wrong username or password, please try again';
-          echo "<script> alert('".$message."'); </script>"; 
-            unset($_SESSION['username']);
-            unset($_SESSION['office']);
-            unset($_SESSION['accntID']);
-            unset($_SESSION['accountType']);
-          }  
         }
-      
-      
-        
-        
-        
-
-    //     if($accountType == 'prof' && $accountID ==30){
-    //       // header ("Location: /pupwebdev/auth/admin/index.php");
-    //       header ("Location: /pupwebdev/auth/admin/index.php");
-    //     }
-    //     else if($accountType == 'prof' && $accountID != 2)
-    //  {
-    //  header ("Location: /pupwebdev-kiosk/auth/admin/per_queue_offices.php");
-        
-    //     }
-    //     else if($accountType == 'admin' && $accountID !=2)
-    // {
-    //        header ("Location: /pupwebdev-kiosk/auth/admin/room.php");
-         
-    //     }
-    
-    }
-    
+      }
+      else{
+        $message = 'Wrong username or password, please try again';
+        echo "<script> alert('".$message."'); </script>"; 
+        unset($_SESSION['username']);
+        unset($_SESSION['office']);
+        unset($_SESSION['accntID']);
+        unset($_SESSION['accountType']);
+      }  
+    }    
   }
-  
-
 }
 catch(Exception $error)
 {

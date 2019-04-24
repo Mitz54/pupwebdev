@@ -190,7 +190,6 @@ if(isset($_GET['pendbt'])){
 				method:"POST",
 				data:{breakNewCount: breakCount},
 			});
-      $("#transactionNum").load("loaddb.php", {breakNewCount: breakCount});
 		});
 		setInterval(function(){
 			$('#queueTable').load("loadQueueTable.php");

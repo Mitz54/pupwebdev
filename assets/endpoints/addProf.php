@@ -4,7 +4,7 @@
     <div class="form-group">
         <label for="name">Name</label>
         
-        <select name="professorID" id="" class="form-control">
+        <select name="professorID" id="" class="form-control" required>
           <?php
 
           function pdo()
@@ -28,6 +28,7 @@
            $sql = "call pup.selectProfNoAccount();";
            $stmt = $pdo->prepare($sql);
            $stmt->execute();
+           echo '<option selected="selected" disabled="true">--Please Select Professor--</option>';
            while($row = $stmt->fetch())
            {
             echo '<option value = "'.$row['professorID'].'">'.$row['firstName'].' '.$row['middleName'].' '.$row['lastName'].'</option>';
@@ -48,8 +49,8 @@
         <input class="form-control" type="text" id="addProf_lname" name="addProf_lname" value="" placeholder="Last Name" required>-->
         <label for="office">Office</label>
 
-        <select class="form-control" type="text" name="office">
-        <option value="-1">No Office</option>
+        <select class="form-control" type="text" name="office" required>
+        echo '<option selected="selected" disabled="true">--Please Select Office--</option>';
             <?php while($value = $officeList2->fetch_assoc()) { ?>
                   <option value="<?=$value['officeID']?>"><?=$value['officeName']?></option>
             <?php } ?>
