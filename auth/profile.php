@@ -9,7 +9,7 @@
 <?php    
 
 if(isset($_POST['ChangePasswordBtn'])){
-  include_once ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
+  include ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
   $newpass = $_POST['new_password'];
   $username = $_SESSION['username'];
   $result = mysqli_query($con, "call getPasswordByUsername('$username')");
@@ -18,15 +18,33 @@ if(isset($_POST['ChangePasswordBtn'])){
     while ($row = mysqli_fetch_assoc($result)) {
       $userpassword = $row['password'];
     }
+    
     if(password_verify($_POST['current_password'],$userpassword)){
       if( $_POST['new_password'] == $_POST['confirm_password'])
       {
+        $con->close();
         $hash_newpassword = password_hash($newpass, PASSWORD_DEFAULT);
-        echo "<script>alert('". $hash_newpassword . " " . $username ."');</script>";
+        // echo "<script>alert('". $hash_newpassword . " " . $username ."');</script>";
         // mysqli_query($con, "call updatePass('$hash_newpassword', '$username')");
-        // include_once ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
-        // mysqli_query($con, "call updatePass('" .$hash_newpassword. "', '".$username."')");
-        mysqli_query($con, "UPDATE account SET password = '$hash_newpassword' WHERE userName = '$username';)") or die("Query fail: " . mysqli_error());
+      
+        include ($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
+        // mysqli_query($con, "call updatePass('" .$hash_newpassword. "', '".$username."')") or die(mysqli_error());
+        $query = mysqli_query($con, "call updatePass('" .$hash_newpassword. "', '".$username."')") or die (mysqli_error($con)); 
+// $sql = "UPDATE account 
+// SET
+// password='$hash_newpassword'
+// WHERE userName = '$username'";
+							
+        // mysqli_query($con, $sql) or die(mysqli_error());
+        // if ($con->query($sql) === TRUE) {
+        // } else {
+        //     echo "Error: " . $con->error;
+        // }
+        
+        //header('Location:http://localhost:1234/pupwebdev/auth/admin/schoolAdministrator_Reservation.php?');
+          // exit;
+        // mysqli_close($con);
+       
         echo "<script>alert('Successfully changed password.');</script>";
       }
       else {
@@ -36,6 +54,7 @@ if(isset($_POST['ChangePasswordBtn'])){
     else{
       echo "<script>alert('Current Password is wrong.');</script>";
     }
+    $con->close();
   }
 }    
 ?>
