@@ -198,15 +198,39 @@ else
 		if (isset($_POST['printModal']))
 		{
 			require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
-			mysqli_query($con, 'call insertNewQueue("' . $_SESSION['queueNumber'] . '", "' . date('Y-m-d') . '")') or die("Query fail: " . mysqli_error());
-			
-			$res = mysqli_query($con, 'call selectQueueID(' . $_SESSION['queueNumber'] . ')') or die("Query fail: " . mysqli_error());
+			$res = mysqli_query($con, "call selectNextQueueNumber(" . $_POST['printModal'] .")") or die("Query fail: " . mysqli_error());
+		
 			while($row=mysqli_fetch_array($res))
 			{
-				$queueID=$row['queueID'];
+				if ($row['next']!=null)
+					$queueNum=$row['next'];
+				else
+					$queueNum=1;
+			}	
+			mysqli_close($con);
+			if ($queueNum<10){
+				$increase="000";
+			}
+			elseif ($queueNum<100) {
+				$increase="00";
+			}
+			elseif ($queueNum<1000) {
+				$increase="0";
+			}
+			$_SESSION['queueNumber'] = $queueNum;
+			$_SESSION['increaseNumber'] = $increase;
+			// mysqli_close($con);
+	
+			require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
+			mysqli_query($con, 'call insertNewQueue("' . $_SESSION['queueNumber'] . '", "' . date('Y-m-d') . '")') or die("Query fail: " . mysqli_error());
+			
+			$res = mysqli_query($con, 'call getCurrentQueueOnTransaction()') or die("Query fail: " . mysqli_error());
+			while($row=mysqli_fetch_array($res))
+			{
+				$queueID=$row['next'];
 			}
 			mysqli_close($con);
-			
+			echo '<script>alert('. $queueID.');</script>';
 			require $_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php';
 			mysqli_query($con, 'call insertNewQueueingTransaction(' . $queueID . ', "' . date('Y-m-d') . '", ' . $_POST['printModal'] . ')') or die("Query fail: " . mysqli_error($con));
 		
@@ -581,11 +605,15 @@ else
 
 function getTransaction(objButton){
 	document.getElementById("printButton").value=objButton.value;
-	
+	// alert('inside function');
 	$.ajax({
 		url:"php/getNextQueueNumber.php",
 		method:"POST",
 		data:{transactionNum: objButton.value},
+		success:function()
+		{
+		// alert("Event Removed");
+		}
 	});
 }
 
@@ -607,4 +635,9 @@ function change_Course()
 } 
 
 
+</script>
+<script type="text/javascript">
+		setInterval(function(){
+			$('#offnum').load("php/queuenumPrint.php");
+		}, 1000);
 </script>

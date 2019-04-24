@@ -157,8 +157,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php' ?>
 			
 			//--------------------------------------------------------------------------------------------------
 			
-			header("Location: kiosk.php");
-			exit(); 
+			// header("Location: kiosk.php");
+			
 		}
 		
 		$arrCount = count($officeID);
@@ -310,5 +310,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pupwebdev/auth/header.php' ?>
 
 function getTransaction(objButton){
 	document.getElementById("printButton").value=objButton.value;
+	$.ajax({
+		url:"php/getNextQueueNumber.php",
+		method:"POST",
+		data:{transactionNum: objButton.value},
+	});
 }
 </script>
