@@ -197,10 +197,10 @@ if(isset($_GET['pendbt'])){
 		}, 100);
     setInterval(function(){
 			$('#pendTable').load("loadPendTable.php");
-		}, 500);
+		}, 1000);
     setInterval(function(){
 			$('#transactionNum').load("loaddb.php");
-		}, 100);
+		}, 4000);
 		
 	});
 </script>

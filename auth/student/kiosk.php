@@ -235,7 +235,7 @@ else
 			mysqli_query($con, 'call insertNewQueueingTransaction(' . $queueID . ', "' . date('Y-m-d') . '", ' . $_POST['printModal'] . ')') or die("Query fail: " . mysqli_error($con));
 		
 			mysqli_close($con);
-			
+			unset($_POST['printModal']);
 			//-------------------------------KARL DITO KA MAGBAGO-----------------------------------------------
 			
 			/*$printer = "\\\\TETSUKY\\webdevPrinter"; 
@@ -251,7 +251,7 @@ else
 			
 			//--------------------------------------------------------------------------------------------------
 			
-			// header('Location: kiosk.php?');
+			header('Location: kiosk.php');
 			// exit(); 
 
 			// location.reload(true);
@@ -611,7 +611,7 @@ function getTransaction(objButton){
 		method:"POST",
 		data:{transactionNum: objButton.value},
 		success:function()
-		{
+		{ 
 		// alert("Event Removed");
 		}
 	});
@@ -639,5 +639,5 @@ function change_Course()
 <script type="text/javascript">
 		setInterval(function(){
 			$('#offnum').load("php/queuenumPrint.php");
-		}, 1000);
+		}, 100);
 </script>
