@@ -38,7 +38,7 @@
 								}
 								else
 								{
-									echo '<span class="queue-number" style="font-size: 100pt;">No</span><br>';
+									echo '<span class="queue-number" style="font-size: 100pt;">N/A</span><br>';
 								}
 								
 								echo '</div>';

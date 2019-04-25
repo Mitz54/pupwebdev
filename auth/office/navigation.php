@@ -125,7 +125,7 @@
 		});
     setInterval(function(){
 			$('#qNum').load("loaddb.php");
-		}, 1000);
+		}, 4000);
 		
 	});
 </script>
