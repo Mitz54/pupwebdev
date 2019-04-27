@@ -14,6 +14,35 @@ $(document).ready(function(){
     	$("table").append(row);		
 		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
         $('[data-toggle="tooltip"]').tooltip();
+	});
+	
+	$(".edit").click(function(){
+		
+		$(this).prop("disabled", true);
+		$(".cancel").prop("disabled", false);
+		$(".reset").prop("disabled", false);
+		$(".update").prop("disabled", false);
+		$(".office").prop("disabled", false);
+		$(".add-prof").prop("disabled", true);
+	});
+	$(".cancel").click(function(){
+		
+		$(".edit").prop("disabled", false);
+		$(this).prop("disabled", true);
+		$(".reset").prop("disabled", true);
+		$(".update").prop("disabled", true);
+		$(".office").prop("disabled", true);
+		$(".add-prof").prop("disabled", false);
+
+	});
+	$(".update").click(function(){
+		
+		$(".edit").prop("disabled", true);
+		$(".cancel").prop("disabled", false);
+		$(".reset").prop("disabled", false);
+		$(this).prop("disabled", false);
+		$(".office").prop("disabled", false);
+		$(".add-prof").prop("disabled", false);
     });
 	// Add row on add button click
 	$(document).on("click", ".add", function(){

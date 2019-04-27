@@ -8,6 +8,7 @@
 		$officeInfo['officeName'] = $row['officeName'];
 		$officeInfo['staffID'] = $row['staffID_FK'];
 		$officeInfo['roomID'] = $row['roomID_FK'];
+		$officeInfo['officeCode'] = $row['code'];
 		array_push($officeInfos,$officeInfo);
 	}
 	mysqli_next_result($con);
