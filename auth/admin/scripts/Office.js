@@ -11,8 +11,8 @@ $(document).ready(function(){
 			roomOptions.push($(this).val());
 		});
         var row = '<tr>' +
-            '<td><input type="text" class="form-control" name="firstname" id="first_name"></td>' +
-            '<td><input type="text" class="form-control" name="middlename" id="middle_name"></td><td><select class="form-control new-value">' +
+            '<td><input type="text" class="form-control" name="firstname" id="officename"></td>' +
+            '<td><input type="text" class="form-control" name="middlename" id="officecode"></td><td  id="officeroom"><select class="form-control new-value">' +
             '<option selected>'+ roomOptions[1] +'</option>';
             for(var i = 1;i<roomOptions.length;i++){
             	row = row + '<option>'+ roomOptions[i]+'</option>';
@@ -26,6 +26,7 @@ $(document).ready(function(){
     });
 	// Add row on add button click
 	$(document).on("click", ".add", function(){
+
 		var empty = false;
 		var input = $(this).parents("tr").find('input');
         input.each(function(){
@@ -47,11 +48,7 @@ $(document).ready(function(){
 			input.each(function(){
 				$(this).parent("td").html($(this).val());
 			});	
-			
-		}
-		else // add
-		{
-			alert('inside else');
+			// alert('inside else');
 			$(this).parents("tr").find(".error").first().focus();
 			$(this).parents("tr").find("td:nth-child(3)").find("select").each(function(){
 				$(this).prop("disabled", true);
@@ -60,6 +57,96 @@ $(document).ready(function(){
 			input.each(function(){
 				$(this).parent("td").html($(this).val());
 			});	
+			var $officeName = $(this).parents("tr")       		//Find parent row <tr>
+			.find('.officename').find('.new-value').val();   		//Get a child with class="SectionID new-value"
+			var $officeroom = $(this).parents("tr")       		//Find parent row <tr>
+			.find('.officeroom').find('.new-value').val();   		//Get a child with class="SectionID new-value"
+			var $officecode = $(this).parents("tr")       		//Find parent row <tr>
+			.find('.officecode').find('.new-value').val();   		//Get a child with class="SectionID new-value"
+
+			$.ajax({
+			
+				type:"POST",
+				url: "php/addOffice.php",
+				data: "&officeName=" + $officeName
+				+ "&officeroom=" + $officeroom + "&officecode=" + $officecode ,
+				success: function(data){
+					data = data.trim();
+					if(data == 'success' || data == 'updated'){
+						alert("Successfully Inserted");
+						changeRow($thisobj, true);
+					}else if(data == 'exist'){
+						alert("Section already exists");
+
+						// remove row
+						$thisobj.parents("tr").remove();
+						$(".add-new").removeAttr("disabled");
+					}else if(data == 'invalid'){
+						alert("Course invalid");
+
+						// remove row
+						$thisobj.parents("tr").remove();
+						$(".add-new").removeAttr("disabled");
+					}else if(data == 'year invalid'){
+						alert("Invalid Year");
+
+						// remove row
+						$thisobj.parents("tr").remove();
+						$(".add-new").removeAttr("disabled");
+					}
+				}
+			}); // POST addSection end
+		}
+		else // add
+		{
+			// alert('inside else');
+			$(this).parents("tr").find(".error").first().focus();
+			$(this).parents("tr").find("td:nth-child(3)").find("select").each(function(){
+				$(this).prop("disabled", true);
+			});
+			$(this).parents("tr").first().focus();
+			input.each(function(){
+				$(this).parent("td").html($(this).val());
+			});	
+			var $officeName = $(this).parents("tr")       		//Find parent row <tr>
+			.find('.officename').find('.new-value').val();   		//Get a child with class="SectionID new-value"
+			var $officeroom = $(this).parents("tr")       		//Find parent row <tr>
+			.find('.officeroom').find('.new-value').val();   		//Get a child with class="SectionID new-value"
+			var $officecode = $(this).parents("tr")       		//Find parent row <tr>
+			.find('.officecode').find('.new-value').val();   		//Get a child with class="SectionID new-value"
+
+			$.ajax({
+			
+				type:"POST",
+				url: "php/addOffice.php",
+				data: "&officeName=" + $officeName
+				+ "&officeroom=" + $officeroom + "&officecode=" + $officecode ,
+				success: function(data){
+					data = data.trim();
+					if(data == 'success' || data == 'updated'){
+						alert("Successfully Inserted");
+						changeRow($thisobj, true);
+					}else if(data == 'exist'){
+						alert("Section already exists");
+
+						// remove row
+						$thisobj.parents("tr").remove();
+						$(".add-new").removeAttr("disabled");
+					}else if(data == 'invalid'){
+						alert("Course invalid");
+
+						// remove row
+						$thisobj.parents("tr").remove();
+						$(".add-new").removeAttr("disabled");
+					}else if(data == 'year invalid'){
+						alert("Invalid Year");
+
+						// remove row
+						$thisobj.parents("tr").remove();
+						$(".add-new").removeAttr("disabled");
+					}
+				}
+			}); // POST addSection end
 		}
 		$(this).parents("tr").find(".add, .edit").toggle();
 		$(".add-new").prop("disabled", false);
