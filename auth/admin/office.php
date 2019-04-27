@@ -44,7 +44,9 @@ require "logincheck.php"; ?>
 	padding: 0px;
 	top: 0px;
 }
-
+.hidden {
+				display: none;
+}    
 .cancel {
     float: right;
     height: 30px;
@@ -150,28 +152,53 @@ require "logincheck.php"; ?>
             <form action="office.php" method="post" onsubmit="return CheckSameRoom();">
 			  <div class="tab-pane fade show active" id="inventorymodules-stock" role="tabpanel" aria-labelledby="inventorymodules-stock-tab">
                 <div class="search-etc">
+								<?php
+									echo "<select id='room-id-options' class='hidden col form-control selector'>".
+                                    "<option selected>All</option>";
+                                    foreach ($roominfos as $roominfo) {
+                                      echo "<option>".$roominfo['roomID']."</option>";
+                                    }                                 
+                                echo "</select>";
+								?>
                   <div class="row">
                     <div class="col-sm-8"><h2>Office</h2></div>
-					  <input class="btn btn-info update" onclick = "return UpdateConfirmation();" value="UPDATE" type="Submit" style="margin-left: 100px;" name="updateOfficeRoom"/>
+										<button class="btn btn-info add-new" type="button" id="button-search"><i class="fa fa-plus "></i>Add New
+					  <!-- <input class="btn btn-info update" onclick = "return UpdateConfirmation();" value="UPDATE" type="Submit" style="margin-left: 100px;" name="updateOfficeRoom"/> -->
 					  <!-- <button class="btn btn-info cancel" id="reset" type="button" >RESET</button> -->
-						<input 	class="btn btn-info cancel" type="reset" id="reset" value="RESET" />
+						<!-- <input 	class="btn btn-info cancel" type="reset" id="reset" value="RESET" /> -->
                   </div>
                 </div>
                 <table class="table table-bordered table-hover">
                   <thead class="thead-light">
                     <tr>
                       <th style="width: 60%" scope="col">Office</th>
+											<th style="width: 10%" scope="col">OfficeCode</th>
                       <th style="width: 10%" scope="col">Room</th>
+											<th style="width: 10%" scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php	//Office and DropdownList Room Table
 					foreach($officeinfos as $officeinfo)
 					{
+						
 						echo '<tr>';
+						
+						//id storage
+						echo "<td class = 'hidden officeID'>".
+						"<input type='hidden' class = 'old-value' value=". $officeinfo['officeID']." />".
+						"</td>";
+
+						//office cell
 						echo '<td>'  . $officeinfo['officeName'] . '</td>';
+
+						//office code cell
+						echo '<td>'  . $officeinfo['officeCode'] . '</td>';
+
+						//room cell
 						echo '<td>';
-						echo '<select name="$rooms[]" class="dropdown" id="room">';
+						// echo "<td class = 'editableColumns roomID'>"  . $officeinfo['roomID'] . "</td>";
+						echo '<select disabled name="$rooms[]" id="room" class="form-control new-value">';
 						foreach($roominfos as $roominfo)
 						{
 							if($roominfo['roomID'] != $officeinfo['roomID'])
@@ -185,6 +212,14 @@ require "logincheck.php"; ?>
 						}
 						echo '</select>';
 						echo '</td>';
+
+						//action cell
+						echo '<td>';
+						echo '<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>';
+						echo '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>';
+						echo '<a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
+						echo '</td>';
+
 						echo '</tr>';
                     }
 				  ?>

@@ -5,10 +5,19 @@ $(document).ready(function(){
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
 		var index = $("table tbody tr:last-child").index();
+		var roomOptionObj = $("#room-id-options");
+		var roomOptions = new Array();
+		$("#room-id-options").find("option").each(function(){
+			roomOptions.push($(this).val());
+		});
         var row = '<tr>' +
             '<td><input type="text" class="form-control" name="firstname" id="first_name"></td>' +
-            '<td><input type="text" class="form-control" name="middlename" id="middle_name"></td>' +
-            '<td><input type="text" class="form-control" name="lastname" id="last_name"></td>' +
+            '<td><input type="text" class="form-control" name="middlename" id="middle_name"></td><td><select class="form-control new-value">' +
+            '<option selected>'+ roomOptions[1] +'</option>';
+            for(var i = 1;i<roomOptions.length;i++){
+            	row = row + '<option>'+ roomOptions[i]+'</option>';
+            }
+        row = row + '</select></td>' +
 			'<td>' + actions + '</td>' +
         '</tr>';
     	$("table").append(row);		
@@ -27,20 +36,26 @@ $(document).ready(function(){
                 $(this).removeClass("error");
             }
 		});
-		$(this).parents("tr").find(".error").first().focus();
-		if(!empty){
-			input.each(function(){
-				$(this).parent("td").html($(this).val());
-			});			
-			$(this).parents("tr").find(".add, .edit").toggle();
-			$(".add-new").removeAttr("disabled");
-		}		
+		$(this).parents("tr").find("td:nth-child(4)").find("select").each(function(){
+			$(this).prop("disabled", true);
+		});
+		$(this).parents("tr").first().focus();
+		input.each(function(){
+			$(this).parent("td").html($(this).val());
+		});			
+		$(this).parents("tr").find(".add, .edit").toggle();
+		$(".add-new").removeAttr("disabled");	
     });
 	// Edit row on edit button click
-	$(document).on("click", ".edit", function(){		
-        $(this).parents("tr").find("td:not(:last-child)").each(function(){
+	$(document).on("click", ".edit", function(){
+		//all column except code		
+        $(this).parents("tr").find("td:not(:last-child):not(:nth-child(4))").each(function(){
 			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
 		});		
+		//code column
+		$(this).parents("tr").find("td:nth-child(4)").find("select").each(function(){
+			$(this).prop("disabled", false);
+		});	
 		$(this).parents("tr").find(".add, .edit").toggle();
 		$(".add-new").attr("disabled", "disabled");
     });

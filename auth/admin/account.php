@@ -6,6 +6,7 @@ require "logincheck.php";?>
 
 <?php
   $officeinfos = require 'php\GetOfficeInfo.php';
+  $hasAvailOffice = require 'php\getAccountNoOffice.php';
   // OFFICE VALIDATION
   if (isset($_POST['updateOffice']))	//submitted
 	{
@@ -206,7 +207,7 @@ require "logincheck.php";?>
     margin-right: 5px;
 }
 
-.cancel {
+.reset {
     float: right;
     height: 30px;
     font-weight: bold;
@@ -261,12 +262,13 @@ require "logincheck.php";?>
                   <div class="row">
                     <div class="col-sm-8"><h2>Accounts</h2></div>
                  
-                       <button class="btn btn-info add-prof" type="button" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus "></i>Add New
+                       <button class="btn btn-info add-prof" <?php if($hasAvailOffice == false){echo 'disabled';}?> type="button" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus "></i>Add New
                        </button>
                        <form action="account.php" method="post" >
-                       
-                       <input 	class="btn btn-info cancel" type="reset" id="reset" value="RESET" />
-                       <input class="btn btn-info update" onclick = "return UpdateConfirmation();" value="Update Office" type="Submit"  name="updateOffice"/>
+                       <input class="btn btn-info edit" type="reset" id="reset" value="Edit" />
+                       <input class="btn btn-info cancel" disabled type="reset" id="reset" value="Cancel" />
+                       <input class="btn btn-info reset" disabled type="reset" id="reset" value="RESET" />
+                       <input class="btn btn-info update" disabled onclick = "return UpdateConfirmation();" value="Update Office" type="Submit"  name="updateOffice"/>
                
                   </div>
                 </div>
@@ -298,7 +300,7 @@ require "logincheck.php";?>
                         <td><?=$value['lastName']?></td>
                         <td>
                         <?php
-                          echo '<select name="$offices[]" class="col custome-select" id="office">';
+                          echo '<select name="$offices[]" disabled class="col custome-select office" id="officeComboBox">';
                           foreach($officeinfos as $officeinfo)
                           {
                             if($value['officeID'] != $officeinfo['officeID'])
