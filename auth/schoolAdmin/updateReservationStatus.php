@@ -14,7 +14,7 @@
     if ($con->query($update) === TRUE) 
     {
     	
-        header('Location:http://localhost:1234/pupwebdev/auth/schoolAdmin/pending.php?');
+        header('Location:pending.php?');
 	} 
 	else 
 	{

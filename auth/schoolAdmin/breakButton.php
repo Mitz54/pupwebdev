@@ -5,6 +5,6 @@
 	$staffID = $_SESSION['accntID'];
 	$profNewCount = $_SESSION['PendingNum'];
 	//$sql2 = "UPDATE `queueingtransaction` INNER JOIN queue ON queue.queueNumber = queueingtransaction.queueID_FK SET `queueingTransactionStatus` = 'Done' WHERE `queue`.`queueNumber` = $profNewCount;";
-    $result2 = mysqli_query($con,"Call updateQueueTable('$profNewCount','$staffID','$dateToday')");
+    $result2 = mysqli_query($con,"Call updateQueueTable('$profNewCount','$staffID')");
     
     ?>

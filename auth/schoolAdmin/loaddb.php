@@ -14,7 +14,7 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
 	$row = mysqli_fetch_assoc($result);
 						if ($resultCheck > 0 && $resultCheck2 == 0) {
 				$_SESSION['PendingNum'] = $row['queueNumber'];
-				echo '<h4>Queue Number</h4>';
+				echo '<h4>Now Serving:</h4>';
       echo '<span class="queue-number" id="qNum">'. $_SESSION['PendingNum'] .'</span>';
 		 echo '<div class="queue-requestbutton">';
 		 echo  '<span>Transaction</span>';
@@ -24,18 +24,18 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
             //    echo "Current Serving: ". $_SESSION['PendingNum']."<br>". $row['transaction'];
 							}
 						else if ($resultCheck == 0 && $resultCheck2 == 0){
-							echo '<h4>Queue Number</h4>';
+							echo '<h4>Now Serving:</h4>';
       echo '<span class="queue-number" id="qNum">&nbsp;</span>';
 		 echo '<div class="queue-requestbutton">';
 		 echo  '<span >Transaction</span>';
      echo  '<span id="transaction">&nbsp;</span>';
       echo  '<button type="button" class="btn btn-sm btn-warning" id="brkBtn" disabled>Break</button>
-        <button type="button" class="btn btn-sm btn-warning" id="nxtBtn" disabled>Next</button>';
+        <button type="button" class="btn btn-sm btn-warning" id="nxtBtn" disabled>Start</button>';
               //  echo "Current Serving: ". $_SESSION['PendingNum']."<br>". $row['transaction'];
 							}
 							else if ($resultCheck > 0 && $resultCheck2 > 0){
 								$_SESSION['PendingNum'] = $row['queueNumber'];
-								echo '<h4>Queue Number</h4>';
+								echo '<h4>Now Serving:</h4>';
 				echo '<span class="queue-number" id="qNum">'. $_SESSION['PendingNum'] .'</span>';
 			 echo '<div class="queue-requestbutton">';
 			 echo  '<span >Transaction</span>';
@@ -46,13 +46,13 @@ $result = mysqli_query($con, "call selectQueueNumber($staffID)");
 								}
 								else if ($resultCheck == 0 && $resultCheck2 > 0){
 									$_SESSION['PendingNum'] = $row['queueNumber'];
-									echo '<h4>Queue Number</h4>';
+									echo '<h4>Now Serving:</h4>';
 					echo '<span class="queue-number" id="qNum">&nbsp;</span>';
 				 echo '<div class="queue-requestbutton">';
 				 echo  '<span >Transaction</span>';
 				 echo  '<span id="transaction">&nbsp;</span>';
 					echo  '<button type="button" class="btn btn-sm btn-warning" id="brkBtn" disabled>Break</button>
-						<button type="button" class="btn btn-sm btn-warning" id="nxtBtn">Next</button>';
+						<button type="button" class="btn btn-sm btn-warning" id="nxtBtn">Start</button>';
 									//  echo "Current Serving: ". $_SESSION['PendingNum']."<br>". $row['transaction'];
 									}
 						//	$_SESSION['PendingNum'] = implode($array[0], " ");

@@ -12,14 +12,22 @@
 class ReservationReport extends FPDF
 	{
 		function headerTitle($year)
-		{	$this->setfont('Arial', 'B', 16);
-			$this->Cell(0,5,"POLYTECHNIC UNIVERSITY OF THE PHILIPPINES",0,1,'C');
-			$this->setfont('Arial', '', 14);
-			$this->Cell(0,5,"OFFICE OF ADMINISTRATION",0,5,'C');
-            $this->Ln();
-            $this->ln(15);
-            $this->setfont('Arial', 'B', 14);
-            $this->Cell(0,5,"Yearly Reservation Report of ".$year,0,5,'C');
+		{			
+			$this->setfont('Arial', '', 12);
+			$this->Cell(0,5,"Republic of the Philippines",0,1,'L');
+			$this->ln(1);
+			$this->setfont('Arial', 'B', 16);
+			$this->Cell(0,5,"POLYTECHNIC UNIVERSITY OF THE PHILIPPINES",0,1,'L');
+			$this->ln(1);
+			$this->setfont('Arial', '', 12);
+			$this->Cell(0,5,"Office of the Vice President for Branches and Satellite Campuses",0,1,'L');
+			$this->ln(1);
+			$this->setfont('Arial', 'B', 16);
+			$this->Cell(0,5,"Santa Rosa Campus",0,5,'L');
+           	        $this->Ln();
+            		$this->ln(15);
+            		$this->setfont('Arial', 'B', 14);
+            		$this->Cell(0,5,"Yearly Reservation Report of ".$year,0,5,'C');
 			$this->Ln(10);
 		}
 
