@@ -7,14 +7,18 @@
 		$z = 0;
 		$b = 0;
 		$first = true;
+		$showedoffice = 0;
 		require 'GetQueuePerOfficeLimit.php';
 		require 'GetQueuePerOfficeServing.php';
 		for($x = 0; $x <2; $x++)
 		{
-			
+			// echo "<script>alert(" . $countoffice.");</script>";
 			echo '<div class="row">';
 			  for($y = 0; $y < 4; $y++)
 			  {
+					
+					if($showedoffice < $countoffice){
+						$showedoffice++;
 				  $b=0;
 				  $first = true;
 				  echo '<div class="col">';
@@ -75,7 +79,8 @@
 					  echo '</div>';
 					echo '</div>';
 				  echo '</div>';
-				  $z++;
+					$z++;
+					}
 			  }
 			echo '</div>';
 		}
