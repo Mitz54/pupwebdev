@@ -68,7 +68,7 @@
                 <p class="card-text">Number of Requests</p>
               </div>
               <div class="card-footer">
-                <a href="pendingReservation.php" class="btn btn-pupcustomcolor">More Info</a>
+                <a href="pending.php" class="btn btn-pupcustomcolor">More Info</a>
               </div>
             </div>
           </div>
