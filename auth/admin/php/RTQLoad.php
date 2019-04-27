@@ -5,14 +5,19 @@
 		$z = 0;
 		$b = 0;
 		$first = true;
+		$countoffice = 0;
+		$showedoffice = 0;
 		$officeinfos = require 'GetOfficeInfo.php';
 		require 'GetQueuePerOfficeLimit.php';
+		// echo "<script>alert(" . $countoffice.");</script>";
 		for($x = 0; $x <2; $x++)
 		{
 			
 			echo '<div class="row">';
-			  for($y = 0; $y < 4; $y++)
+				if($countoffice < $showedoffice){
+			  for($y = 0; $y < pow(1,($countoffice/2)); $y++)
 			  {
+					$showedoffice++;
 				  $b=0;
 				  $first = true;
 				  echo '<div class="col">';
@@ -55,6 +60,7 @@
 							
 							
 						}
+					}
 						// echo '<span class="next-number">0002 |</span>';
 						// echo '<span class="next-number">0002</span>';
 						// echo '<span class="next-number">0002 |</span>';

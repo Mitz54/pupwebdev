@@ -186,7 +186,7 @@ require "logincheck.php"; ?>
 						
 						//id storage
 						echo "<td class = 'hidden officeID'>".
-						"<input type='hidden' class = 'old-value' value=". $officeinfo['officeID']." />".
+						"<input type='hidden' class = 'old-value' value=". $officeinfo['officeID']." />". $officeinfo['officeID'].
 						"</td>";
 
 						//office cell
