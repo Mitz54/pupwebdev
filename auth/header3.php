@@ -2,24 +2,22 @@
 <html lang="en">
 
 <style>
-.navbar {
-	position: sticky !important;
-	height: 100px;
-	margin: 0px !important;
-}
+	.navbar {
+		position: sticky !important;
+		height: 100px;
+		margin: 0px !important;
+	}
 
-.navbar-dark>.navbar-brand{
-	margin-top: -50px;
-    margin-left: -10px;
-}
+	.navbar-dark>.navbar-brand {
+		margin-top: -50px;
+		margin-left: -10px;
+	}
 
- .bg-pupcustomcolornavbar {
-    background-color: #7f0400;
-    border-bottom: 4px solid #edeaea;
-    border-top: 2px solid #edeaea;
-}
-
-
+	.bg-pupcustomcolornavbar {
+		background-color: #7f0400;
+		border-bottom: 4px solid #edeaea;
+		border-top: 2px solid #edeaea;
+	}
 </style>
 
 <head>
@@ -43,7 +41,7 @@
 			<img src="/pupwebdev/assets/images/logo.png" width="70" height="70" class="d-inline-block align-top logo-design" alt="">
 			<div class="navbar-titlehead">
 				Polytechnic University of the Philippines <br>
-				Santa Rosa Campus	<br>
+				Santa Rosa Campus <br>
 				City of Santa Rosa, Laguna
 			</div>
 		</a>

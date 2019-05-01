@@ -170,7 +170,7 @@
               
               </div>
               <div class="tab-pane fade" id="borrowingmodules-approved" role="tabpanel" aria-labelledby="borrowingmodules-approved-tab">
-                   <div class="search-etc">
+                <div class="search-etc">
                   <div class="row">
                     <div class="col-6">
                       <div class="input-group">
@@ -182,9 +182,9 @@
                     </div>
                   </div>
                 </div>
-                  <form method="POST" enctype="multipart/form-data" id="docuform" action="../borrow/documents/admin_classlist.php" target="_blank">
-                    <div id="live_table2"></div> 
-                  </form>
+                <form method="POST" enctype="multipart/form-data" id="docuform" action="../borrow/documents/admin_classlist.php" target="_blank">
+                  <div id="live_table2"></div> 
+                </form>
               </div>
             </div>
           </div>

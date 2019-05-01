@@ -113,6 +113,20 @@ function checkborrowable($iteminfoid)
   return $row;
 }
 
+function disablefullgroup()
+{
+  $pdo = pdo();
+  $sql = "SET sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute();
+
+  $pdo2 = pdo();
+  $sql2 = "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+  $stmt2 = $pdo2->prepare($sql2);
+  $stmt2->execute();
+}
+
+
 function createtable()
 {
   $conn = conn();
@@ -214,7 +228,8 @@ function createtable()
   }
   $conn->close();
 }
-  
+
+disablefullgroup();
 createtable();
   
 
