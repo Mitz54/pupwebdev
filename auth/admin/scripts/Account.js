@@ -32,7 +32,7 @@ $(document).ready(function(){
 		$(".reset").prop("disabled", true);
 		$(".update").prop("disabled", true);
 		$(".office").prop("disabled", true);
-		$(".add-prof").prop("disabled", false);
+		// $(".add-prof").prop("disabled", false);
 
 	});
 	$(".update").click(function(){
