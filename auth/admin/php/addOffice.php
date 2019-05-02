@@ -4,19 +4,15 @@
 include_once($_SERVER['DOCUMENT_ROOT'].'/pupwebdev/auth/dbConnect.php');
 // include "Section_Functions.php";
 
-$officeName = $_POST['officeName'];
-$courseID = $_POST['courseID'];
+$officename = $_POST['officename'];
 $officeroom = $_POST['officeroom'];
-
-function insertSection(mysqli $conn, $officeName, $officecode, $yearLevel){
+$officecode = $_POST['officecode'];
 	
 	// call insertSection stored proc
-	$sql = 'CALL insertOffice(?,?,?)';
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param("ssi", $officeName, $yearLevel, $officecode);
-	$stmt->execute();
-
-}
-insertSection($con, $officeName , $officecode, $yearLevel);
+$sql = 'CALL insertOffice(?,?,?)';
+$stmt = $con->prepare($sql);
+$stmt->bind_param("sss", $officename, $officeroom, $officecode);
+$stmt->execute();
+// echo "$officename $officecode $officeroom";
 
 ?>

@@ -186,17 +186,17 @@ require "logincheck.php"; ?>
 						
 						//id storage
 						echo "<td class = 'hidden officeID'>".
-						"<input type='hidden' class = 'old-value' value=". $officeinfo['officeID']." />". $officeinfo['officeID'].
+						"<input type='hidden' class = 'new-value' value=". $officeinfo['officeID']." />". $officeinfo['officeID'].
 						"</td>";
 
 						//office cell
-						echo '<td>'  . $officeinfo['officeName'] . '</td>';
+						echo '<td class ="officeName">'  . $officeinfo['officeName'] . '</td>';
 
 						//office code cell
-						echo '<td>'  . $officeinfo['officeCode'] . '</td>';
+						echo '<td class ="officeCode">'  . $officeinfo['officeCode'] . '</td>';
 
 						//room cell
-						echo '<td>';
+						echo '<td class ="officeRoom">';
 						// echo "<td class = 'editableColumns roomID'>"  . $officeinfo['roomID'] . "</td>";
 						echo '<select disabled name="$rooms[]" id="room" class="form-control new-value">';
 						foreach($roominfos as $roominfo)

@@ -28,7 +28,7 @@
            $sql = "call pup.selectProfNoAccount();";
            $stmt = $pdo->prepare($sql);
            $stmt->execute();
-           echo '<option selected="selected" disabled="true">--Please Select Professor--</option>';
+           echo '<option value =""  selected="selected" disabled="true">--Please Select Professor--</option>';
            while($row = $stmt->fetch())
            {
             echo '<option value = "'.$row['professorID'].'">'.$row['firstName'].' '.$row['middleName'].' '.$row['lastName'].'</option>';
@@ -50,7 +50,7 @@
         <label for="office">Office</label>
 
         <select class="form-control" type="text" name="office" required>
-        echo '<option selected="selected" disabled="true">--Please Select Office--</option>';
+        echo '<option value =""  selected="selected" disabled="true">--Please Select Office--</option>';
             <?php while($value = $officeList2->fetch_assoc()) { ?>
                   <option value="<?=$value['officeID']?>"><?=$value['officeName']?></option>
             <?php } ?>

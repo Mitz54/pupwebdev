@@ -46,14 +46,14 @@ require "logincheck.php";?>
                   <div class="row">
                     <div class="col-sm-8"><h2>Transaction</h2></div>
                     <div class="col">
-                       <button class="btn btn-info add-new" type="button" id="button-search"><i class="fa fa-plus "></i>Add New
+                       <button class="btn btn-info add-new" type="button" id="button-search" disabled><i class="fa fa-plus "></i>Add New
                        </button>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                           <form method="get">
                             <select id="room-type-options" class="col form-control officeidid" name="office">
-                              <option value="0">--SELECT OFFICE--</option>
+                              <option value="" selected disabled>--SELECT OFFICE--</option>
                               <?php
                                 $sql1 = "SELECT * FROM office";
                                 $result1 = mysqli_query($con, $sql1);
@@ -142,7 +142,10 @@ require "logincheck.php";?>
       
     });
 		
+		$(".officeidid").change(function(){
 		
+		$(".add-new").prop("disabled", false);
+    });
     //$("#rhoom-type-options").click(function(){
 			//$.ajax({
 				//url:"untitled.php",
